@@ -468,7 +468,17 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
-	DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
+
+    
+//    NSString *presenceType =[presence type];
+//    NSString *myUserName =[[sender myJID] user];
+//    NSString *presenceFromUser =[[presence from]user];
+//    NSString *presenceFromStr =[presence fromStr];
+//    NSLog(@"%@",presenceFromStr);
+    
+    DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
+    
+
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveError:(id)error
@@ -535,6 +545,7 @@
 }
 
 @end
+
 /**
  * Allows a delegate to hook into the TLS handshake and manually validate the peer it's connecting to.
  *

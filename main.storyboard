@@ -157,14 +157,18 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="3vq-NJ-oiy">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" id="3vq-NJ-oiy">
+                                        <rect key="frame" x="0.0" y="92" width="560" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3vq-NJ-oiy" id="m4f-eJ-AsL">
+                                            <rect key="frame" x="0.0" y="0.0" width="527" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
+                                        <connections>
+                                            <segue destination="LYx-MZ-Vft" kind="show" id="3G8-sE-oOI"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -247,6 +251,171 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17e-7v-Nz4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="520" y="-829"/>
+        </scene>
+        <!--hello-->
+        <scene sceneID="91P-9o-NOZ">
+            <objects>
+                <viewController storyboardIdentifier="ChatViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="LYx-MZ-Vft" customClass="ChatViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KRE-Pv-4nu"/>
+                        <viewControllerLayoutGuide type="bottom" id="brT-tX-gbM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nf6-KI-3iI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RVr-Mb-7qm">
+                                <rect key="frame" x="0.0" y="750" width="400" height="70"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="g4Y-IC-hML">
+                                        <rect key="frame" x="20" y="20" width="184" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2oP-6i-Fca">
+                                                <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                                                <animations/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RNj-jS-KPf">
+                                                <rect key="frame" x="46" y="0.0" width="46" height="30"/>
+                                                <animations/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHf-XW-Zv6">
+                                                <rect key="frame" x="92" y="0.0" width="46" height="30"/>
+                                                <animations/>
+                                                <state key="normal" title="Chat"/>
+                                                <connections>
+                                                    <action selector="sendMessage" destination="LYx-MZ-Vft" eventType="touchUpInside" id="cf0-Lb-aSL"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TXb-NP-U9C">
+                                                <rect key="frame" x="138" y="0.0" width="46" height="30"/>
+                                                <animations/>
+                                                <state key="normal" title="Button"/>
+                                            </button>
+                                        </subviews>
+                                        <animations/>
+                                    </stackView>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="g4Y-IC-hML" firstAttribute="leading" secondItem="RVr-Mb-7qm" secondAttribute="leading" id="7Lp-kq-U7w"/>
+                                    <constraint firstAttribute="trailing" secondItem="g4Y-IC-hML" secondAttribute="trailing" id="PA1-eb-rJQ"/>
+                                    <constraint firstItem="g4Y-IC-hML" firstAttribute="top" secondItem="RVr-Mb-7qm" secondAttribute="top" id="SQ9-x4-HGx"/>
+                                    <constraint firstAttribute="height" constant="60" id="Vtg-yw-s2M"/>
+                                    <constraint firstAttribute="bottom" secondItem="g4Y-IC-hML" secondAttribute="bottom" id="rlX-Xk-XiX"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Vtg-yw-s2M"/>
+                                        <exclude reference="7Lp-kq-U7w"/>
+                                        <exclude reference="PA1-eb-rJQ"/>
+                                        <exclude reference="SQ9-x4-HGx"/>
+                                        <exclude reference="rlX-Xk-XiX"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="Vtg-yw-s2M"/>
+                                        <include reference="7Lp-kq-U7w"/>
+                                        <include reference="PA1-eb-rJQ"/>
+                                        <include reference="SQ9-x4-HGx"/>
+                                        <include reference="rlX-Xk-XiX"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type a new Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zwm-ED-EOp">
+                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4GW-yS-RFt">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MessageCellIdentifier" id="Et6-Vi-1j6">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Et6-Vi-1j6" id="Krf-pv-DB2">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="LYx-MZ-Vft" id="uJZ-os-OPD"/>
+                                    <outlet property="delegate" destination="LYx-MZ-Vft" id="Lhy-EZ-ayg"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.93962637469999999" green="0.77677716213093351" blue="0.89593206231868239" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="RVr-Mb-7qm" firstAttribute="top" secondItem="zwm-ED-EOp" secondAttribute="bottom" id="57R-r8-at0"/>
+                            <constraint firstAttribute="trailing" secondItem="RVr-Mb-7qm" secondAttribute="trailing" id="8sp-GH-9Gk"/>
+                            <constraint firstItem="zwm-ED-EOp" firstAttribute="leading" secondItem="Nf6-KI-3iI" secondAttribute="leading" id="Dau-aa-cRS"/>
+                            <constraint firstItem="4GW-yS-RFt" firstAttribute="leading" secondItem="Nf6-KI-3iI" secondAttribute="leading" id="Gq9-oy-WF8"/>
+                            <constraint firstAttribute="bottom" secondItem="RVr-Mb-7qm" secondAttribute="bottom" id="LdF-4d-eZ9"/>
+                            <constraint firstAttribute="trailing" secondItem="zwm-ED-EOp" secondAttribute="trailing" id="RMo-XG-aDh"/>
+                            <constraint firstItem="zwm-ED-EOp" firstAttribute="top" secondItem="4GW-yS-RFt" secondAttribute="bottom" id="T9A-fO-biJ"/>
+                            <constraint firstAttribute="trailing" secondItem="4GW-yS-RFt" secondAttribute="trailing" id="WUp-Ho-B49"/>
+                            <constraint firstItem="brT-tX-gbM" firstAttribute="top" secondItem="zwm-ED-EOp" secondAttribute="bottom" id="gfP-wA-2df"/>
+                            <constraint firstItem="4GW-yS-RFt" firstAttribute="top" secondItem="KRE-Pv-4nu" secondAttribute="bottom" id="yi4-MK-gBe"/>
+                            <constraint firstItem="RVr-Mb-7qm" firstAttribute="leading" secondItem="Nf6-KI-3iI" secondAttribute="leading" id="zBk-vk-yV0"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="zwm-ED-EOp"/>
+                                <exclude reference="4GW-yS-RFt"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="gfP-wA-2df"/>
+                                <exclude reference="Dau-aa-cRS"/>
+                                <exclude reference="RMo-XG-aDh"/>
+                                <exclude reference="T9A-fO-biJ"/>
+                                <exclude reference="Gq9-oy-WF8"/>
+                                <exclude reference="WUp-Ho-B49"/>
+                                <exclude reference="yi4-MK-gBe"/>
+                                <exclude reference="57R-r8-at0"/>
+                                <exclude reference="8sp-GH-9Gk"/>
+                                <exclude reference="LdF-4d-eZ9"/>
+                                <exclude reference="zBk-vk-yV0"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="zwm-ED-EOp"/>
+                                <include reference="4GW-yS-RFt"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="gfP-wA-2df"/>
+                                <include reference="Dau-aa-cRS"/>
+                                <include reference="RMo-XG-aDh"/>
+                                <include reference="T9A-fO-biJ"/>
+                                <include reference="Gq9-oy-WF8"/>
+                                <include reference="WUp-Ho-B49"/>
+                                <include reference="yi4-MK-gBe"/>
+                                <include reference="57R-r8-at0"/>
+                                <include reference="8sp-GH-9Gk"/>
+                                <include reference="LdF-4d-eZ9"/>
+                                <include reference="zBk-vk-yV0"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" title="hello" id="aSO-CV-aua"/>
+                    <connections>
+                        <outlet property="chatWindow" destination="zwm-ED-EOp" id="6YU-hi-xEr"/>
+                        <outlet property="tableview" destination="4GW-yS-RFt" id="oSe-Pg-fvW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eNd-Xp-DgW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1332" y="-123.75"/>
         </scene>
     </scenes>
 </document>
