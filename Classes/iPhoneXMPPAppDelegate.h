@@ -5,7 +5,7 @@
 #import "XMPPFramework.h"
 
 
-@interface iPhoneXMPPAppDelegate : UIResponder <UIApplicationDelegate, XMPPRosterDelegate>
+@interface iPhoneXMPPAppDelegate : UIResponder <UIApplicationDelegate>
 {
 	XMPPStream *xmppStream;
 	XMPPReconnect *xmppReconnect;

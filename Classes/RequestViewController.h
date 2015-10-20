@@ -13,7 +13,7 @@
 #import "XMPPRoster.h"
 
 
-@interface RequestViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,XMPPRosterDelegate>
+@interface RequestViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,XMPPRosterDelegate,XMPPStreamDelegate>
 {
     XMPPRoster *xmppRoster;
     XMPPRosterCoreDataStorage *xmppRosterStorage;

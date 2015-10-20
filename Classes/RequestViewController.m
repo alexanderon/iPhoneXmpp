@@ -9,6 +9,9 @@
 #import "RequestViewController.h"
 
 @interface RequestViewController ()
+{
+    NSMutableArray *pendingRequests;
+}
 
 @end
 
@@ -18,6 +21,9 @@
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
+- (XMPPStream *)xmppStream {
+    return [[self appDelegate] xmppStream];
+}
 
 #pragma mark Core Data
 
@@ -35,18 +41,22 @@
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     
-    xmppRosterStorage = [self appDelegate].xmppRosterStorage;
-    xmppRoster = [self appDelegate].xmppRoster;
-    
-    xmppRoster.autoFetchRoster = YES;
-    xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = YES;
+    /* xmppRosterStorage = [self appDelegate].xmppRosterStorage;
+     xmppRoster = [self appDelegate].xmppRoster;
+     
+     xmppRoster.autoFetchRoster = YES;
+     xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = YES;*/
     
     // Activate xmpp modules
     
-   // [xmppRoster activate:[self appDelegate].xmppStream];
+    // [xmppRoster activate:[self appDelegate].xmppStream];
     
-    [xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
-
+    //  [xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
+    
+    [[self appDelegate].xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [[self xmppStream]addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
     
 }
 
@@ -65,7 +75,14 @@
     
     
     static NSString *CellIdentifier = @"RequestCell";
-    UITableViewCell *cell  =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    RequestTableViewCell *cell  =(RequestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    
+    
+    NSDictionary *dictUser = (NSDictionary *)[pendingRequests objectAtIndex:indexPath.row];
+   
+    NSLog(@"%@",dictUser);
+    cell.lblRequestFromUser.text =[(NSMutableDictionary *)[pendingRequests objectAtIndex:indexPath.row] valueForKey:@"fromStr"];
     
     return cell;
     
@@ -73,7 +90,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 1;
+    if ([pendingRequests count] == 0) {
+        return 1;
+    }else{
+        return [pendingRequests count];
+        
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -84,7 +106,16 @@
 
 #pragma mark XMPPRosterDelegate
 -(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+    NSLog(@"request from:%@",[presence fromStr]);
     
+    NSMutableDictionary *dictUser = [[NSMutableDictionary alloc]init];
+    [dictUser  setValue:[presence fromStr] forKey:@"fromStr"];
+    
+    if (!pendingRequests) {
+        pendingRequests =[[NSMutableArray alloc]init];
+    }
+    [pendingRequests addObject:dictUser];
+    [self.tableView reloadData];
 }
 
 

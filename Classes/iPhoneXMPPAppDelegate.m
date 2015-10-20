@@ -353,12 +353,12 @@
 
 
 #pragma mark XMPPStream Delegate
-- (void)xmppStream:(XMPPStream *)sender socketDidConnect:(GCDAsyncSocket *)socket
-{
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-    NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
-    //[self SubscribeToUser];
-}
+//- (void)xmppStream:(XMPPStream *)sender socketDidConnect:(GCDAsyncSocket *)socket
+//{
+//	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+//    NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
+//    //[self SubscribeToUser];
+//}
 
 - (void)xmppStream:(XMPPStream *)sender willSecureWithSettings:(NSMutableDictionary *)settings
 {
@@ -401,10 +401,10 @@
 	});
 }
 
-- (void)xmppStreamDidSecure:(XMPPStream *)sender
-{
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-}
+//- (void)xmppStreamDidSecure:(XMPPStream *)sender
+//{
+//	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+//}
 
 - (void)xmppStreamDidConnect:(XMPPStream *)sender
 {
@@ -510,7 +510,7 @@
 
 
 
--(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+/*-(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
     
     DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
@@ -552,7 +552,7 @@
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
     }
     
-}
+}*/
 
 @end
 

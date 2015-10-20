@@ -41,6 +41,7 @@
 	if ([[self appDelegate] connect]) 
 	{
 		titleLabel.text = [[[[self appDelegate] xmppStream] myJID] bare];
+        NSLog(@"%@",titleLabel.text);
 	} else
 	{
 		titleLabel.text = @"No JID";
