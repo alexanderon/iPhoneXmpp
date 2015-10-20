@@ -1,6 +1,6 @@
 #import "iPhoneXMPPAppDelegate.h"
 #import "RootViewController.h"
-#import "SettingsViewController.h"
+
 
 #import "GCDAsyncSocket.h"
 #import "XMPP.h"
@@ -52,6 +52,8 @@
 
 @synthesize settingsViewController;
 
+@synthesize pendingRequests;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -90,6 +92,7 @@
 
 - (NSManagedObjectContext *)managedObjectContext_capabilities
 {
+ 
 	return [xmppCapabilitiesStorage mainThreadManagedObjectContext];
 }
 
@@ -190,7 +193,7 @@
 	//[xmppStream setHostPort:5223];
     
     NSLog(@"%@",xmppStream.hostName);
-    NSLog(@"%d",xmppStream.hostPort);
+  //  NSLog(@"%d",xmppStream.hostPort);
     
 	
 
@@ -409,7 +412,7 @@
 - (void)xmppStreamDidConnect:(XMPPStream *)sender
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-    NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
+   // NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
 	
 	isXmppConnected = YES;
 	
@@ -418,14 +421,14 @@
 	if (![[self xmppStream] authenticateWithPassword:password error:&error])
 	{
 		DDLogError(@"Error authenticating: %@", error);
-        NSLog(@"Error authenticating: %@", error);
+     //   NSLog(@"Error authenticating: %@", error);
 	}
 }
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-    NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
+  //  NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
 	[self goOnline];
 }
 
@@ -436,7 +439,16 @@
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
 {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+ //   NSLog(@"%@",iq.from);
+    
+    if ([iq.type  isEqual: @"subscribe"]) {
+        if (!pendingRequests) {
+            pendingRequests =[[NSMutableSet alloc]init];
+        }
+        [pendingRequests addObject:iq.from];
+    }
+    
+	//DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 	
 	return NO;
 }
@@ -452,6 +464,7 @@
 		XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[message from]
 		                                                         xmppStream:xmppStream
 		                                               managedObjectContext:[self managedObjectContext_roster]];
+      //  NSLog(@"%@",user.subscription);
 		
 		NSString *body = [[message elementForName:@"body"] stringValue];
 		NSString *displayName = [user displayName];
@@ -479,9 +492,15 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
+
+    if ([presence.type isEqualToString:@"subscribe"]) {
+        if (!pendingRequests) {
+            pendingRequests =[[NSMutableSet alloc]init];
+        }
+        [pendingRequests addObject:presence.from];
+    }
+//   NSString *presenceFromStr =[presence fromStr];
  
-    NSString *presenceFromStr =[presence fromStr];
-    NSLog(@"%@",presenceFromStr);
     
     DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
     
@@ -496,13 +515,12 @@
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-	NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
+//	NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
 	if (!isXmppConnected)
 	{
-        NSLog(@"%@",error.description);
+      
 		DDLogError(@"Unable to connect to server. Check xmppStream.hostName");
-        NSLog(@"Unable to connect to server. Check xmppStream.hostName");
-	}
+    }
 }
 
 
@@ -510,7 +528,7 @@
 
 
 
-/*-(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+-(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
     
     DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
@@ -552,7 +570,7 @@
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
     }
     
-}*/
+}
 
 @end
 

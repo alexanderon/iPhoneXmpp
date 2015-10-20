@@ -41,23 +41,10 @@
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
     
-    /* xmppRosterStorage = [self appDelegate].xmppRosterStorage;
-     xmppRoster = [self appDelegate].xmppRoster;
-     
-     xmppRoster.autoFetchRoster = YES;
-     xmppRoster.autoAcceptKnownPresenceSubscriptionRequests = YES;*/
-    
-    // Activate xmpp modules
-    
-    // [xmppRoster activate:[self appDelegate].xmppStream];
-    
-    //  [xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
-    
     [[self appDelegate].xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [[self xmppStream]addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [[self appDelegate].xmppStream  addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
-    
+      pendingRequests =[[NSMutableArray alloc]initWithArray:[[self appDelegate].pendingRequests allObjects]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,8 +69,9 @@
     NSDictionary *dictUser = (NSDictionary *)[pendingRequests objectAtIndex:indexPath.row];
    
     NSLog(@"%@",dictUser);
-    cell.lblRequestFromUser.text =[(NSMutableDictionary *)[pendingRequests objectAtIndex:indexPath.row] valueForKey:@"fromStr"];
+ //   cell.lblRequestFromUser.text =[(NSMutableDictionary *)[pendingRequests objectAtIndex:indexPath.row] valueForKey:@"fromStr"];
     
+    cell.lblRequestFromUser.text =[NSString stringWithFormat:@"%@",[pendingRequests objectAtIndex:indexPath.row]];
     return cell;
     
 }
@@ -106,17 +94,36 @@
 
 #pragma mark XMPPRosterDelegate
 -(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+    
     NSLog(@"request from:%@",[presence fromStr]);
     
     NSMutableDictionary *dictUser = [[NSMutableDictionary alloc]init];
     [dictUser  setValue:[presence fromStr] forKey:@"fromStr"];
     
     if (!pendingRequests) {
-        pendingRequests =[[NSMutableArray alloc]init];
+        pendingRequests =[[NSMutableArray alloc]initWithArray:[[self appDelegate].pendingRequests allObjects]];
     }
     [pendingRequests addObject:dictUser];
     [self.tableView reloadData];
 }
 
 
+#pragma mark  - XMPPSTREAM Delegate
+
+- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
+{
+    
+    //   NSString *presenceFromStr =[presence fromStr];
+    NSLog(@"%@",[presence fromStr]);
+    
+   // DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
+    
+    
+}
+
+
+-(BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq{
+    
+    return NO;
+}
 @end

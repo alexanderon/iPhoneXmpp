@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Classes/RequestViewController.m"
-            timestampString = "467023443.530428"
+            filePath = "Classes/iPhoneXMPPAppDelegate.m"
+            timestampString = "467035457.666076"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-xmppRoster:didReceivePresenceSubscriptionRequest:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Classes/RequestViewController.m"
-            timestampString = "467023515.477611"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-xmppRoster:didReceivePresenceSubscriptionRequest:"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
+            landmarkName = "-xmppStream:didReceiveIQ:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

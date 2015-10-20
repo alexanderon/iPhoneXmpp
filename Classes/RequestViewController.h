@@ -14,10 +14,11 @@
 
 
 @interface RequestViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,XMPPRosterDelegate,XMPPStreamDelegate>
+
 {
     XMPPRoster *xmppRoster;
     XMPPRosterCoreDataStorage *xmppRosterStorage;
-
+    
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

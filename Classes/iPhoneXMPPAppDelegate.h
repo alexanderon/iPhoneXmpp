@@ -1,8 +1,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-#import "SettingsViewController.h"
-
 #import "XMPPFramework.h"
+#import "SettingsViewController.h"
 
 
 @interface iPhoneXMPPAppDelegate : UIResponder <UIApplicationDelegate>
@@ -23,6 +22,7 @@
 	
 	BOOL isXmppConnected;
 	
+   
 }
 
 @property (strong, nonatomic) UIWindow *window;
@@ -37,6 +37,7 @@
 
 
 @property (nonatomic, strong) SettingsViewController *settingsViewController;
+@property (nonatomic, strong)  NSMutableSet *pendingRequests;
 
 
 - (NSManagedObjectContext *)managedObjectContext_roster;

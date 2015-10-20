@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
+
 extern NSString *const kXMPPmyJID;
 extern NSString *const kXMPPmyPassword;
 
@@ -17,8 +18,12 @@ extern NSString *const kXMPPmyPassword;
 
 @property (weak, nonatomic) IBOutlet UITextField *jidField;
 @property (nonatomic,weak) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UILabel *lblIsOnline;
+
+
 
 - (IBAction)done:(id)sender;
 - (IBAction)hideKeyboard:(id)sender;
+- (IBAction)switchValueChanged:(id)sender;
 
 @end
