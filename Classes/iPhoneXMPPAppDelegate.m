@@ -196,7 +196,16 @@
 
 	// You may need to alter these settings depending on the server you're connecting to
 	customCertEvaluation = YES;
+    
+    //[self SubscribeToUser];
+    
+
 }
+
+/*-(void)SubscribeToUser{
+    [xmppRoster addUser:[XMPPJID jidWithString:@"test2@192.168.0.120"] withNickname:@"test2"];
+    
+}*/
 
 - (void)teardownStream
 {
@@ -289,6 +298,7 @@
 		return NO;
 	}
 
+   // [self SubscribeToUser];
 	return YES;
 }
 
@@ -347,6 +357,7 @@
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     NSLog(@"%@: %@", THIS_FILE, THIS_METHOD);
+    //[self SubscribeToUser];
 }
 
 - (void)xmppStream:(XMPPStream *)sender willSecureWithSettings:(NSMutableDictionary *)settings
@@ -468,13 +479,9 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
-
-    
-//    NSString *presenceType =[presence type];
-//    NSString *myUserName =[[sender myJID] user];
-//    NSString *presenceFromUser =[[presence from]user];
-//    NSString *presenceFromStr =[presence fromStr];
-//    NSLog(@"%@",presenceFromStr);
+ 
+    NSString *presenceFromStr =[presence fromStr];
+    NSLog(@"%@",presenceFromStr);
     
     DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
     
@@ -501,47 +508,50 @@
 
 #pragma mark XMPPRosterDelegate
 
-- (void)xmppRoster:(XMPPRoster *)sender didReceiveBuddyRequest:(XMPPPresence *)presence
-{
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-	
-	XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[presence from]
-	                                                         xmppStream:xmppStream
-	                                               managedObjectContext:[self managedObjectContext_roster]];
-	
-	NSString *displayName = [user displayName];
-	NSString *jidStrBare = [presence fromStr];
-	NSString *body = nil;
-	
-	if (![displayName isEqualToString:jidStrBare])
-	{
-		body = [NSString stringWithFormat:@"Buddy request from %@ <%@>", displayName, jidStrBare];
-	}
-	else
-	{
-		body = [NSString stringWithFormat:@"Buddy request from %@", displayName];
-	}
-	
-	
-	if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-	{
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
-		                                                    message:body 
-		                                                   delegate:nil 
-		                                          cancelButtonTitle:@"Not implemented"
-		                                          otherButtonTitles:nil];
-		[alertView show];
-	} 
-	else 
-	{
-		// We are not active, so use a local notification instead
-		UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-		localNotification.alertAction = @"Not implemented";
-		localNotification.alertBody = body;
-		
-		[[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-	}
-	
+
+
+-(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+    
+    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+    
+    XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[presence from]
+                                                             xmppStream:xmppStream
+                                                   managedObjectContext:[self managedObjectContext_roster]];
+    
+    
+    NSString *displayName = [user displayName];
+    NSString *jidStrBare = [presence fromStr];
+    NSString *body = nil;
+    
+    if (![displayName isEqualToString:jidStrBare])
+    {
+        body = [NSString stringWithFormat:@"Buddy request from %@ <%@>", displayName, jidStrBare];
+    }
+    else
+    {
+        body = [NSString stringWithFormat:@"Buddy request from %@", displayName];
+    }
+    
+    
+    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
+                                                            message:body
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Not implemented"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    else
+    {
+        // We are not active, so use a local notification instead
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.alertAction = @"Not implemented";
+        localNotification.alertBody = body;
+        
+        [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+    }
+    
 }
 
 @end

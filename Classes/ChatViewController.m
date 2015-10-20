@@ -97,6 +97,7 @@
     
     // Do any additional setup after loading the view.
     [self.tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
     [[self xmppStream]addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [self.chatWindow becomeFirstResponder];
     

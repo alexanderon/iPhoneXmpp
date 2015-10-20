@@ -167,6 +167,9 @@
 		B7B5BF791BD0DD66008BD204 /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B5BEE71BD0DD66008BD204 /* libidn.a */; settings = {ASSET_TAGS = (); }; };
 		B7B5BF7B1BD0DFB5008BD204 /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7B5BF7A1BD0DFB5008BD204 /* main.storyboard */; settings = {ASSET_TAGS = (); }; };
 		B7E3AA651BD4EFBE00313328 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA641BD4EFBE00313328 /* NSString+Utils.m */; settings = {ASSET_TAGS = (); }; };
+		B7E3AA681BD5094900313328 /* RequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA671BD5094900313328 /* RequestViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B7E3AA701BD50E5700313328 /* RequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		B7E8B2151BD5F2AF003D0A44 /* SendRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DC19DDA1170B4138000D2178 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC19DDA0170B4138000D2178 /* Default-568h@2x.png */; };
 		DC1F97E81152CA4E00138A8F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F97E71152CA4E00138A8F /* CFNetwork.framework */; };
 		DC1F98371152CBC200138A8F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F98361152CBC200138A8F /* SystemConfiguration.framework */; };
@@ -496,6 +499,12 @@
 		B7B5BF7A1BD0DFB5008BD204 /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = main.storyboard; sourceTree = "<group>"; };
 		B7E3AA631BD4EFBE00313328 /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
 		B7E3AA641BD4EFBE00313328 /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
+		B7E3AA661BD5094900313328 /* RequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestViewController.h; sourceTree = "<group>"; };
+		B7E3AA671BD5094900313328 /* RequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestViewController.m; sourceTree = "<group>"; };
+		B7E3AA6E1BD50E5700313328 /* RequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestTableViewCell.h; sourceTree = "<group>"; };
+		B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestTableViewCell.m; sourceTree = "<group>"; };
+		B7E8B2131BD5F2AF003D0A44 /* SendRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRequestViewController.h; sourceTree = "<group>"; };
+		B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRequestViewController.m; sourceTree = "<group>"; };
 		DC19DDA0170B4138000D2178 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		DC1F97E71152CA4E00138A8F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		DC1F98361152CBC200138A8F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -540,6 +549,12 @@
 				B79652711BD284D000AD5329 /* ChatViewController.m */,
 				B7E3AA631BD4EFBE00313328 /* NSString+Utils.h */,
 				B7E3AA641BD4EFBE00313328 /* NSString+Utils.m */,
+				B7E3AA661BD5094900313328 /* RequestViewController.h */,
+				B7E3AA671BD5094900313328 /* RequestViewController.m */,
+				B7E3AA6E1BD50E5700313328 /* RequestTableViewCell.h */,
+				B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */,
+				B7E8B2131BD5F2AF003D0A44 /* SendRequestViewController.h */,
+				B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1586,6 +1601,7 @@
 				B7B5BEF61BD0DD66008BD204 /* XMPPElement.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* iPhoneXMPPAppDelegate.m in Sources */,
+				B7E3AA701BD50E5700313328 /* RequestTableViewCell.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				B7B5BF5A1BD0DD66008BD204 /* XMPPMessage+XEP_0224.m in Sources */,
 				B7B5BF281BD0DD66008BD204 /* XMPPvCardTempCoreDataStorageObject.m in Sources */,
@@ -1678,6 +1694,7 @@
 				B7B5BF501BD0DD66008BD204 /* XMPPStreamManagementMemoryStorage.m in Sources */,
 				B7B5BF681BD0DD66008BD204 /* XMPPTimer.m in Sources */,
 				B7B5BF131BD0DD66008BD204 /* XMPPIQ+LastActivity.m in Sources */,
+				B7E3AA681BD5094900313328 /* RequestViewController.m in Sources */,
 				B7B5BF0A1BD0DD66008BD204 /* XMPPUserCoreDataStorageObject.m in Sources */,
 				B7B5BF651BD0DD66008BD204 /* XMPPIDTracker.m in Sources */,
 				B7B5BF3D1BD0DD66008BD204 /* XMPPTransports.m in Sources */,
@@ -1696,6 +1713,7 @@
 				B7B5BF751BD0DD66008BD204 /* DDXMLDocument.m in Sources */,
 				B7B5BEFA1BD0DD66008BD204 /* XMPPModule.m in Sources */,
 				B7B5BEEB1BD0DD66008BD204 /* XMPPDeprecatedDigestAuthentication.m in Sources */,
+				B7E8B2151BD5F2AF003D0A44 /* SendRequestViewController.m in Sources */,
 				B7B5BF031BD0DD66008BD204 /* XMPPGoogleSharedStatus.m in Sources */,
 				B7B5BF2F1BD0DD66008BD204 /* XMPPvCardTempModule.m in Sources */,
 				B7B5BF771BD0DD66008BD204 /* DDXMLNode.m in Sources */,

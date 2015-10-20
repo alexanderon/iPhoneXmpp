@@ -17,6 +17,7 @@
 @class XMPPModule;
 @class XMPPElement;
 @class XMPPElementReceipt;
+
 @protocol XMPPStreamDelegate;
 
 #if TARGET_OS_IPHONE
