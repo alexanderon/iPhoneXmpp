@@ -65,8 +65,6 @@
 }
 
 
-
-
 #pragma mark -view load methods
 
 - (void)viewDidLoad {
@@ -87,7 +85,6 @@
 
 
 
-#pragma mark -
 #pragma mark Table view delegates
 
 
@@ -97,8 +94,6 @@
     static NSString *CellIdentifier = @"RequestCell";
     RequestTableViewCell *cell  =(RequestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   
- //   cell.lblRequestFromUser.text =[(NSMutableDictionary *)[pendingRequests objectAtIndex:indexPath.row] valueForKey:@"fromStr"];
-    
     if ([pendingRequests count]) {
         cell.lblRequestFromUser.text =[NSString stringWithFormat:@"%@",[pendingRequests objectAtIndex:indexPath.row]];
     }else{
@@ -126,6 +121,7 @@
 }
 
 #pragma mark XMPPRosterDelegate
+
 -(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
     
     NSLog(@"request from:%@",[presence fromStr]);
@@ -140,17 +136,19 @@
     [self.tableView reloadData];
 }
 
-
 #pragma mark  - XMPPSTREAM Delegate
+
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
     
-    //   NSString *presenceFromStr =[presence fromStr];
-    NSLog(@"%@",[presence fromStr]);
-    
-   // DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
-    
+    if ([presence.type isEqualToString:@"subscribe"]) {
+        if (!pendingRequests) {
+            pendingRequests =[[NSMutableSet alloc]init];
+        }
+        [pendingRequests addObject:presence.from];
+    }
+ 
     
 }
 
@@ -159,6 +157,9 @@
     
     return NO;
 }
+
+#pragma mark - Request Actions
+
 - (IBAction)btnAcceptClick:(id)sender {
     
     [[self appDelegate].xmppRoster acceptPresenceSubscriptionRequestFrom:[pendingRequests objectAtIndex:[self.tableView indexPathForSelectedRow].row] andAddToRoster:YES];

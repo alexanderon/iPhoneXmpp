@@ -441,19 +441,19 @@
 {
  //   NSLog(@"%@",iq.from);
     
-    if ([iq.type  isEqual: @"subscribe"]) {
-        if (!pendingRequests) {
-            pendingRequests =[[NSMutableSet alloc]init];
-        }
-        [pendingRequests addObject:iq.from];
-    }
-    
+//    if ([iq.type  isEqual: @"subscribe"]) {
+//        if (!pendingRequests) {
+//            pendingRequests =[[NSMutableSet alloc]init];
+//        }
+//        [pendingRequests addObject:iq.from];
+//    }
+//    
 	//DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 	
 	return NO;
 }
 
-- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
+/*- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 
@@ -488,7 +488,7 @@
 			[[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 		}
 	}
-}
+}*/
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
@@ -540,8 +540,7 @@
     NSString *displayName = [user displayName];
     NSString *jidStrBare = [presence fromStr];
     NSString *body = nil;
-    
-    if (![displayName isEqualToString:jidStrBare])
+            if (![displayName isEqualToString:jidStrBare])
     {
         body = [NSString stringWithFormat:@"Buddy request from %@ <%@>", displayName, jidStrBare];
     }

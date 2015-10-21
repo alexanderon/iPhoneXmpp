@@ -16,6 +16,8 @@
     NSFetchedResultsController *fetchedResultsController;
     NSMutableArray *turnSockets;
     NSMutableArray *sentMessages;
+    
+    NSMutableArray* _messagelist;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *chatWindow;

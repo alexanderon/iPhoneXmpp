@@ -570,6 +570,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B72FDFAD1BD7B7D700D553C8 /* TableCell */,
 				B7B5BF7A1BD0DFB5008BD204 /* main.storyboard */,
 				B7B5BD6E1BD0DD66008BD204 /* xmpp */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -616,6 +617,13 @@
 				DC84BC1712440C500055A459 /* libidn.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B72FDFAD1BD7B7D700D553C8 /* TableCell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TableCell;
 			sourceTree = "<group>";
 		};
 		B7B5BD6E1BD0DD66008BD204 /* xmpp */ = {
