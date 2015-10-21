@@ -36,61 +36,6 @@
     
 }
 
-/*- (void)turnSocket:(TURNSocket *)sender didSucceed:(GCDAsyncSocket *)socket {
-    
-    NSLog(@"TURN Connection succeeded!");
-    NSLog(@"You now have a socket that you can use to send/receive data to/from the other person.");
-    
-    [turnSockets removeObject:sender];
-}
-
-- (void)turnSocketDidFail:(TURNSocket *)sender {
-    
-    NSLog(@"TURN Connection failed!");
-    [turnSockets removeObject:sender];
-    
-}*/
-
-
-
-#pragma mark NSFetchedResultsController
-
-- (NSFetchedResultsController *)fetchedResultsController{
-    if (fetchedResultsController == nil)
-    {
-        NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_roster];
-        
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
-                                                  inManagedObjectContext:moc];
-        
-        NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
-        NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
-        
-        NSArray *sortDescriptors = @[sd1, sd2];
-        
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        [fetchRequest setEntity:entity];
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        [fetchRequest setFetchBatchSize:10];
-        
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                       managedObjectContext:moc
-                                                                         sectionNameKeyPath:@"sectionNum"
-                                                                                  cacheName:nil];
-        [fetchedResultsController setDelegate:self];
-        
-        
-        NSError *error = nil;
-        if (![fetchedResultsController performFetch:&error])
-        {
-            //   DDLogError(@"Error performing fetch: %@", error);
-            NSLog(@"Error Performing fetchm: %@",error);
-        }
-        
-    }
-    
-    return fetchedResultsController;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -104,11 +49,6 @@
     turnSockets = [[NSMutableArray alloc] init];
     sentMessages= [[NSMutableArray alloc] init];
     
-  /*  TURNSocket *turnSocket = [[TURNSocket alloc] initWithStream:[self xmppStream] toJID:[self xmppStream].myJID ];
-    
-    [turnSockets addObject:turnSocket];
-    
-    [turnSocket startWithDelegate:self delegateQueue:dispatch_get_main_queue()];*/
     
 }
 

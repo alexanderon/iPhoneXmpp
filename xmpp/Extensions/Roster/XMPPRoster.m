@@ -527,6 +527,7 @@ enum XMPPRosterFlags
 	}
 }
 
+
 - (void)setNickname:(NSString *)nickname forUser:(XMPPJID *)jid
 {
 	// This is a public method, so it may be invoked on any thread/queue.

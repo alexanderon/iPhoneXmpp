@@ -13,15 +13,21 @@
 #import "XMPPRoster.h"
 
 
-@interface RequestViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,XMPPRosterDelegate,XMPPStreamDelegate>
-
+@interface RequestViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,XMPPRosterDelegate,XMPPStreamDelegate,NSFetchedResultsControllerDelegate>
+//
+//{
+//    XMPPRoster *xmppRoster;
+//    XMPPRosterCoreDataStorage *xmppRosterStorage;
+//    
+//}
 {
-    XMPPRoster *xmppRoster;
-    XMPPRosterCoreDataStorage *xmppRosterStorage;
-    
+    NSFetchedResultsController *fetchedResultsController;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+- (IBAction)btnAcceptClick:(id)sender;
+- (IBAction)btnRejectClick:(id)sender;
 
 
 @end

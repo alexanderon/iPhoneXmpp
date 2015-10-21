@@ -25,10 +25,43 @@
     return [[self appDelegate] xmppStream];
 }
 
-#pragma mark Core Data
+#pragma mark NSFetchedResultsController
 
-- (NSManagedObjectContext *)managedObjectContext_roster{
-    return [xmppRosterStorage mainThreadManagedObjectContext];
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (fetchedResultsController == nil)
+    {
+        NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_roster];
+        
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
+                                                  inManagedObjectContext:moc];
+        
+        NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
+        NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
+        
+        NSArray *sortDescriptors = @[sd1, sd2];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entity];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setFetchBatchSize:10];
+        
+        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                       managedObjectContext:moc
+                                                                         sectionNameKeyPath:@"sectionNum"
+                                                                                  cacheName:nil];
+        [fetchedResultsController setDelegate:self];
+        
+        
+        NSError *error = nil;
+        if (![fetchedResultsController performFetch:&error])
+        {
+//DDLogError(@"Error performing fetch: %@", error);
+        }
+        
+    }
+    
+    return fetchedResultsController;
 }
 
 
@@ -63,15 +96,15 @@
     
     static NSString *CellIdentifier = @"RequestCell";
     RequestTableViewCell *cell  =(RequestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    
-    
-    NSDictionary *dictUser = (NSDictionary *)[pendingRequests objectAtIndex:indexPath.row];
-   
-    NSLog(@"%@",dictUser);
+  
  //   cell.lblRequestFromUser.text =[(NSMutableDictionary *)[pendingRequests objectAtIndex:indexPath.row] valueForKey:@"fromStr"];
     
-    cell.lblRequestFromUser.text =[NSString stringWithFormat:@"%@",[pendingRequests objectAtIndex:indexPath.row]];
+    if ([pendingRequests count]) {
+        cell.lblRequestFromUser.text =[NSString stringWithFormat:@"%@",[pendingRequests objectAtIndex:indexPath.row]];
+    }else{
+    cell.lblRequestFromUser.text=@"No Pending Requests";
+    }
+    
     return cell;
     
 }
@@ -79,7 +112,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if ([pendingRequests count] == 0) {
-        return 1;
+        return 0;
     }else{
         return [pendingRequests count];
         
@@ -125,5 +158,14 @@
 -(BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq{
     
     return NO;
+}
+- (IBAction)btnAcceptClick:(id)sender {
+    
+    [[self appDelegate].xmppRoster acceptPresenceSubscriptionRequestFrom:[pendingRequests objectAtIndex:[self.tableView indexPathForSelectedRow].row] andAddToRoster:YES];
+    [self.tableView reloadData];
+}
+
+- (IBAction)btnRejectClick:(id)sender {
+        [[self appDelegate].xmppRoster rejectPresenceSubscriptionRequestFrom:[pendingRequests objectAtIndex:[self.tableView indexPathForSelectedRow].row]];
 }
 @end

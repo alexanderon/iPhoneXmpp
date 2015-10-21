@@ -191,10 +191,10 @@
 }
 
 
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    
     ChatViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"] ;
     vc.chatWithUser =user.displayName;
     [self.navigationController pushViewController:vc animated:YES] ;
@@ -214,11 +214,4 @@
 }
 
 
-/*-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    if ([[segue identifier] isEqualToString:@"RequestViewSegue"] ) {
-        [self.navigationController pushViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"RequestViewController"] animated:YES];
-    }
-}*/
- 
 @end

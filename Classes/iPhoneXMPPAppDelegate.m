@@ -528,7 +528,7 @@
 
 
 
--(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+/*-(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
     
     DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
@@ -570,7 +570,7 @@
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
     }
     
-}
+}*/
 
 @end
 
