@@ -10,6 +10,7 @@
 #import "iPhoneXMPPAppDelegate.h"
 #import "NSString+Utils.h"
 #import "XMPPMessageArchivingCoreDataStorage.h"
+#import "XMPPMessageArchiving.h"
 
 @interface ChatViewController ()
 
@@ -24,6 +25,10 @@
 
 - (XMPPStream *)xmppStream {
     return [[self appDelegate] xmppStream];
+}
+
+-(XMPPMessageArchiving *)xmppMessageArchivingModule{
+    return [[self appDelegate] xmppMessageArchivingModule];
 }
 
 - (id) initWithUser:(NSString *) userName {
@@ -51,28 +56,14 @@
     [[self xmppStream]addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [self.chatWindow becomeFirstResponder];
     
-    turnSockets = [[NSMutableArray alloc] init];
-    sentMessages= [[NSMutableArray alloc] init];
+     sentMessages= [[NSMutableArray alloc] init];
+     turnSockets = [[NSMutableArray alloc] init];
     
-    
-    /* chatInput = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, self.view.frame.size.width-80, 40)];
-     chatInput.backgroundColor =[UIColor yellowColor];
-     chatInput.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
-     
-     chatInput.minNumberOfLines = 1;
-     chatInput.maxNumberOfLines = 8;
-     
-     chatInput.font = [UIFont systemFontOfSize:15.0f];
-     chatInput.delegate = self;
-     chatInput.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
-     chatInput.backgroundColor = [UIColor whiteColor];
-     
-     chatInput.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-     [self.contentView setFrame:self.chatWindow.frame];
-     //  [self.contentView addSubview:chatInput];
-     [self.chatWindow addSubview:chatInput];*/
-    
-    
+    TURNSocket *turnSocket = [[TURNSocket alloc] initWithStream:[self xmppStream] toJID:[XMPPJID jidWithString:_chatWithUser]];
+    [turnSockets addObject:turnSocket];
+    [turnSocket startWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+
+    [[self xmppMessageArchivingModule] activate:[self xmppStream]];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -82,9 +73,10 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
-     [self loadarchivemsg];
+    [self loadarchivemsg];
     
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -113,9 +105,8 @@
     
     if (cell == nil)
     {
-        //   cell = [[MessageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier ];
+     
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"MessageCell" owner:self options:nil];
-        
         cell = [topLevelObjects objectAtIndex:0];
     }
     
@@ -125,7 +116,7 @@
     
     cell.senderAndTimeLabel.text = [NSString stringWithFormat:@"%@ %@", sender, time];
     if ([sender isEqualToString:@"you"])
-    { // left aligned
+    {
         cell.ViewRight.hidden = YES;
         cell.ViewLeft.hidden = NO;
         cell.lblMessageLeft.text = message;
@@ -153,7 +144,7 @@
     
     return  [sentMessages count];
     
- //   NSLog(@"%lu",[[self fetchedResultsController].fetchedObjects count]);
+    //   NSLog(@"%lu",[[self fetchedResultsController].fetchedObjects count]);
     
     
     
@@ -179,6 +170,7 @@
         NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
         [body setStringValue:messageStr];
         
+       // NSLog(@"%@",self.chatWithUser);
         NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
         [message addAttributeWithName:@"type" stringValue:@"chat"];
         [message addAttributeWithName:@"to" stringValue:self.chatWithUser];
@@ -223,54 +215,30 @@
         XMPPUserCoreDataStorageObject *user = [[self appDelegate].xmppRosterStorage userForJID:[message from]
                                                                                     xmppStream:[self xmppStream]
                                                                           managedObjectContext:[[self appDelegate] managedObjectContext_roster]];
-        //  NSLog(@"%@",user.subscription);
         
         NSString *body = [[message elementForName:@"body"] stringValue];
         NSString *displayName = [user displayName];
-        
-        /*   NSDictionary* userInfo = @{@"af": self.jid,
-         @"message": message ,
-         @"thetime": [self currentGMTTime],
-         @"delivered":@YES,
-         kMessageId: messageId
-         };*/
-        
         NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
+        
+        
         [m setObject:[body substituteEmoticons] forKey:@"msg"];
         [m setObject:displayName forKey:@"sender"];
         [m setObject:[NSString getCurrentTime] forKey:@"time"];
+        
         [sentMessages addObject:m];
         
-        [self.tableview beginUpdates];
+       
         
         NSIndexPath *path1 = [NSIndexPath indexPathForRow:[sentMessages count]-1  inSection:0];
         
-        [self.tableview insertRowsAtIndexPaths:@[path1]
-                              withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableview beginUpdates];
+        [self.tableview insertRowsAtIndexPaths:@[path1] withRowAnimation:UITableViewRowAnimationBottom];
         [self.tableview endUpdates];
         
         if(![self.tableview.indexPathsForVisibleRows containsObject:path1])
         {
             [self.tableview scrollToRowAtIndexPath:path1 atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
-        /*  if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-         {
-         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
-         message:body
-         delegate:nil
-         cancelButtonTitle:@"Ok"
-         otherButtonTitles:nil];
-         [alertView show];
-         }
-         else
-         {
-         // We are not active, so use a local notification instead
-         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-         localNotification.alertAction = @"Ok";
-         localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n\n%@",displayName,body];
-         
-         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-         }*/
     }
 }
 
@@ -289,11 +257,11 @@
     //[request setFetchLimit:20];
     
     NSError *error;
-    NSString *predicateFrmt = @"bareJidStr == %@";
+    NSString *predicateFrmt = @"bareJidStr like %@";
     NSPredicate *predicate =[NSPredicate predicateWithFormat:predicateFrmt,_chatWithUser];
     request.predicate = predicate;
     NSArray *messages = [moc executeFetchRequest:request error:&error];
-    NSLog(@"%@",messages);
+   
     
     for (XMPPMessageArchiving_Message_CoreDataObject *message in messages) {
         
@@ -304,12 +272,14 @@
         if ([[element attributeStringValueForName:@"to"] isEqualToString:_chatWithUser])
         {
             
-            [m setObject:@"you" forKey:@"sender"];
+             [m setObject:@"you" forKey:@"sender"];
+           
         }
         else
         {
-            [m setObject:_chatWithUser forKey:@"sender"];
+           [m setObject:_chatWithUser forKey:@"sender"];
         }
+        
         NSDate *date = message.timestamp;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
@@ -321,11 +291,7 @@
         [sentMessages addObject:m];
         [self.tableview reloadData];
         
-        /*  NSLog(@"bareJid param is %@",message.bareJid);
-         NSLog(@"bareJidStr param is %@",message.bareJidStr);
-         NSLog(@"body param is %@",message.body);
-         NSLog(@"timestamp param is %@",message.timestamp);
-         NSLog(@"outgoing param is %d",[message.outgoing intValue]);*/
+        
     }
 }
 

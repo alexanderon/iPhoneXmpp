@@ -15,14 +15,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gen-ZD-WRC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="18"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="12"/>
                         <animations/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <color key="textColor" red="0.26296111613460221" green="0.35634278891225313" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jAB-UX-tEf" userLabel="ViewLeft">
-                        <rect key="frame" x="0.0" y="28" width="43" height="32"/>
+                        <rect key="frame" x="0.0" y="22" width="43" height="32"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="orange.png" translatesAutoresizingMaskIntoConstraints="NO" id="ngV-cc-EkR">
                                 <rect key="frame" x="0.0" y="0.0" width="43" height="32"/>
@@ -58,12 +58,8 @@
                         </variation>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1By-ZD-TLB" userLabel="ViewRight">
-                        <rect key="frame" x="277" y="28" width="43" height="32"/>
+                        <rect key="frame" x="277" y="22" width="43" height="32"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="aqua.png" translatesAutoresizingMaskIntoConstraints="NO" id="bYf-5f-fri">
-                                <rect key="frame" x="0.0" y="0.0" width="43" height="32"/>
-                                <animations/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nm1-FY-LSE">
                                 <rect key="frame" x="10" y="7" width="13" height="18"/>
                                 <animations/>
@@ -71,6 +67,10 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="aqua.png" translatesAutoresizingMaskIntoConstraints="NO" id="bYf-5f-fri">
+                                <rect key="frame" x="0.0" y="0.0" width="43" height="32"/>
+                                <animations/>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

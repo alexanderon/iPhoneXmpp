@@ -171,6 +171,7 @@
     
     xmppMessageArchivingStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     xmppMessageArchivingModule = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:xmppMessageArchivingStorage];
+    [xmppMessageArchivingModule setClientSideMessageArchivingOnly:YES];
 
 	// Activate xmpp modules
 
@@ -477,7 +478,7 @@
 		                                                         xmppStream:xmppStream
 		                                               managedObjectContext:[self managedObjectContext_roster]];
       //  NSLog(@"%@",user.subscription);
-		
+        
 		NSString *body = [[message elementForName:@"body"] stringValue];
 		NSString *displayName = [user displayName];
 

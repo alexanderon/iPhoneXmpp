@@ -10,20 +10,17 @@
 #import "XMPP.h"
 #import "TURNSocket.h"
 #import "RootViewController.h"
-#import "HPGrowingTextView.h"
 #import "MessageCell.h"
 
 
 
-@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,HPGrowingTextViewDelegate>
+@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate>
 {
     NSFetchedResultsController *fetchedResultsController;
     NSMutableArray *turnSockets;
     NSMutableArray *sentMessages;
-    
     NSMutableArray* _messagelist;
     
-    HPGrowingTextView *chatInput;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *chatWindow;

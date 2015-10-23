@@ -196,7 +196,7 @@
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     
     ChatViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"] ;
-    vc.chatWithUser =user.displayName;
+    vc.chatWithUser =user.jidStr;
     [self.navigationController pushViewController:vc animated:YES] ;
 }
 

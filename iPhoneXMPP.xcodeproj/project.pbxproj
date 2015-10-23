@@ -22,8 +22,6 @@
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		B72FDFB01BD7B86800D553C8 /* MLChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFAF1BD7B86800D553C8 /* MLChatCell.m */; settings = {ASSET_TAGS = (); }; };
 		B72FDFBD1BD7BAAB00D553C8 /* MLImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFBC1BD7BAAB00D553C8 /* MLImageManager.m */; settings = {ASSET_TAGS = (); }; };
-		B72FDFC41BD7BCFA00D553C8 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFC11BD7BCFA00D553C8 /* HPGrowingTextView.m */; settings = {ASSET_TAGS = (); }; };
-		B72FDFC51BD7BCFA00D553C8 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFC31BD7BCFA00D553C8 /* HPTextViewInternal.m */; settings = {ASSET_TAGS = (); }; };
 		B7448A0B1BD9F70800B6F3EF /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7448A091BD9F70800B6F3EF /* MessageCell.m */; settings = {ASSET_TAGS = (); }; };
 		B7448A0C1BD9F70800B6F3EF /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */; settings = {ASSET_TAGS = (); }; };
 		B7448A0F1BD9FA1100B6F3EF /* aqua.png in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0D1BD9FA1100B6F3EF /* aqua.png */; settings = {ASSET_TAGS = (); }; };
@@ -207,10 +205,6 @@
 		B72FDFB51BD7B9A600D553C8 /* MLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLConstants.h; sourceTree = "<group>"; };
 		B72FDFBB1BD7BAAB00D553C8 /* MLImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLImageManager.h; sourceTree = "<group>"; };
 		B72FDFBC1BD7BAAB00D553C8 /* MLImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLImageManager.m; sourceTree = "<group>"; };
-		B72FDFC01BD7BCFA00D553C8 /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
-		B72FDFC11BD7BCFA00D553C8 /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
-		B72FDFC21BD7BCFA00D553C8 /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
-		B72FDFC31BD7BCFA00D553C8 /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
 		B7448A081BD9F70800B6F3EF /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
 		B7448A091BD9F70800B6F3EF /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
 		B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
@@ -670,20 +664,8 @@
 		B72FDFBE1BD7BCFA00D553C8 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
-				B72FDFBF1BD7BCFA00D553C8 /* GrowingTextView */,
 			);
 			path = 3rdParty;
-			sourceTree = "<group>";
-		};
-		B72FDFBF1BD7BCFA00D553C8 /* GrowingTextView */ = {
-			isa = PBXGroup;
-			children = (
-				B72FDFC01BD7BCFA00D553C8 /* HPGrowingTextView.h */,
-				B72FDFC11BD7BCFA00D553C8 /* HPGrowingTextView.m */,
-				B72FDFC21BD7BCFA00D553C8 /* HPTextViewInternal.h */,
-				B72FDFC31BD7BCFA00D553C8 /* HPTextViewInternal.m */,
-			);
-			path = GrowingTextView;
 			sourceTree = "<group>";
 		};
 		B7B5BD6E1BD0DD66008BD204 /* xmpp */ = {
@@ -1672,7 +1654,6 @@
 				B7B5BEF61BD0DD66008BD204 /* XMPPElement.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* iPhoneXMPPAppDelegate.m in Sources */,
-				B72FDFC51BD7BCFA00D553C8 /* HPTextViewInternal.m in Sources */,
 				B7E3AA701BD50E5700313328 /* RequestTableViewCell.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				B7B5BF5A1BD0DD66008BD204 /* XMPPMessage+XEP_0224.m in Sources */,
@@ -1727,7 +1708,6 @@
 				B7B5BF661BD0DD66008BD204 /* XMPPSRVResolver.m in Sources */,
 				B7B5BF691BD0DD66008BD204 /* GCDAsyncSocket.m in Sources */,
 				B7B5BF201BD0DD66008BD204 /* XMPPRoomOccupantMemoryStorageObject.m in Sources */,
-				B72FDFC41BD7BCFA00D553C8 /* HPGrowingTextView.m in Sources */,
 				B7B5BF341BD0DD66008BD204 /* XMPPPubSub.m in Sources */,
 				B7B5BEF81BD0DD66008BD204 /* XMPPJID.m in Sources */,
 				B7B5BF2C1BD0DD66008BD204 /* XMPPvCardTempBase.m in Sources */,
