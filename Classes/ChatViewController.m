@@ -153,7 +153,7 @@
     
     return  [sentMessages count];
     
-    NSLog(@"%lu",[[self fetchedResultsController].fetchedObjects count]);
+ //   NSLog(@"%lu",[[self fetchedResultsController].fetchedObjects count]);
     
     
     
@@ -294,64 +294,41 @@
     request.predicate = predicate;
     NSArray *messages = [moc executeFetchRequest:request error:&error];
     NSLog(@"%@",messages);
-}
-
-
-#pragma mark NSFetchedResultsController
-
-- (NSFetchedResultsController *)fetchedResultsController{
     
-    if (fetchedResultsController ==nil) {
+    for (XMPPMessageArchiving_Message_CoreDataObject *message in messages) {
         
-        NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_messageArchiving];
+        NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
+        NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
+        [m setObject:message.body forKey:@"msg"];
         
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
-                                                  inManagedObjectContext:moc];
-        
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bareJidStr like %@", self.chatWithUser];
-        
-        NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
-        //        NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
-        //
-        //        NSArray *sortDescriptors = @[sd1, sd2];
-        NSArray *sortDescriptors =@[sd1];
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        [fetchRequest setEntity:entity];
-        // [fetchRequest setPredicate:predicate];
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        [fetchRequest setFetchBatchSize:10];
-        
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                       managedObjectContext:moc
-                                                                         sectionNameKeyPath:@"sectionNum"
-                                    
-                                                                                  cacheName:nil];
-        [fetchedResultsController setDelegate:self];
-        
-        fetchedResultsController =[[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest
-                                                                     managedObjectContext:moc
-                                                                       sectionNameKeyPath:@""
-                                                                                cacheName:nil];
-        
-        
-        NSError *error = nil;
-        if (![fetchedResultsController performFetch:&error])
+        if ([[element attributeStringValueForName:@"to"] isEqualToString:_chatWithUser])
         {
-            //    DDLogError(@"Error performing fetch: %@", error);
-            NSLog(  @"not   successful");
+            
+            [m setObject:@"you" forKey:@"sender"];
         }
+        else
+        {
+            [m setObject:_chatWithUser forKey:@"sender"];
+        }
+        NSDate *date = message.timestamp;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+        [m setObject:[dateFormatter stringFromDate:date] forKey:@"time"];
         
         
+        [sentMessages addObject:m];
+        [self.tableview reloadData];
+        
+        /*  NSLog(@"bareJid param is %@",message.bareJid);
+         NSLog(@"bareJidStr param is %@",message.bareJidStr);
+         NSLog(@"body param is %@",message.body);
+         NSLog(@"timestamp param is %@",message.timestamp);
+         NSLog(@"outgoing param is %d",[message.outgoing intValue]);*/
     }
-    return fetchedResultsController;
-    
 }
 
-
--(void)controllerDidChangeContent:(NSFetchedResultsController *)controller{
-    [self.tableview reloadData];
-}
 
 
 
