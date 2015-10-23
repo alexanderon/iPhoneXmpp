@@ -2,6 +2,7 @@
 #import <CoreData/CoreData.h>
 #import "XMPPFramework.h"
 #import "SettingsViewController.h"
+#import "XMPPMessageArchivingCoreDataStorage.h"
 
 
 @interface iPhoneXMPPAppDelegate : UIResponder <UIApplicationDelegate>
@@ -15,6 +16,9 @@
 	XMPPvCardAvatarModule *xmppvCardAvatarModule;
 	XMPPCapabilities *xmppCapabilities;
 	XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
+    XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingStorage;
+    XMPPMessageArchiving *xmppMessageArchivingModule;
+
 	
 	NSString *password;
 	
@@ -34,6 +38,8 @@
 @property (nonatomic, strong, readonly) XMPPvCardAvatarModule *xmppvCardAvatarModule;
 @property (nonatomic, strong, readonly) XMPPCapabilities *xmppCapabilities;
 @property (nonatomic, strong, readonly) XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
+@property (nonatomic, strong, readonly) XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingStorage;
+@property (nonatomic, strong, readonly) XMPPMessageArchiving *xmppMessageArchivingModule;
 
 
 @property (nonatomic, strong) SettingsViewController *settingsViewController;
@@ -42,6 +48,7 @@
 
 - (NSManagedObjectContext *)managedObjectContext_roster;
 - (NSManagedObjectContext *)managedObjectContext_capabilities;
+- (NSManagedObjectContext *)managedObjectContext_messageArchiving;
 
 - (BOOL)connect;
 - (void)disconnect;

@@ -48,10 +48,9 @@
 @synthesize xmppvCardAvatarModule;
 @synthesize xmppCapabilities;
 @synthesize xmppCapabilitiesStorage;
-
-
+@synthesize xmppMessageArchivingModule;
+@synthesize xmppMessageArchivingStorage;
 @synthesize settingsViewController;
-
 @synthesize pendingRequests;
 
 
@@ -96,6 +95,9 @@
 	return [xmppCapabilitiesStorage mainThreadManagedObjectContext];
 }
 
+-(NSManagedObjectContext *)managedObjectContext_messageArchiving{
+    return [xmppMessageArchivingStorage mainThreadManagedObjectContext];
+}
 
 #pragma mark Private
 
@@ -164,6 +166,11 @@
 
     xmppCapabilities.autoFetchHashedCapabilities = YES;
     xmppCapabilities.autoFetchNonHashedCapabilities = NO;
+    
+    //xmppMessageArchivingStorage Allocation and init
+    
+    xmppMessageArchivingStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+    xmppMessageArchivingModule = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:xmppMessageArchivingStorage];
 
 	// Activate xmpp modules
 
@@ -172,12 +179,15 @@
 	[xmppvCardTempModule   activate:xmppStream];
 	[xmppvCardAvatarModule activate:xmppStream];
 	[xmppCapabilities      activate:xmppStream];
+    [xmppMessageArchivingModule activate:xmppStream];
+    
 
 	// Add ourself as a delegate to anything we may be interested in
 
 	[xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
 	[xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
-
+    [xmppMessageArchivingModule  addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
 	// Optional:
 	// 
 	// Replace me with the proper domain and port.
@@ -232,6 +242,8 @@
 	xmppvCardAvatarModule = nil;
 	xmppCapabilities = nil;
 	xmppCapabilitiesStorage = nil;
+    xmppMessageArchivingStorage=nil;
+    xmppMessageArchivingModule=nil;
 }
 
 - (void)goOnline

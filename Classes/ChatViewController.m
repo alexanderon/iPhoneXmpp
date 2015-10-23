@@ -9,6 +9,7 @@
 #import "ChatViewController.h"
 #import "iPhoneXMPPAppDelegate.h"
 #import "NSString+Utils.h"
+#import "XMPPMessageArchivingCoreDataStorage.h"
 
 @interface ChatViewController ()
 
@@ -36,6 +37,10 @@
     
 }
 
+- (IBAction)btnChooseImageClick:(id)sender {
+}
+
+#pragma mark -View Methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,11 +55,35 @@
     sentMessages= [[NSMutableArray alloc] init];
     
     
+    /* chatInput = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, self.view.frame.size.width-80, 40)];
+     chatInput.backgroundColor =[UIColor yellowColor];
+     chatInput.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
+     
+     chatInput.minNumberOfLines = 1;
+     chatInput.maxNumberOfLines = 8;
+     
+     chatInput.font = [UIFont systemFontOfSize:15.0f];
+     chatInput.delegate = self;
+     chatInput.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
+     chatInput.backgroundColor = [UIColor whiteColor];
+     
+     chatInput.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+     [self.contentView setFrame:self.chatWindow.frame];
+     //  [self.contentView addSubview:chatInput];
+     [self.chatWindow addSubview:chatInput];*/
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     [self.navigationItem setTitle:self.chatWithUser];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+     [self loadarchivemsg];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,17 +99,63 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    static NSString *CellIdentifier = @"MessageCellIdentifier";
-    UITableViewCell *cell  =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    cell.textLabel.text=[[sentMessages objectAtIndex:indexPath.row] valueForKey:@"msg"];
+    /* static NSString *CellIdentifier = @"MessageCellIdentifier";
+     UITableViewCell *cell  =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     cell.textLabel.text=[[sentMessages objectAtIndex:indexPath.row] valueForKey:@"msg"];
+     return cell;*/
+    
+    static NSString *CellIdentifier = @"MessageCell";
+    
+    NSDictionary *s = (NSDictionary *) [sentMessages objectAtIndex:indexPath.row];
+    
+    
+    MessageCell *cell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil)
+    {
+        //   cell = [[MessageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier ];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"MessageCell" owner:self options:nil];
+        
+        cell = [topLevelObjects objectAtIndex:0];
+    }
+    
+    NSString *sender = [s objectForKey:@"sender"];
+    NSString *message = [s objectForKey:@"msg"];
+    NSString *time = [s objectForKey:@"time"];
+    
+    cell.senderAndTimeLabel.text = [NSString stringWithFormat:@"%@ %@", sender, time];
+    if ([sender isEqualToString:@"you"])
+    { // left aligned
+        cell.ViewRight.hidden = YES;
+        cell.ViewLeft.hidden = NO;
+        cell.lblMessageLeft.text = message;
+        [cell.lblMessageLeft sizeToFit];
+        UIImage *bubble = [[UIImage imageNamed:@"orange.png"] stretchableImageWithLeftCapWidth:24 topCapHeight:15];
+        cell.ivLeft.image = bubble;
+    }
+    else
+    {
+        cell.ViewRight.hidden = NO;
+        cell.ViewLeft.hidden = YES;
+        cell.lblMessageRight.text = message;
+        [cell.lblMessageRight sizeToFit];
+        UIImage *bubble = [[UIImage imageNamed:@"aqua.png"] stretchableImageWithLeftCapWidth:24 topCapHeight:15];
+        cell.ivRight.image = bubble;
+    }
     return cell;
+    
+    
+    
     
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
     
     return  [sentMessages count];
-    //  return 0;
+    
+    NSLog(@"%lu",[[self fetchedResultsController].fetchedObjects count]);
+    
+    
     
 }
 
@@ -117,13 +192,14 @@
         [m setObject:[NSString getCurrentTime] forKey:@"time"];
         
         [sentMessages addObject:m];
+        NSLog(@"%@",sentMessages);
         [self reloadTable];
         
     }
     
 }
 
--(void)addMessageToTableView:(NSDictionary *) messageDict{
+- (void)addMessageToTableView:(NSDictionary *) messageDict{
     
 }
 
@@ -198,6 +274,84 @@
     }
 }
 
+
+#pragma  mark- Load Previous Messages
+
+-(void)loadarchivemsg
+{
+    
+    XMPPMessageArchivingCoreDataStorage *_xmppMsgStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+    NSManagedObjectContext *moc = [_xmppMsgStorage mainThreadManagedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
+                                                         inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc]init];
+    [request setEntity:entityDescription];
+    //[request setFetchLimit:20];
+    
+    NSError *error;
+    NSString *predicateFrmt = @"bareJidStr == %@";
+    NSPredicate *predicate =[NSPredicate predicateWithFormat:predicateFrmt,_chatWithUser];
+    request.predicate = predicate;
+    NSArray *messages = [moc executeFetchRequest:request error:&error];
+    NSLog(@"%@",messages);
+}
+
+
+#pragma mark NSFetchedResultsController
+
+- (NSFetchedResultsController *)fetchedResultsController{
+    
+    if (fetchedResultsController ==nil) {
+        
+        NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_messageArchiving];
+        
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
+                                                  inManagedObjectContext:moc];
+        
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bareJidStr like %@", self.chatWithUser];
+        
+        NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
+        //        NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
+        //
+        //        NSArray *sortDescriptors = @[sd1, sd2];
+        NSArray *sortDescriptors =@[sd1];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:entity];
+        // [fetchRequest setPredicate:predicate];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setFetchBatchSize:10];
+        
+        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                       managedObjectContext:moc
+                                                                         sectionNameKeyPath:@"sectionNum"
+                                    
+                                                                                  cacheName:nil];
+        [fetchedResultsController setDelegate:self];
+        
+        fetchedResultsController =[[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest
+                                                                     managedObjectContext:moc
+                                                                       sectionNameKeyPath:@""
+                                                                                cacheName:nil];
+        
+        
+        NSError *error = nil;
+        if (![fetchedResultsController performFetch:&error])
+        {
+            //    DDLogError(@"Error performing fetch: %@", error);
+            NSLog(  @"not   successful");
+        }
+        
+        
+    }
+    return fetchedResultsController;
+    
+}
+
+
+-(void)controllerDidChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableview reloadData];
+}
 
 
 

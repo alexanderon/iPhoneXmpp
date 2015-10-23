@@ -20,6 +20,14 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
+		B72FDFB01BD7B86800D553C8 /* MLChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFAF1BD7B86800D553C8 /* MLChatCell.m */; settings = {ASSET_TAGS = (); }; };
+		B72FDFBD1BD7BAAB00D553C8 /* MLImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFBC1BD7BAAB00D553C8 /* MLImageManager.m */; settings = {ASSET_TAGS = (); }; };
+		B72FDFC41BD7BCFA00D553C8 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFC11BD7BCFA00D553C8 /* HPGrowingTextView.m */; settings = {ASSET_TAGS = (); }; };
+		B72FDFC51BD7BCFA00D553C8 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFC31BD7BCFA00D553C8 /* HPTextViewInternal.m */; settings = {ASSET_TAGS = (); }; };
+		B7448A0B1BD9F70800B6F3EF /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7448A091BD9F70800B6F3EF /* MessageCell.m */; settings = {ASSET_TAGS = (); }; };
+		B7448A0C1BD9F70800B6F3EF /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */; settings = {ASSET_TAGS = (); }; };
+		B7448A0F1BD9FA1100B6F3EF /* aqua.png in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0D1BD9FA1100B6F3EF /* aqua.png */; settings = {ASSET_TAGS = (); }; };
+		B7448A101BD9FA1100B6F3EF /* orange.png in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0E1BD9FA1100B6F3EF /* orange.png */; settings = {ASSET_TAGS = (); }; };
 		B79652721BD284D000AD5329 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79652711BD284D000AD5329 /* ChatViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B7B5BEEA1BD0DD66008BD204 /* XMPPAnonymousAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B5BD721BD0DD66008BD204 /* XMPPAnonymousAuthentication.m */; settings = {ASSET_TAGS = (); }; };
 		B7B5BEEB1BD0DD66008BD204 /* XMPPDeprecatedDigestAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B5BD751BD0DD66008BD204 /* XMPPDeprecatedDigestAuthentication.m */; settings = {ASSET_TAGS = (); }; };
@@ -194,6 +202,20 @@
 		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RootViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iPhoneXMPP-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iPhoneXMPP-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		B72FDFAE1BD7B86800D553C8 /* MLChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLChatCell.h; sourceTree = "<group>"; };
+		B72FDFAF1BD7B86800D553C8 /* MLChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLChatCell.m; sourceTree = "<group>"; };
+		B72FDFB51BD7B9A600D553C8 /* MLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLConstants.h; sourceTree = "<group>"; };
+		B72FDFBB1BD7BAAB00D553C8 /* MLImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLImageManager.h; sourceTree = "<group>"; };
+		B72FDFBC1BD7BAAB00D553C8 /* MLImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLImageManager.m; sourceTree = "<group>"; };
+		B72FDFC01BD7BCFA00D553C8 /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
+		B72FDFC11BD7BCFA00D553C8 /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
+		B72FDFC21BD7BCFA00D553C8 /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
+		B72FDFC31BD7BCFA00D553C8 /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
+		B7448A081BD9F70800B6F3EF /* MessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		B7448A091BD9F70800B6F3EF /* MessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
+		B7448A0D1BD9FA1100B6F3EF /* aqua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aqua.png; sourceTree = "<group>"; };
+		B7448A0E1BD9FA1100B6F3EF /* orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orange.png; sourceTree = "<group>"; };
 		B79652701BD284D000AD5329 /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		B79652711BD284D000AD5329 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
 		B7B5BD711BD0DD66008BD204 /* XMPPAnonymousAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPAnonymousAuthentication.h; sourceTree = "<group>"; };
@@ -539,6 +561,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				B72FDFB51BD7B9A600D553C8 /* MLConstants.h */,
 				1D3623240D0F684500981E51 /* iPhoneXMPPAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iPhoneXMPPAppDelegate.m */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
@@ -570,8 +593,10 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				B72FDFAD1BD7B7D700D553C8 /* TableCell */,
 				B7B5BF7A1BD0DFB5008BD204 /* main.storyboard */,
+				B72FDFBE1BD7BCFA00D553C8 /* 3rdParty */,
+				B72FDFBA1BD7BA9B00D553C8 /* Manger */,
+				B72FDFAD1BD7B7D700D553C8 /* TableCell */,
 				B7B5BD6E1BD0DD66008BD204 /* xmpp */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -594,6 +619,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B7448A0D1BD9FA1100B6F3EF /* aqua.png */,
+				B7448A0E1BD9FA1100B6F3EF /* orange.png */,
 				DC19DDA0170B4138000D2178 /* Default-568h@2x.png */,
 				070400441347CB140092A737 /* defaultPerson.png */,
 				8D1107310486CEB800E47090 /* iPhoneXMPP-Info.plist */,
@@ -622,8 +649,41 @@
 		B72FDFAD1BD7B7D700D553C8 /* TableCell */ = {
 			isa = PBXGroup;
 			children = (
+				B72FDFAE1BD7B86800D553C8 /* MLChatCell.h */,
+				B72FDFAF1BD7B86800D553C8 /* MLChatCell.m */,
+				B7448A081BD9F70800B6F3EF /* MessageCell.h */,
+				B7448A091BD9F70800B6F3EF /* MessageCell.m */,
+				B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */,
 			);
 			path = TableCell;
+			sourceTree = "<group>";
+		};
+		B72FDFBA1BD7BA9B00D553C8 /* Manger */ = {
+			isa = PBXGroup;
+			children = (
+				B72FDFBB1BD7BAAB00D553C8 /* MLImageManager.h */,
+				B72FDFBC1BD7BAAB00D553C8 /* MLImageManager.m */,
+			);
+			path = Manger;
+			sourceTree = "<group>";
+		};
+		B72FDFBE1BD7BCFA00D553C8 /* 3rdParty */ = {
+			isa = PBXGroup;
+			children = (
+				B72FDFBF1BD7BCFA00D553C8 /* GrowingTextView */,
+			);
+			path = 3rdParty;
+			sourceTree = "<group>";
+		};
+		B72FDFBF1BD7BCFA00D553C8 /* GrowingTextView */ = {
+			isa = PBXGroup;
+			children = (
+				B72FDFC01BD7BCFA00D553C8 /* HPGrowingTextView.h */,
+				B72FDFC11BD7BCFA00D553C8 /* HPGrowingTextView.m */,
+				B72FDFC21BD7BCFA00D553C8 /* HPTextViewInternal.h */,
+				B72FDFC31BD7BCFA00D553C8 /* HPTextViewInternal.m */,
+			);
+			path = GrowingTextView;
 			sourceTree = "<group>";
 		};
 		B7B5BD6E1BD0DD66008BD204 /* xmpp */ = {
@@ -1589,7 +1649,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7B5BF7B1BD0DFB5008BD204 /* main.storyboard in Resources */,
+				B7448A101BD9FA1100B6F3EF /* orange.png in Resources */,
+				B7448A0C1BD9F70800B6F3EF /* MessageCell.xib in Resources */,
 				070400451347CB140092A737 /* defaultPerson.png in Resources */,
+				B7448A0F1BD9FA1100B6F3EF /* aqua.png in Resources */,
 				B7B5BF731BD0DD66008BD204 /* README.txt in Resources */,
 				DC19DDA1170B4138000D2178 /* Default-568h@2x.png in Resources */,
 				B7B5BF781BD0DD66008BD204 /* build-libidn.sh in Resources */,
@@ -1609,6 +1672,7 @@
 				B7B5BEF61BD0DD66008BD204 /* XMPPElement.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* iPhoneXMPPAppDelegate.m in Sources */,
+				B72FDFC51BD7BCFA00D553C8 /* HPTextViewInternal.m in Sources */,
 				B7E3AA701BD50E5700313328 /* RequestTableViewCell.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				B7B5BF5A1BD0DD66008BD204 /* XMPPMessage+XEP_0224.m in Sources */,
@@ -1663,6 +1727,7 @@
 				B7B5BF661BD0DD66008BD204 /* XMPPSRVResolver.m in Sources */,
 				B7B5BF691BD0DD66008BD204 /* GCDAsyncSocket.m in Sources */,
 				B7B5BF201BD0DD66008BD204 /* XMPPRoomOccupantMemoryStorageObject.m in Sources */,
+				B72FDFC41BD7BCFA00D553C8 /* HPGrowingTextView.m in Sources */,
 				B7B5BF341BD0DD66008BD204 /* XMPPPubSub.m in Sources */,
 				B7B5BEF81BD0DD66008BD204 /* XMPPJID.m in Sources */,
 				B7B5BF2C1BD0DD66008BD204 /* XMPPvCardTempBase.m in Sources */,
@@ -1674,6 +1739,7 @@
 				B7B5BF181BD0DD66008BD204 /* XMPPRoomMessageCoreDataStorageObject.m in Sources */,
 				B7B5BF091BD0DD66008BD204 /* XMPPRosterCoreDataStorage.m in Sources */,
 				B7B5BEF01BD0DD66008BD204 /* XMPPXFacebookPlatformAuthentication.m in Sources */,
+				B72FDFB01BD7B86800D553C8 /* MLChatCell.m in Sources */,
 				B7B5BEEA1BD0DD66008BD204 /* XMPPAnonymousAuthentication.m in Sources */,
 				B7B5BF361BD0DD66008BD204 /* XMPPIQ+XEP_0066.m in Sources */,
 				B7B5BF061BD0DD66008BD204 /* XMPPGroupCoreDataStorageObject.m in Sources */,
@@ -1705,9 +1771,11 @@
 				B7E3AA681BD5094900313328 /* RequestViewController.m in Sources */,
 				B7B5BF0A1BD0DD66008BD204 /* XMPPUserCoreDataStorageObject.m in Sources */,
 				B7B5BF651BD0DD66008BD204 /* XMPPIDTracker.m in Sources */,
+				B7448A0B1BD9F70800B6F3EF /* MessageCell.m in Sources */,
 				B7B5BF3D1BD0DD66008BD204 /* XMPPTransports.m in Sources */,
 				B7B5BF761BD0DD66008BD204 /* DDXMLElement.m in Sources */,
 				B7B5BEEF1BD0DD66008BD204 /* XMPPSCRAMSHA1Authentication.m in Sources */,
+				B72FDFBD1BD7BAAB00D553C8 /* MLImageManager.m in Sources */,
 				B7B5BF421BD0DD66008BD204 /* XMPPCapsResourceCoreDataStorageObject.m in Sources */,
 				B7B5BF531BD0DD66008BD204 /* XMPPAutoPing.m in Sources */,
 				B7B5BF6C1BD0DD66008BD204 /* DDASLLogger.m in Sources */,
