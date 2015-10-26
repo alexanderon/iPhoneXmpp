@@ -26,6 +26,10 @@
 		B7448A0C1BD9F70800B6F3EF /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */; settings = {ASSET_TAGS = (); }; };
 		B7448A0F1BD9FA1100B6F3EF /* aqua.png in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0D1BD9FA1100B6F3EF /* aqua.png */; settings = {ASSET_TAGS = (); }; };
 		B7448A101BD9FA1100B6F3EF /* orange.png in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0E1BD9FA1100B6F3EF /* orange.png */; settings = {ASSET_TAGS = (); }; };
+		B7448A161BDA4AAB00B6F3EF /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7448A131BDA4AAB00B6F3EF /* HPGrowingTextView.m */; settings = {ASSET_TAGS = (); }; };
+		B7448A171BDA4AAB00B6F3EF /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = B7448A151BDA4AAB00B6F3EF /* HPTextViewInternal.m */; settings = {ASSET_TAGS = (); }; };
+		B76C31181BDDF165002B8F2C /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B76C31161BDDF165002B8F2C /* ImageViewCell.m */; settings = {ASSET_TAGS = (); }; };
+		B76C31191BDDF165002B8F2C /* ImageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B76C31171BDDF165002B8F2C /* ImageViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 		B79652721BD284D000AD5329 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79652711BD284D000AD5329 /* ChatViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B7B5BEEA1BD0DD66008BD204 /* XMPPAnonymousAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B5BD721BD0DD66008BD204 /* XMPPAnonymousAuthentication.m */; settings = {ASSET_TAGS = (); }; };
 		B7B5BEEB1BD0DD66008BD204 /* XMPPDeprecatedDigestAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = B7B5BD751BD0DD66008BD204 /* XMPPDeprecatedDigestAuthentication.m */; settings = {ASSET_TAGS = (); }; };
@@ -176,7 +180,6 @@
 		B7E3AA681BD5094900313328 /* RequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA671BD5094900313328 /* RequestViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B7E3AA701BD50E5700313328 /* RequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		B7E8B2151BD5F2AF003D0A44 /* SendRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DC19DDA1170B4138000D2178 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC19DDA0170B4138000D2178 /* Default-568h@2x.png */; };
 		DC1F97E81152CA4E00138A8F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F97E71152CA4E00138A8F /* CFNetwork.framework */; };
 		DC1F98371152CBC200138A8F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F98361152CBC200138A8F /* SystemConfiguration.framework */; };
 		DC1F985D1152CC2B00138A8F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F985C1152CC2B00138A8F /* CoreData.framework */; };
@@ -210,6 +213,13 @@
 		B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
 		B7448A0D1BD9FA1100B6F3EF /* aqua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aqua.png; sourceTree = "<group>"; };
 		B7448A0E1BD9FA1100B6F3EF /* orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orange.png; sourceTree = "<group>"; };
+		B7448A121BDA4AAB00B6F3EF /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
+		B7448A131BDA4AAB00B6F3EF /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
+		B7448A141BDA4AAB00B6F3EF /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
+		B7448A151BDA4AAB00B6F3EF /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
+		B76C31151BDDF165002B8F2C /* ImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewCell.h; sourceTree = "<group>"; };
+		B76C31161BDDF165002B8F2C /* ImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCell.m; sourceTree = "<group>"; };
+		B76C31171BDDF165002B8F2C /* ImageViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewCell.xib; sourceTree = "<group>"; };
 		B79652701BD284D000AD5329 /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		B79652711BD284D000AD5329 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
 		B7B5BD711BD0DD66008BD204 /* XMPPAnonymousAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPAnonymousAuthentication.h; sourceTree = "<group>"; };
@@ -521,7 +531,6 @@
 		B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestTableViewCell.m; sourceTree = "<group>"; };
 		B7E8B2131BD5F2AF003D0A44 /* SendRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRequestViewController.h; sourceTree = "<group>"; };
 		B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRequestViewController.m; sourceTree = "<group>"; };
-		DC19DDA0170B4138000D2178 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		DC1F97E71152CA4E00138A8F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		DC1F98361152CBC200138A8F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DC1F985C1152CC2B00138A8F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -615,7 +624,6 @@
 			children = (
 				B7448A0D1BD9FA1100B6F3EF /* aqua.png */,
 				B7448A0E1BD9FA1100B6F3EF /* orange.png */,
-				DC19DDA0170B4138000D2178 /* Default-568h@2x.png */,
 				070400441347CB140092A737 /* defaultPerson.png */,
 				8D1107310486CEB800E47090 /* iPhoneXMPP-Info.plist */,
 			);
@@ -648,6 +656,9 @@
 				B7448A081BD9F70800B6F3EF /* MessageCell.h */,
 				B7448A091BD9F70800B6F3EF /* MessageCell.m */,
 				B7448A0A1BD9F70800B6F3EF /* MessageCell.xib */,
+				B76C31151BDDF165002B8F2C /* ImageViewCell.h */,
+				B76C31161BDDF165002B8F2C /* ImageViewCell.m */,
+				B76C31171BDDF165002B8F2C /* ImageViewCell.xib */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -664,8 +675,21 @@
 		B72FDFBE1BD7BCFA00D553C8 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				B7448A111BDA4AAB00B6F3EF /* GrowingTextView */,
 			);
 			path = 3rdParty;
+			sourceTree = "<group>";
+		};
+		B7448A111BDA4AAB00B6F3EF /* GrowingTextView */ = {
+			isa = PBXGroup;
+			children = (
+				B7448A121BDA4AAB00B6F3EF /* HPGrowingTextView.h */,
+				B7448A131BDA4AAB00B6F3EF /* HPGrowingTextView.m */,
+				B7448A141BDA4AAB00B6F3EF /* HPTextViewInternal.h */,
+				B7448A151BDA4AAB00B6F3EF /* HPTextViewInternal.m */,
+			);
+			name = GrowingTextView;
+			path = class;
 			sourceTree = "<group>";
 		};
 		B7B5BD6E1BD0DD66008BD204 /* xmpp */ = {
@@ -1631,12 +1655,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7B5BF7B1BD0DFB5008BD204 /* main.storyboard in Resources */,
+				B76C31191BDDF165002B8F2C /* ImageViewCell.xib in Resources */,
 				B7448A101BD9FA1100B6F3EF /* orange.png in Resources */,
 				B7448A0C1BD9F70800B6F3EF /* MessageCell.xib in Resources */,
 				070400451347CB140092A737 /* defaultPerson.png in Resources */,
 				B7448A0F1BD9FA1100B6F3EF /* aqua.png in Resources */,
 				B7B5BF731BD0DD66008BD204 /* README.txt in Resources */,
-				DC19DDA1170B4138000D2178 /* Default-568h@2x.png in Resources */,
 				B7B5BF781BD0DD66008BD204 /* build-libidn.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1685,6 +1709,7 @@
 				B7B5BF571BD0DD66008BD204 /* NSXMLElement+XEP_0203.m in Sources */,
 				B7B5BEED1BD0DD66008BD204 /* XMPPDigestMD5Authentication.m in Sources */,
 				B7B5BF2B1BD0DD66008BD204 /* XMPPvCardTempAdrTypes.m in Sources */,
+				B7448A161BDA4AAB00B6F3EF /* HPGrowingTextView.m in Sources */,
 				B7B5BF021BD0DD66008BD204 /* XMPPOutgoingFileTransfer.m in Sources */,
 				B7B5BF581BD0DD66008BD204 /* XEP_0223.m in Sources */,
 				B7B5BF411BD0DD66008BD204 /* XMPPCapsCoreDataStorageObject.m in Sources */,
@@ -1711,6 +1736,7 @@
 				B7B5BF341BD0DD66008BD204 /* XMPPPubSub.m in Sources */,
 				B7B5BEF81BD0DD66008BD204 /* XMPPJID.m in Sources */,
 				B7B5BF2C1BD0DD66008BD204 /* XMPPvCardTempBase.m in Sources */,
+				B7448A171BDA4AAB00B6F3EF /* HPTextViewInternal.m in Sources */,
 				B7B5BEF21BD0DD66008BD204 /* NSData+XMPP.m in Sources */,
 				B7B5BF1A1BD0DD66008BD204 /* XMPPRoomHybrid.xcdatamodeld in Sources */,
 				B7B5BEFD1BD0DD66008BD204 /* XMPPStream.m in Sources */,
@@ -1778,6 +1804,7 @@
 				B7B5BF0B1BD0DD66008BD204 /* XMPPResourceMemoryStorageObject.m in Sources */,
 				B7B5BF4A1BD0DD66008BD204 /* XMPPvCardAvatarModule.m in Sources */,
 				B7B5BF1E1BD0DD66008BD204 /* XMPPRoomMemoryStorage.m in Sources */,
+				B76C31181BDDF165002B8F2C /* ImageViewCell.m in Sources */,
 				B7B5BEFB1BD0DD66008BD204 /* XMPPParser.m in Sources */,
 				B7B5BF721BD0DD66008BD204 /* DDMultiFormatter.m in Sources */,
 				B7B5BF1F1BD0DD66008BD204 /* XMPPRoomMessageMemoryStorageObject.m in Sources */,
