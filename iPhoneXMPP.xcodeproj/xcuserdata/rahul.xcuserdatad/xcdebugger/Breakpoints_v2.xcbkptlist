@@ -72,12 +72,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Classes/RootViewController.m"
-            timestampString = "467637918.089416"
+            timestampString = "467645090.349042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "-configurePhotoForCell:user:"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Classes/ProfileViewController.m"
+            timestampString = "467645378.258872"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "423"
+            endingLineNumber = "423"
+            landmarkName = "-uploadImage:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

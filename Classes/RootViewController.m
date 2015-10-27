@@ -189,6 +189,10 @@
 
 	[self configurePhotoForCell:cell user:user];
 	
+    NSLog(@"%@",[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES]);
+
+    
+    
 	return cell;
 }
 

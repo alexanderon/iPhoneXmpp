@@ -45,6 +45,7 @@
         self.btnEdit .layer.borderColor = [UIColor blackColor].CGColor;
         self.btnEdit .layer.borderWidth = 0.5f;
         self.btnEdit .layer.cornerRadius = 10.0f;
+        self.navigationController.navigationBarHidden=NO;
         
         
     }
@@ -144,7 +145,7 @@
         self.txtLastName.borderStyle=UITextBorderStyleNone;
         self.txtMobile.borderStyle=UITextBorderStyleNone;
         
-        
+      //  [self updateInfo];
         
         [[[UIAlertView alloc] initWithTitle:nil message:@"Profile Updated" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
         
@@ -414,10 +415,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     [vCardXML addChild:photoXML];
     
    
-    XMPPvCardTemp *myvCardTemp = [[[self appDelegate] xmppvCardTempModule] myvCardTemp];
+   // XMPPvCardTemp *myvCardTemp = [[[self appDelegate] xmppvCardTempModule] myvCardTemp];
+    
+    XMPPvCardTemp *myvCardTemp =[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES];
     
     if (myvCardTemp) {
         [myvCardTemp setPhoto:imageData1];
+    
+     //   [[self appDelegate] xmppvCardTempModule] vCardTempForJID:<#(XMPPJID *)#> shouldFetch:<#(BOOL)#>
         [[[self appDelegate] xmppvCardTempModule] updateMyvCardTemp:myvCardTemp];
     }
 }
@@ -425,6 +430,21 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 - (NSString *)encodeToBase64String:(UIImage *)image {
     return [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
 }
+
+/*-(void)updateInfo{
+    XMPPvCardTemp *myvCardTemp = [[[self appDelegate] xmppvCardTempModule] myvCardTemp];
+    
+    NSLog(@"%@",myvCardTemp);
+    if (myvCardTemp) {
+        [myvCardTemp setName:self.txtFirstName.text];
+        [myvCardTemp setFamilyName:self.txtLastName.text];
+        [myvCardTemp setEmailAddresses:@[self.txtLastName.text]];
+        [myvCardTemp setTelecomsAddresses:@[self.txtMobile.text]];
+        
+        [[[self appDelegate] xmppvCardTempModule] updateMyvCardTemp:myvCardTemp];
+    }
+
+}*/
 
 - (iPhoneXMPPAppDelegate *)appDelegate{
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
