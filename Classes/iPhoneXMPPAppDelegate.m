@@ -10,7 +10,6 @@
 #import "XMPPRosterCoreDataStorage.h"
 #import "XMPPvCardAvatarModule.h"
 #import "XMPPvCardCoreDataStorage.h"
-
 #import "DDLog.h"
 #import "DDTTYLogger.h"
 
@@ -52,6 +51,7 @@
 @synthesize xmppMessageArchivingStorage;
 @synthesize settingsViewController;
 @synthesize pendingRequests;
+@synthesize xmppIncomingFileTransfer;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -172,6 +172,11 @@
     xmppMessageArchivingStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     xmppMessageArchivingModule = [[XMPPMessageArchiving alloc] initWithMessageArchivingStorage:xmppMessageArchivingStorage];
     [xmppMessageArchivingModule setClientSideMessageArchivingOnly:YES];
+    
+    //xmpp File Transfer
+    xmppIncomingFileTransfer = [XMPPIncomingFileTransfer new];
+    xmppIncomingFileTransfer.autoAcceptFileTransfers=YES;
+
 
 	// Activate xmpp modules
 
@@ -181,6 +186,7 @@
 	[xmppvCardAvatarModule activate:xmppStream];
 	[xmppCapabilities      activate:xmppStream];
     [xmppMessageArchivingModule activate:xmppStream];
+    [xmppIncomingFileTransfer activate:xmppStream];
     
 
 	// Add ourself as a delegate to anything we may be interested in
@@ -188,6 +194,7 @@
 	[xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
 	[xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [xmppMessageArchivingModule  addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [xmppIncomingFileTransfer  addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
 	// Optional:
 	// 
@@ -225,12 +232,14 @@
 {
 	[xmppStream removeDelegate:self];
 	[xmppRoster removeDelegate:self];
+    [xmppIncomingFileTransfer removeDelegate:self];
 	
 	[xmppReconnect         deactivate];
 	[xmppRoster            deactivate];
 	[xmppvCardTempModule   deactivate];
 	[xmppvCardAvatarModule deactivate];
 	[xmppCapabilities      deactivate];
+    [xmppIncomingFileTransfer deactivate];
 	
 	[xmppStream disconnect];
 	
@@ -245,6 +254,7 @@
 	xmppCapabilitiesStorage = nil;
     xmppMessageArchivingStorage=nil;
     xmppMessageArchivingModule=nil;
+    xmppIncomingFileTransfer = nil;
 }
 
 - (void)goOnline
@@ -281,7 +291,7 @@
 	if (![xmppStream isDisconnected]) {
 		return YES;
 	}
-
+    
 	NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
 	NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
 
@@ -584,6 +594,44 @@
     
 }*/
 
+#pragma mark - XMPPIncomingFileTransferDelegate Methods
+
+- (void)xmppIncomingFileTransfer:(XMPPIncomingFileTransfer *)sender
+                didFailWithError:(NSError *)error
+{
+}
+
+/*- (void)xmppIncomingFileTransfer:(XMPPIncomingFileTransfer *)sender
+               didReceiveSIOffer:(XMPPIQ *)offer
+{
+    [sender acceptSIOffer:offer];
+}*/
+
+- (void)xmppIncomingFileTransfer:(XMPPIncomingFileTransfer *)sender
+              didSucceedWithData:(NSData *)data
+                           named:(NSString *)name
+{
+  
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask,
+                                                         YES);
+    NSString *fullPath = [[paths lastObject] stringByAppendingPathComponent:name];
+    [data writeToFile:fullPath options:0 error:nil];
+    
+}
+
+
+#pragma mark - TURN Socket Delegate
+
+-(void)turnSocket:(TURNSocket *)sender didSucceed:(GCDAsyncSocket *)socket{
+    NSLog(@"Socket Failed");
+    
+}
+
+-(void)turnSocketDidFail:(TURNSocket *)sender{
+    NSLog(@"%@",sender);	
+}
 @end
 
 /**

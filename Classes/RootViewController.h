@@ -10,5 +10,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (IBAction)settings:(id)sender;
+@property (strong, nonatomic) IBOutlet UIView *backgroundView;
 
 @end

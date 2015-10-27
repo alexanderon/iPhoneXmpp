@@ -7,14 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "XMPP.h"
 #import "TURNSocket.h"
 #import "RootViewController.h"
 #import "MessageCell.h"
+#import "XMPPOutgoingFileTransfer.h"
+#import "XMPPIncomingFileTransfer.h"
+#import "iPhoneXMPPAppDelegate.h"
+#import "NSString+Utils.h"
+#import "XMPPMessageArchivingCoreDataStorage.h"
+#import "XMPPMessageArchiving.h"
+#import "ImageViewCell.h"
 
 
 
-@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate>
+@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,XMPPOutgoingFileTransferDelegate,XMPPIncomingFileTransferDelegate>
 {
     NSFetchedResultsController *fetchedResultsController;
     NSMutableArray *turnSockets;
@@ -24,12 +32,12 @@
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *chatWindow;
-
-
-
+@property (strong,nonatomic) NSString * resource;
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
-@property (weak ,nonatomic) NSString *chatWithUser;
-@property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIImageView *imgUser;
+@property (weak, nonatomic) IBOutlet UILabel *lblUserName;
+@property (weak,nonatomic) XMPPUserCoreDataStorageObject *user;
+
 - (id) initWithUser:(NSString *) userName ;
 - (IBAction)btnChooseImageClick:(id)sender;
 

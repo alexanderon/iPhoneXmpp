@@ -17,6 +17,7 @@
 @implementation RootViewController
 
 #pragma mark Accessors
+
 - (iPhoneXMPPAppDelegate *)appDelegate
 {
 	return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -121,8 +122,8 @@
 	else
 	{
 		NSData *photoData = [[[self appDelegate] xmppvCardAvatarModule] photoDataForJID:user.jid];
-
-		if (photoData != nil)
+      
+       		if (photoData != nil)
 			cell.imageView.image = [UIImage imageWithData:photoData];
 		else
 			cell.imageView.image = [UIImage imageNamed:@"defaultPerson"];
@@ -185,6 +186,7 @@
 	XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
 	
 	cell.textLabel.text = user.displayName;
+
 	[self configurePhotoForCell:cell user:user];
 	
 	return cell;
@@ -196,7 +198,10 @@
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
     
     ChatViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"] ;
-    vc.chatWithUser =user.jidStr;
+    vc.resource=[[[user primaryResource]jid]resource];
+    vc.user=user;
+    
+    
     [self.navigationController pushViewController:vc animated:YES] ;
 }
 

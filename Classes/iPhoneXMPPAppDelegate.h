@@ -3,9 +3,10 @@
 #import "XMPPFramework.h"
 #import "SettingsViewController.h"
 #import "XMPPMessageArchivingCoreDataStorage.h"
+#import "XMPPIncomingFileTransfer.h"
 
 
-@interface iPhoneXMPPAppDelegate : UIResponder <UIApplicationDelegate>
+@interface iPhoneXMPPAppDelegate : UIResponder <UIApplicationDelegate,XMPPIncomingFileTransferDelegate,TURNSocketDelegate>
 {
 	XMPPStream *xmppStream;
 	XMPPReconnect *xmppReconnect;
@@ -18,7 +19,7 @@
 	XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
     XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingStorage;
     XMPPMessageArchiving *xmppMessageArchivingModule;
-
+    XMPPIncomingFileTransfer *xmppIncomingFileTransfer;
 	
 	NSString *password;
 	
@@ -40,6 +41,8 @@
 @property (nonatomic, strong, readonly) XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
 @property (nonatomic, strong, readonly) XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingStorage;
 @property (nonatomic, strong, readonly) XMPPMessageArchiving *xmppMessageArchivingModule;
+@property (nonatomic, strong, readonly)  XMPPIncomingFileTransfer *xmppIncomingFileTransfer;
+
 
 
 @property (nonatomic, strong) SettingsViewController *settingsViewController;
