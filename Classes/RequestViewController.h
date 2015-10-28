@@ -14,15 +14,6 @@
 
 
 @interface RequestViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,XMPPRosterDelegate,XMPPStreamDelegate,NSFetchedResultsControllerDelegate>
-//
-//{
-//    XMPPRoster *xmppRoster;
-//    XMPPRosterCoreDataStorage *xmppRosterStorage;
-//    
-//}
-{
-    NSFetchedResultsController *fetchedResultsController;
-}
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

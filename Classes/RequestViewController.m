@@ -25,44 +25,6 @@
     return [[self appDelegate] xmppStream];
 }
 
-#pragma mark NSFetchedResultsController
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    if (fetchedResultsController == nil)
-    {
-        NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_roster];
-        
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
-                                                  inManagedObjectContext:moc];
-        
-        NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
-        NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
-        
-        NSArray *sortDescriptors = @[sd1, sd2];
-        
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        [fetchRequest setEntity:entity];
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        [fetchRequest setFetchBatchSize:10];
-        
-        fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                       managedObjectContext:moc
-                                                                         sectionNameKeyPath:@"sectionNum"
-                                                                                  cacheName:nil];
-        [fetchedResultsController setDelegate:self];
-        
-        
-        NSError *error = nil;
-        if (![fetchedResultsController performFetch:&error])
-        {
-//DDLogError(@"Error performing fetch: %@", error);
-        }
-        
-    }
-    
-    return fetchedResultsController;
-}
 
 
 #pragma mark -view load methods
@@ -74,8 +36,14 @@
     
     [[self appDelegate].xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [[self appDelegate].xmppStream  addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
+   
       pendingRequests =[[NSMutableArray alloc]initWithArray:[[self appDelegate].pendingRequests allObjects]];
+    [self FetchFriends];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -155,7 +123,21 @@
 
 -(BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq{
     
+    NSXMLElement *queryElement = [iq elementForName: @"query" xmlns: @"jabber:iq:roster"];
+    if (queryElement)
+    {
+        NSArray *itemElements = [queryElement elementsForName: @"item"];
+        for (int i=0; i<[itemElements count]; i++)
+        {
+            NSLog(@"Friend: %@",[[itemElements[i] attributeForName:@"jid"]stringValue]);
+            if ([[[itemElements[i] attributeForName:@"subscription"]stringValue] isEqualToString:@"from"]) {
+                NSLog(@"Request From: %@",itemElements[i]);
+            }
+           }
+    }
     return NO;
+
+   
 }
 
 #pragma mark - Request Actions
@@ -169,4 +151,22 @@
 - (IBAction)btnRejectClick:(id)sender {
         [[self appDelegate].xmppRoster rejectPresenceSubscriptionRequestFrom:[pendingRequests objectAtIndex:[self.tableView indexPathForSelectedRow].row]];
 }
+
+- (void)FetchFriends
+{
+    NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
+    
+    NSError *error = [[NSError alloc] init];
+    NSXMLElement *query = [[NSXMLElement alloc] initWithXMLString:@"<query xmlns='jabber:iq:roster'/>"error:&error];
+    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+    [iq addAttributeWithName:@"type" stringValue:@"get"];
+    [iq addAttributeWithName:@"id" stringValue:myJID];
+    [iq addAttributeWithName:@"from" stringValue:myJID];
+    [iq addChild:query];
+    [[self xmppStream] sendElement:iq];
+}
+
+
+
+
 @end

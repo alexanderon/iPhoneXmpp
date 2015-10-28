@@ -41,7 +41,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblUserName;
 @property (weak,nonatomic) XMPPUserCoreDataStorageObject *user;
 
-- (id) initWithUser:(NSString *) userName ;
+
 - (IBAction)btnChooseImageClick:(id)sender;
 
 @end

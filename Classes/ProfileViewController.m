@@ -431,12 +431,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 }
 
 -(void)updateInfo{
+    
     XMPPvCardTemp *myvCardTemp =[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES];
+    
+
     
     NSLog(@"%@",myvCardTemp);
     if (myvCardTemp) {
         [myvCardTemp setName:self.txtFirstName.text];
-        [myvCardTemp setFamilyName:self.txtLastName.text];
         [myvCardTemp setEmailAddresses:@[self.txtLastName.text]];
         [myvCardTemp setTelecomsAddresses:@[self.txtMobile.text]];
         

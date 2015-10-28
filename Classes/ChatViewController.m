@@ -224,7 +224,7 @@
             cell.imgRight.image=image;
         }
         
-          NSLog(@"%f",cell.contentView.frame.size.height);
+        //  NSLog(@"%f",cell.contentView.frame.size.height);
         return cell;
         
     }
@@ -241,21 +241,21 @@
     NSDictionary * currentTweet = [sentMessages objectAtIndex: indexPath.row];
     
     
- //   NSDictionary *s = (NSDictionary *) [sentMessages objectAtIndex:indexPath.row];
-//    NSString *sender = [s objectForKey:@"sender"];
-//    NSString *message = [s objectForKey:@"msg"];
-//    NSString *time = [s objectForKey:@"time"];
-//    UIImage *image =[s objectForKey:@"image"];
-//    static NSString *CellIdentifier =@"";
-
-    
-    
     NSString * tweetTextString = [currentTweet objectForKey: @"msg"];
     
-    CGSize textSize = [tweetTextString sizeWithFont:[UIFont systemFontOfSize:15.0f] constrainedToSize:CGSizeMake(240, 20000) lineBreakMode: UILineBreakModeWordWrap]; //Assuming your width is 240
+ //   CGSize textSize = [tweetTextString sizeWithFont:[UIFont systemFontOfSize:15.0f] constrainedToSize:CGSizeMake(240, 20000) lineBreakMode: UILineBreakModeWordWrap]; //Assuming your width is 240
     
-    float heightToAdd = MIN(textSize.height, 100.0f); //Some fix height is returned if height is small or change it to MAX(textSize.height, 150.0f); // whatever best fits for you
+   // available only on ios7.0 sdk.
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:15]};
+
+    CGRect rect = [tweetTextString boundingRectWithSize:CGSizeMake(240, CGFLOAT_MAX)
+                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes:attributes
+                                              context:nil];
     
+    
+//    float heightToAdd = MIN(textSize.height, 100.0f); //Some fix height is returned if height is small or change it to MAX(textSize.height, 150.0f); // whatever best fits for you
+    float heightToAdd = MIN(rect.size.height, 100.0f);
     return heightToAdd+30.0f;
 }
 
@@ -285,49 +285,8 @@
 
 - (IBAction)sendMessage {
     
-    /*NSString *messageStr = self.chatWindow.text;
-    
-    if([messageStr length] > 0) {
-        
-        NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
-        [body setStringValue:messageStr];
-        
-        NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
-        [message addAttributeWithName:@"type" stringValue:@"chat"];
-        [message addAttributeWithName:@"to" stringValue:self.chatWithUser];
-        [message addChild:body];
-        
-        if (self.image) {
-            NSData *dataPic =UIImagePNGRepresentation(self.image);
-            NSXMLElement *photo =[NSXMLElement elementWithName:@"image"];
-            //     NSXMLElement *binval =[NSXMLElement elementWithName:@"BINVAL"];
-            NSString *base64String =[dataPic base64EncodedStringWithOptions:0];
-            [photo setStringValue:base64String];
-            //        [photo addChild:binval];
-            [message addChild:photo];
-        }
-       
-        
-        [[self  xmppStream] sendElement:message];
-        
-        self.chatWindow.text = @"";
-        
-        NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
-        [m setObject:[messageStr substituteEmoticons] forKey:@"msg"];
-        [m setObject:@"you" forKey:@"sender"];
-        [m setObject:[NSString getCurrentTime] forKey:@"time"];
-        [m setObject:self.image forKey:@"image"];
-        [sentMessages addObject:m];
-        
-        [self reloadTable];
-        self.image=nil;
-    }*/
-    
-  //  NSString *messageStr = self.chatWindow.text;
     NSString *messageStr = chatFeild.text;
     
-   // UIImage *imagePic = [UIImage imageNamed:@"logo.png"];
- //   self.image=[UIImage imageNamed:@"defaultPerson.png"];
     
     if([messageStr length] > 0 || [self.image isKindOfClass:[UIImage class]] )
         
@@ -370,7 +329,7 @@
         [[self appDelegate].xmppStream sendElement:message];
         
         self.chatWindow.text = @"";
-        //chatFeild.internalTextView.text=@"";
+     
         chatFeild.text=@"";
         [m setObject:[messageStr substituteEmoticons] forKey:@"msg"];
         [m setObject:@"you" forKey:@"sender"];
@@ -489,7 +448,7 @@
             [m setObject:user.jidStr forKey:@"sender"];
         }
         
-      //  NSLog(@"%@",[element elementForName:@"image"] );
+      //  n(@"%@",[element elementForName:@"image"] );
         
         NSDate *date = message.timestamp;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -576,10 +535,10 @@
                      description:@"Baal's Soulstone, obviously."
                            error:&err]) {
       _inputRecipient.text;*/
-    NSLog(@"%@",self.resource);
+  //  NSLog(@"%@",self.resource);
     
     NSString *fullPath =[[NSBundle mainBundle]pathForResource:@"aqua" ofType:@"png"];
-    NSLog(@"%@",fullPath);
+//NSLog(@"%@",fullPath);
     NSData *data =[NSData dataWithContentsOfFile:fullPath];
     NSError *error;
     if (![_fileTransfer sendData:data
@@ -639,9 +598,6 @@
 }
 
 
--(void)xmppIncomingFileTransfer:(XMPPIncomingFileTransfer *)sender didReceiveSIOffer:(XMPPIQ *)offer{
-    NSLog(@"received offer.");
-}
 
 
 #pragma mark - Back Button Click
