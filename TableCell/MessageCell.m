@@ -16,7 +16,7 @@
     [self.lblMessageRight setLineBreakMode:NSLineBreakByWordWrapping];
     [self.lblMessageLeft setNumberOfLines:0];
     [self.lblMessageLeft setLineBreakMode:NSLineBreakByWordWrapping];
-}
+    }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

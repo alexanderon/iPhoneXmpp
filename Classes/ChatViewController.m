@@ -57,10 +57,35 @@
     [turnSocket startWithDelegate:self delegateQueue:dispatch_get_main_queue()];
     
     [[self xmppMessageArchivingModule] activate:[self xmppStream]];
-    
-   
+
     [self loadarchivemsg];
   
+    
+    chatFeild =[[HPGrowingTextView alloc]initWithFrame:[self.contentView frame]];
+    [chatFeild setTintColor:[UIColor blueColor]];
+    
+    chatFeild.minNumberOfLines=1;
+    chatFeild.maxNumberOfLines=4;
+    
+    chatFeild.font = [UIFont systemFontOfSize:15.0f];
+    chatFeild.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
+    chatFeild.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    chatFeild.animateHeightChange=YES;
+    [chatFeild.internalTextView becomeFirstResponder];
+  
+    //To make the border look very close to a UITextField
+    [chatFeild.internalTextView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [chatFeild.internalTextView.layer setBorderWidth:2.0];
+    
+    //The rounded corner part, where you specify your view's corner radius:
+    chatFeild.internalTextView.layer.cornerRadius = 5;
+    chatFeild.internalTextView.clipsToBounds = YES;
+
+    
+    [self.contentView addSubview:chatFeild];
+    
+    chatFeild.delegate=self;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -167,7 +192,8 @@
             UIImage *bubble = [[UIImage imageNamed:@"aqua.png"] stretchableImageWithLeftCapWidth:24 topCapHeight:15];
             cell.ivRight.image = bubble;
         }
-        return cell;
+        
+             return cell;
         
     }else{
         
@@ -200,6 +226,12 @@
     
     
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return UITableViewAutomaticDimension;
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
     
@@ -262,7 +294,8 @@
         self.image=nil;
     }*/
     
-    NSString *messageStr = self.chatWindow.text;
+  //  NSString *messageStr = self.chatWindow.text;
+    NSString *messageStr = chatFeild.text;
     
    // UIImage *imagePic = [UIImage imageNamed:@"logo.png"];
  //   self.image=[UIImage imageNamed:@"defaultPerson.png"];
@@ -308,6 +341,8 @@
         [[self appDelegate].xmppStream sendElement:message];
         
         self.chatWindow.text = @"";
+        //chatFeild.internalTextView.text=@"";
+        chatFeild.text=@"";
         [m setObject:[messageStr substituteEmoticons] forKey:@"msg"];
         [m setObject:@"you" forKey:@"sender"];
         [m setObject:[NSString getCurrentTime] forKey:@"time"];
@@ -597,4 +632,17 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+
+
+# pragma mark Textview delegeate functions
+
+-(void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height{
+    
+    float diff = (growingTextView.frame.size.height - height);
+    CGRect r = self.contentView.frame;
+    r.size.height -= diff;
+    r.origin.y += diff;
+    self.contentView.frame = r;
+    
+}
 @end

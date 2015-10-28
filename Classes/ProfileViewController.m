@@ -15,10 +15,9 @@
     UITextField *myTextField;
     
 }
+
 @property (copy, nonatomic) NSString *lastChosenMediaType;
 @property (strong, nonatomic) UIImage *image;
-
-
 
 @end
 
@@ -145,7 +144,7 @@
         self.txtLastName.borderStyle=UITextBorderStyleNone;
         self.txtMobile.borderStyle=UITextBorderStyleNone;
         
-      //  [self updateInfo];
+        [self updateInfo];
         
         [[[UIAlertView alloc] initWithTitle:nil message:@"Profile Updated" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil] show];
         
@@ -431,8 +430,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     return [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
 }
 
-/*-(void)updateInfo{
-    XMPPvCardTemp *myvCardTemp = [[[self appDelegate] xmppvCardTempModule] myvCardTemp];
+-(void)updateInfo{
+    XMPPvCardTemp *myvCardTemp =[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES];
     
     NSLog(@"%@",myvCardTemp);
     if (myvCardTemp) {
@@ -444,7 +443,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         [[[self appDelegate] xmppvCardTempModule] updateMyvCardTemp:myvCardTemp];
     }
 
-}*/
+}
 
 - (iPhoneXMPPAppDelegate *)appDelegate{
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];

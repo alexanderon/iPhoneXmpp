@@ -191,8 +191,6 @@
 	
     NSLog(@"%@",[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES]);
 
-    
-    
 	return cell;
 }
 
@@ -208,7 +206,6 @@
     
     [self.navigationController pushViewController:vc animated:YES] ;
 }
-
 
 
 #pragma mark Actions

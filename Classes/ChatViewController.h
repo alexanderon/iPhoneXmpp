@@ -19,19 +19,22 @@
 #import "XMPPMessageArchivingCoreDataStorage.h"
 #import "XMPPMessageArchiving.h"
 #import "ImageViewCell.h"
+#import "HPGrowingTextView.h"
 
 
 
-@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,XMPPOutgoingFileTransferDelegate,XMPPIncomingFileTransferDelegate>
+@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,XMPPOutgoingFileTransferDelegate,XMPPIncomingFileTransferDelegate,HPGrowingTextViewDelegate>
 {
     NSFetchedResultsController *fetchedResultsController;
     NSMutableArray *turnSockets;
     NSMutableArray *sentMessages;
     NSMutableArray* _messagelist;
+    HPGrowingTextView * chatFeild;
     
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *chatWindow;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (strong,nonatomic) NSString * resource;
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet UIImageView *imgUser;
