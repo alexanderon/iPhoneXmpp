@@ -94,6 +94,9 @@
    
     [self setUpImage];
     [self setUserName];
+    self.tableview.estimatedRowHeight = 70.0; // for example. Set your average height
+    self.tableview.rowHeight = UITableViewAutomaticDimension;
+    [self.tableview reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -193,7 +196,9 @@
             cell.ivRight.image = bubble;
         }
         
+
              return cell;
+   
         
     }else{
         
@@ -218,6 +223,8 @@
             cell.leftView.hidden=YES;
             cell.imgRight.image=image;
         }
+        
+          NSLog(@"%f",cell.contentView.frame.size.height);
         return cell;
         
     }
@@ -227,9 +234,29 @@
     
 }
 
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    NSDictionary * currentTweet = [sentMessages objectAtIndex: indexPath.row];
     
-    return UITableViewAutomaticDimension;
+    
+ //   NSDictionary *s = (NSDictionary *) [sentMessages objectAtIndex:indexPath.row];
+//    NSString *sender = [s objectForKey:@"sender"];
+//    NSString *message = [s objectForKey:@"msg"];
+//    NSString *time = [s objectForKey:@"time"];
+//    UIImage *image =[s objectForKey:@"image"];
+//    static NSString *CellIdentifier =@"";
+
+    
+    
+    NSString * tweetTextString = [currentTweet objectForKey: @"msg"];
+    
+    CGSize textSize = [tweetTextString sizeWithFont:[UIFont systemFontOfSize:15.0f] constrainedToSize:CGSizeMake(240, 20000) lineBreakMode: UILineBreakModeWordWrap]; //Assuming your width is 240
+    
+    float heightToAdd = MIN(textSize.height, 100.0f); //Some fix height is returned if height is small or change it to MAX(textSize.height, 150.0f); // whatever best fits for you
+    
+    return heightToAdd+30.0f;
 }
 
 
@@ -248,6 +275,8 @@
     return 1;
     
 }
+
+
 
 
 #pragma mark -
