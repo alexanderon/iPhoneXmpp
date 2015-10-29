@@ -18,10 +18,12 @@
 @implementation RequestViewController
 
 - (iPhoneXMPPAppDelegate *)appDelegate{
+    
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 - (XMPPStream *)xmppStream {
+    
     return [[self appDelegate] xmppStream];
 }
 
@@ -36,13 +38,14 @@
     
     [[self appDelegate].xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [[self appDelegate].xmppStream  addDelegate:self delegateQueue:dispatch_get_main_queue()];
-   
-      pendingRequests =[[NSMutableArray alloc]initWithArray:[[self appDelegate].pendingRequests allObjects]];
+    
+   // pendingRequests =[[NSMutableArray alloc]initWithArray:[[self appDelegate].pendingRequests allObjects]];
+    pendingRequests=[[NSMutableArray alloc]init];
     [self FetchFriends];
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
 }
 
@@ -50,8 +53,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 #pragma mark Table view delegates
 
@@ -61,11 +62,11 @@
     
     static NSString *CellIdentifier = @"RequestCell";
     RequestTableViewCell *cell  =(RequestTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  
+    
     if ([pendingRequests count]) {
         cell.lblRequestFromUser.text =[NSString stringWithFormat:@"%@",[pendingRequests objectAtIndex:indexPath.row]];
     }else{
-    cell.lblRequestFromUser.text=@"No Pending Requests";
+        cell.lblRequestFromUser.text=@"No Pending Requests";
     }
     
     return cell;
@@ -90,9 +91,9 @@
 
 #pragma mark XMPPRosterDelegate
 
--(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+- (void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
     
-    NSLog(@"request from:%@",[presence fromStr]);
+  /*  NSLog(@"request from:%@",[presence fromStr]);
     
     NSMutableDictionary *dictUser = [[NSMutableDictionary alloc]init];
     [dictUser  setValue:[presence fromStr] forKey:@"fromStr"];
@@ -101,27 +102,26 @@
         pendingRequests =[[NSMutableArray alloc]initWithArray:[[self appDelegate].pendingRequests allObjects]];
     }
     [pendingRequests addObject:dictUser];
-    [self.tableView reloadData];
+    [self.tableView reloadData];*/
 }
 
 #pragma mark  - XMPPSTREAM Delegate
 
 
-- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
-{
+- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence{
     
-    if ([presence.type isEqualToString:@"subscribe"]) {
-        if (!pendingRequests) {
-            pendingRequests =[[NSMutableSet alloc]init];
-        }
-        [pendingRequests addObject:presence.from];
-    }
- 
+    /*if ([presence.type isEqualToString:@"subscribe"]) {
+     if (!pendingRequests) {
+     pendingRequests =[[NSMutableSet alloc]init];
+     }
+     [pendingRequests addObject:presence.from];
+     }*/
+    
     
 }
 
 
--(BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq{
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq{
     
     NSXMLElement *queryElement = [iq elementForName: @"query" xmlns: @"jabber:iq:roster"];
     if (queryElement)
@@ -132,12 +132,19 @@
             NSLog(@"Friend: %@",[[itemElements[i] attributeForName:@"jid"]stringValue]);
             if ([[[itemElements[i] attributeForName:@"subscription"]stringValue] isEqualToString:@"from"]) {
                 NSLog(@"Request From: %@",itemElements[i]);
+            
+                if (!pendingRequests) {
+                    pendingRequests=[[NSMutableArray alloc]init];
+                }
+                [pendingRequests addObject:[itemElements[i] attributeForName:@"jid"]];
+                
+                
             }
-           }
+        }
     }
     return NO;
-
-   
+    
+    
 }
 
 #pragma mark - Request Actions
@@ -149,11 +156,10 @@
 }
 
 - (IBAction)btnRejectClick:(id)sender {
-        [[self appDelegate].xmppRoster rejectPresenceSubscriptionRequestFrom:[pendingRequests objectAtIndex:[self.tableView indexPathForSelectedRow].row]];
+    [[self appDelegate].xmppRoster rejectPresenceSubscriptionRequestFrom:[pendingRequests objectAtIndex:[self.tableView indexPathForSelectedRow].row]];
 }
 
-- (void)FetchFriends
-{
+- (void)FetchFriends{
     NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
     
     NSError *error = [[NSError alloc] init];

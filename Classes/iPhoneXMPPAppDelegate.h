@@ -46,7 +46,7 @@
 
 
 @property (nonatomic, strong) SettingsViewController *settingsViewController;
-@property (nonatomic, strong)  NSMutableSet *pendingRequests;
+//@property (nonatomic, strong)  NSMutableSet *pendingRequests;
 
 
 - (NSManagedObjectContext *)managedObjectContext_roster;

@@ -315,13 +315,13 @@
             
             NSXMLElement *photo = [NSXMLElement elementWithName:@"image"];
             
-            //  NSXMLElement *binval = [NSXMLElement elementWithName:@"BINVAL"];
+            NSXMLElement *binval = [NSXMLElement elementWithName:@"BINVAL"];
             
-            //[photo addChild:photo];
+            [photo addChild:binval];
             
             NSString *base64String = [dataPic base64EncodedStringWithOptions:0];
             
-            [photo setStringValue:base64String];
+            [binval setStringValue:base64String];
             
             [message addChild:photo];
         }

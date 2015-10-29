@@ -183,6 +183,10 @@
 		B7E8B2151BD5F2AF003D0A44 /* SendRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B7EA82271BDF8615005B50FA /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EA82261BDF8615005B50FA /* ProfileViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B7EA82291BDF8C27005B50FA /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7EA82281BDF8C27005B50FA /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
+		B7F4816F1BE21F4F000ADD48 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F4816E1BE21F4F000ADD48 /* GroupViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B7F481721BE22A69000ADD48 /* ContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F481711BE22A69000ADD48 /* ContactListViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B7F481761BE23013000ADD48 /* TLTagsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F481751BE23013000ADD48 /* TLTagsControl.m */; settings = {ASSET_TAGS = (); }; };
+		B7F481791BE24A0F000ADD48 /* FetcheResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F481781BE24A0F000ADD48 /* FetcheResultViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DC1F97E81152CA4E00138A8F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F97E71152CA4E00138A8F /* CFNetwork.framework */; };
 		DC1F98371152CBC200138A8F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F98361152CBC200138A8F /* SystemConfiguration.framework */; };
 		DC1F985D1152CC2B00138A8F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC1F985C1152CC2B00138A8F /* CoreData.framework */; };
@@ -531,13 +535,21 @@
 		B7E3AA641BD4EFBE00313328 /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
 		B7E3AA661BD5094900313328 /* RequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestViewController.h; sourceTree = "<group>"; };
 		B7E3AA671BD5094900313328 /* RequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestViewController.m; sourceTree = "<group>"; };
-		B7E3AA6E1BD50E5700313328 /* RequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestTableViewCell.h; sourceTree = "<group>"; };
-		B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestTableViewCell.m; sourceTree = "<group>"; };
+		B7E3AA6E1BD50E5700313328 /* RequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RequestTableViewCell.h; path = ../Classes/RequestTableViewCell.h; sourceTree = "<group>"; };
+		B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RequestTableViewCell.m; path = ../Classes/RequestTableViewCell.m; sourceTree = "<group>"; };
 		B7E8B2131BD5F2AF003D0A44 /* SendRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRequestViewController.h; sourceTree = "<group>"; };
 		B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRequestViewController.m; sourceTree = "<group>"; };
 		B7EA82251BDF8615005B50FA /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		B7EA82261BDF8615005B50FA /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		B7EA82281BDF8C27005B50FA /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		B7F4816D1BE21F4F000ADD48 /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		B7F4816E1BE21F4F000ADD48 /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		B7F481701BE22A69000ADD48 /* ContactListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListViewController.h; sourceTree = "<group>"; };
+		B7F481711BE22A69000ADD48 /* ContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactListViewController.m; sourceTree = "<group>"; };
+		B7F481741BE23013000ADD48 /* TLTagsControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLTagsControl.h; sourceTree = "<group>"; };
+		B7F481751BE23013000ADD48 /* TLTagsControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLTagsControl.m; sourceTree = "<group>"; };
+		B7F481771BE24A0F000ADD48 /* FetcheResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetcheResultViewController.h; sourceTree = "<group>"; };
+		B7F481781BE24A0F000ADD48 /* FetcheResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetcheResultViewController.m; sourceTree = "<group>"; };
 		DC1F97E71152CA4E00138A8F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		DC1F98361152CBC200138A8F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DC1F985C1152CC2B00138A8F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -584,12 +596,16 @@
 				B7E3AA641BD4EFBE00313328 /* NSString+Utils.m */,
 				B7E3AA661BD5094900313328 /* RequestViewController.h */,
 				B7E3AA671BD5094900313328 /* RequestViewController.m */,
-				B7E3AA6E1BD50E5700313328 /* RequestTableViewCell.h */,
-				B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */,
 				B7E8B2131BD5F2AF003D0A44 /* SendRequestViewController.h */,
 				B7E8B2141BD5F2AF003D0A44 /* SendRequestViewController.m */,
 				B7EA82251BDF8615005B50FA /* ProfileViewController.h */,
 				B7EA82261BDF8615005B50FA /* ProfileViewController.m */,
+				B7F4816D1BE21F4F000ADD48 /* GroupViewController.h */,
+				B7F4816E1BE21F4F000ADD48 /* GroupViewController.m */,
+				B7F481701BE22A69000ADD48 /* ContactListViewController.h */,
+				B7F481711BE22A69000ADD48 /* ContactListViewController.m */,
+				B7F481771BE24A0F000ADD48 /* FetcheResultViewController.h */,
+				B7F481781BE24A0F000ADD48 /* FetcheResultViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -662,6 +678,8 @@
 		B72FDFAD1BD7B7D700D553C8 /* TableCell */ = {
 			isa = PBXGroup;
 			children = (
+				B7E3AA6E1BD50E5700313328 /* RequestTableViewCell.h */,
+				B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */,
 				B72FDFAE1BD7B86800D553C8 /* MLChatCell.h */,
 				B72FDFAF1BD7B86800D553C8 /* MLChatCell.m */,
 				B7448A081BD9F70800B6F3EF /* MessageCell.h */,
@@ -686,6 +704,7 @@
 		B72FDFBE1BD7BCFA00D553C8 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				B7F481731BE23013000ADD48 /* TLTagsContol */,
 				B7448A111BDA4AAB00B6F3EF /* GrowingTextView */,
 			);
 			path = 3rdParty;
@@ -1618,6 +1637,15 @@
 			path = libidn;
 			sourceTree = "<group>";
 		};
+		B7F481731BE23013000ADD48 /* TLTagsContol */ = {
+			isa = PBXGroup;
+			children = (
+				B7F481741BE23013000ADD48 /* TLTagsControl.h */,
+				B7F481751BE23013000ADD48 /* TLTagsControl.m */,
+			);
+			path = TLTagsContol;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1715,6 +1743,7 @@
 				B7B5BF5C1BD0DD66008BD204 /* XMPPMessageCarbons.m in Sources */,
 				B7B5BF0C1BD0DD66008BD204 /* XMPPRosterMemoryStorage.m in Sources */,
 				B7B5BF3E1BD0DD66008BD204 /* NSString+XEP_0106.m in Sources */,
+				B7F481721BE22A69000ADD48 /* ContactListViewController.m in Sources */,
 				B7B5BF511BD0DD66008BD204 /* XMPPStreamManagementStanzas.m in Sources */,
 				B7B5BEF41BD0DD66008BD204 /* NSXMLElement+XMPP.m in Sources */,
 				B7B5BF221BD0DD66008BD204 /* XMPPMUC.m in Sources */,
@@ -1782,6 +1811,7 @@
 				B7B5BF211BD0DD66008BD204 /* XMPPMessage+XEP0045.m in Sources */,
 				B7B5BF6A1BD0DD66008BD204 /* GCDAsyncUdpSocket.m in Sources */,
 				B7B5BF101BD0DD66008BD204 /* XMPPIQ+JabberRPC.m in Sources */,
+				B7F481761BE23013000ADD48 /* TLTagsControl.m in Sources */,
 				B7B5BF001BD0DD66008BD204 /* XMPPFileTransfer.m in Sources */,
 				B7B5BF631BD0DD66008BD204 /* GCDMulticastDelegate.m in Sources */,
 				B7B5BF1C1BD0DD66008BD204 /* XMPPRoomMessageHybridCoreDataStorageObject.m in Sources */,
@@ -1801,6 +1831,7 @@
 				B7B5BF651BD0DD66008BD204 /* XMPPIDTracker.m in Sources */,
 				B7448A0B1BD9F70800B6F3EF /* MessageCell.m in Sources */,
 				B7B5BF3D1BD0DD66008BD204 /* XMPPTransports.m in Sources */,
+				B7F4816F1BE21F4F000ADD48 /* GroupViewController.m in Sources */,
 				B7B5BF761BD0DD66008BD204 /* DDXMLElement.m in Sources */,
 				B7B5BEEF1BD0DD66008BD204 /* XMPPSCRAMSHA1Authentication.m in Sources */,
 				B72FDFBD1BD7BAAB00D553C8 /* MLImageManager.m in Sources */,
@@ -1837,6 +1868,7 @@
 				B7B5BF371BD0DD66008BD204 /* XMPPMessage+XEP_0066.m in Sources */,
 				B7B5BF0F1BD0DD66008BD204 /* XMPPSystemInputActivityMonitor.m in Sources */,
 				B7B5BF3F1BD0DD66008BD204 /* XMPPCapabilities.xcdatamodel in Sources */,
+				B7F481791BE24A0F000ADD48 /* FetcheResultViewController.m in Sources */,
 				B7B5BF591BD0DD66008BD204 /* XMPPAttentionModule.m in Sources */,
 				B7B5BF6D1BD0DD66008BD204 /* DDFileLogger.m in Sources */,
 				B7B5BF5D1BD0DD66008BD204 /* NSXMLElement+XEP_0297.m in Sources */,

@@ -123,12 +123,6 @@
     return errorMessage;
 }
 
-
-
-
-
-
-
 - (IBAction)btnSaveClick:(id)sender {
     [self.txtFirstName becomeFirstResponder];
     

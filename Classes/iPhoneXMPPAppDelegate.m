@@ -50,7 +50,7 @@
 @synthesize xmppMessageArchivingModule;
 @synthesize xmppMessageArchivingStorage;
 @synthesize settingsViewController;
-@synthesize pendingRequests;
+//@synthesize pendingRequests;
 @synthesize xmppIncomingFileTransfer;
 
 
@@ -515,14 +515,14 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
-
+/*
     if ([presence.type isEqualToString:@"subscribe"]) {
         if (!pendingRequests) {
             pendingRequests =[[NSMutableSet alloc]init];
         }
         [pendingRequests addObject:presence.from];
     }
-//   NSString *presenceFromStr =[presence fromStr];
+//   NSString *presenceFromStr =[presence fromStr];*/
  
     
     DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
@@ -551,9 +551,13 @@
 
 
 
-/*-(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
+-(void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence{
     
-    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+    [sender acceptPresenceSubscriptionRequestFrom:[presence from] andAddToRoster:YES];
+    
+    NSLog(@"%@",presence);
+    
+ /*   DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
     XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[presence from]
                                                              xmppStream:xmppStream
@@ -590,9 +594,9 @@
         localNotification.alertBody = body;
         
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-    }
+    }*/
     
-}*/
+}
 
 #pragma mark - XMPPIncomingFileTransferDelegate Methods
 

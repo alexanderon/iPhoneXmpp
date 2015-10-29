@@ -31,6 +31,7 @@
 
 #pragma mark - Actions
 - (IBAction)btnRequestClick:(id)sender {
+    
     nameOfRequestedUser =self.txtNameofUser.text;
     JIDofRequestedUser=self.txtJIDofUser.text;
     
