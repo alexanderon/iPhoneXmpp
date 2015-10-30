@@ -3,6 +3,7 @@
 #import "XMPPFramework.h"
 #import "SettingsViewController.h"
 #import "XMPPMessageArchivingCoreDataStorage.h"
+#import "XMPPRoomCoreDataStorage.h"
 #import "XMPPIncomingFileTransfer.h"
 
 
@@ -20,6 +21,7 @@
     XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingStorage;
     XMPPMessageArchiving *xmppMessageArchivingModule;
     XMPPIncomingFileTransfer *xmppIncomingFileTransfer;
+    XMPPRoomCoreDataStorage *xmppRoomStorage;
 	
 	NSString *password;
 	
@@ -52,6 +54,7 @@
 - (NSManagedObjectContext *)managedObjectContext_roster;
 - (NSManagedObjectContext *)managedObjectContext_capabilities;
 - (NSManagedObjectContext *)managedObjectContext_messageArchiving;
+- (NSManagedObjectContext *)managedObjectContext_muc;
 
 - (BOOL)connect;
 - (void)disconnect;

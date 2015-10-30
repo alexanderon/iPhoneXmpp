@@ -16,13 +16,15 @@
 
 @implementation GroupViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+    {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden=YES;
 }
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated
+    {
     [super viewDidAppear:YES];
     [self hideNaviagation];
     
@@ -35,17 +37,20 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+    {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 
--(void)showNavigation{
+-(void)showNavigation
+    {
     self.navigationController.navigationBarHidden=NO;
 }
 
--(void)hideNaviagation{
+-(void)hideNaviagation
+    {
     self.navigationController.navigationBarHidden=YES;
 }
 
@@ -53,7 +58,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+    {
     self.lastChosenMediaType = info[UIImagePickerControllerMediaType];
     if ([self.lastChosenMediaType isEqual:(NSString *)kUTTypeImage]) {
         UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
@@ -66,7 +71,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
 
 - (void)pickMediaFromSource:(UIImagePickerControllerSourceType)sourceType
-{
+    {
     NSArray *mediaTypes = [UIImagePickerController
                            availableMediaTypesForSourceType:sourceType];
     if ([UIImagePickerController
@@ -92,7 +97,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
 
 - (UIImage *)shrinkImage:(UIImage *)original toSize:(CGSize)size
-{
+    {
     UIGraphicsBeginImageContextWithOptions(size, YES, 0);
     CGFloat originalAspect = original.size.width / original.size.height;
     CGFloat targetAspect = size.width / size.height;
@@ -122,8 +127,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
  #pragma mark - Navigation
  
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+    {
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
      

@@ -27,7 +27,6 @@
 
 - (void)setupStream;
 - (void)teardownStream;
-
 - (void)goOnline;
 - (void)goOffline;
 
@@ -97,6 +96,10 @@
 
 -(NSManagedObjectContext *)managedObjectContext_messageArchiving{
     return [xmppMessageArchivingStorage mainThreadManagedObjectContext];
+}
+
+-(NSManagedObjectContext *)managedObjectContext_muc{
+    return [xmppRoomStorage mainThreadManagedObjectContext];
 }
 
 #pragma mark Private

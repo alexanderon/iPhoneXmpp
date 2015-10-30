@@ -22,9 +22,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark View lifecycle
+#pragma mark ------------------ View lifecycle---------------------
 -(void)viewDidLoad{
     [super viewDidLoad];
+ //   NSLog(@"%@",[[[self fetchedGroupsResultsController]fetchedObjects] count]);
     
 }
 
@@ -68,7 +69,38 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
 }
 
-#pragma mark NSFetchedResultsController
+#pragma mark -------------------NSFetchedResultsController---------------------
+
+/*-(NSFetchedResultsController *)fetchedGroupsResultsController{
+
+    if (fetchedGroupsResultsController == nil) {
+        NSManagedObjectContext *moc  =[[self appDelegate] managedObjectContext_roster];
+        
+        NSEntityDescription *groupEntity =[NSEntityDescription entityForName:@"XMPPGroupCoreDataStorageObject" inManagedObjectContext:moc];
+        
+        NSSortDescriptor *sortByName = [[NSSortDescriptor alloc]
+                                        initWithKey:@"name" ascending:YES];
+        
+        NSFetchRequest *groupsFetchRequest = [[NSFetchRequest alloc] init];
+        [groupsFetchRequest setEntity:groupEntity];
+        [groupsFetchRequest setFetchBatchSize:10];
+        [groupsFetchRequest setSortDescriptors:[NSArray arrayWithObject:sortByName]];
+        
+        fetchedGroupsResultsController =[[NSFetchedResultsController alloc]
+                                         initWithFetchRequest:groupsFetchRequest
+                                         managedObjectContext:moc                                                                             sectionNameKeyPath:nil                                                                                      cacheName:nil];
+        [fetchedGroupsResultsController setDelegate:self];
+        
+        NSError *error = nil;
+        if (![fetchedGroupsResultsController performFetch:&error])
+        {
+            DDLogError(@"Error performing fetch: %@", error);
+        }
+
+        
+    }
+    return fetchedGroupsResultsController;
+}*/
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
@@ -113,7 +145,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark UITableViewCell helpers
+#pragma mark ------------------UITableViewCell helpers------------------------
 
 
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPUserCoreDataStorageObject *)user
@@ -136,7 +168,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
 }
 
-#pragma mark UITableView
+#pragma mark ------------------UITableView--------------------
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -200,7 +232,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     return cell;
 }
 
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -215,7 +246,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark Actions
+#pragma mark ------------------Actions-------------------------
 
 
 - (IBAction)settings:(id)sender
@@ -242,7 +273,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark -- Navigation --
+#pragma mark ------------------ Navigation ----------------------
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"CreateGroup"]) {
