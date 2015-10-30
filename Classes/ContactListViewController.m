@@ -216,7 +216,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
 {
-    NSLog(@"%@",[iq description]);
+   // NSLog(@"%@",[iq description]);
     return NO;
 }
 
@@ -256,6 +256,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [sender configureRoomUsingOptions:newConfig];
 }
 
+-(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID{
+
+   // NSLog(@"Received Message From:%@",[occupantJID bare]);
+  //  NSLog(@"Message is:%@",[message body]);
+}
+
 #pragma mark ---------------XMPP MUC DELEGATE----------------------------
 
 -(void)xmppMUC:(XMPPMUC *)sender roomJID:(XMPPJID *)roomJID didReceiveInvitation:(XMPPMessage *)message{
@@ -277,6 +283,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 -(void)xmppMUC:(XMPPMUC *)sender roomJID:(XMPPJID *)roomJID didReceiveInvitationDecline:(XMPPMessage *)message{
     NSLog(@"");
 }
+
+
 #pragma mark ----------------IB ACTION -GROUP CREATION -----------------
 
 - (IBAction)btnCreateGroupClick:(id)sender
