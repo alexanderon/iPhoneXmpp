@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FetcheResultViewController.h"
-
-@interface ContactListViewController : FetcheResultViewController
+#import "TLTagsControl.h"
+@interface ContactListViewController : FetcheResultViewController<TLTagsControlDelegate>
 
 @end

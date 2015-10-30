@@ -11,90 +11,111 @@
 #import "TLTagsControl.h"
 
 
-@interface ContactListViewController ()<TLTagsControlDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface ContactListViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet TLTagsControl *defaultEditingTagControl;
 @end
 
 @implementation ContactListViewController
 {
-    TLTagsControl *demoTagsControl;
     NSMutableArray *tags ;
 }
 @synthesize tableView;
 
 #pragma mark ----------VIEW LIFECYCLE -------------
 -(void)viewDidLoad
-{
+    {
     [super viewDidLoad];
-   
+    
     [self showNavigation];
     [self hideNaviagation];
- 
-    [demoTagsControl reloadTagSubviews];
-    [demoTagsControl setTapDelegate:self];
     
-    [self.view addSubview:demoTagsControl];
-    [self drawUnderLine:demoTagsControl.tag];
+    // [self.defaultEditingTagControl setMode:TLTagsControlModeList];
+    [self.defaultEditingTagControl setTapDelegate:self];
+    //[demoTagsControl reloadTagSubviews];
+    //[demoTagsControl setTapDelegate:self];
+    
+    
+    //[self.view addSubview:demoTagsControl];
+    // [self drawUnderLine:demoTagsControl.tag];
+    // self.defaultEditingTagControl.delegate = self;
     
     tableView.delegate=self;
     tableView.dataSource=self;
     
-    
-    
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    
-}
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated
+    {
     [super viewDidAppear:animated];
-     [self drawUnderLine:self.defaultEditingTagControl.tag];
-   // [self.defaultEditingTagControl setBackgroundColor:[UIColor greenColor]];
+    [self drawUnderLine:self.defaultEditingTagControl.tag];
 }
 
--(void)drawUnderLine:(NSInteger *)tag{
+-(void)drawUnderLine:(NSInteger *)tag
+    {
     
-        UIView  *view = [self.view viewWithTag:tag];
-        CALayer *bottomBorder = [CALayer layer];
-        bottomBorder.frame = CGRectMake(0.0f, view.frame.size.height-1 , view.frame.size.width,1.0f);
-        bottomBorder.backgroundColor = [UIColor blackColor].CGColor;
-        [view.layer insertSublayer:bottomBorder atIndex:(int)view.layer.sublayers.count];
-
+    UIView  *view = [self.view viewWithTag:tag];
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0.0f, view.frame.size.height-1 , view.frame.size.width,1.0f);
+    bottomBorder.backgroundColor = [UIColor blackColor].CGColor;
+    [view.layer insertSublayer:bottomBorder atIndex:(int)view.layer.sublayers.count];
+    
 }
 
--(void)didReceiveMemoryWarning {
+-(void)didReceiveMemoryWarning
+    {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-#pragma mark ---------GENEREAL METHODS-----------------
+#pragma mark ----------------GENEREAL METHODS-----------------
 
--(void)showNavigation{
+-(void)showNavigation
+    {
     self.navigationController.navigationBarHidden=NO;
 }
 
--(void)hideNaviagation{
+-(void)hideNaviagation
+    {
     self.navigationController.navigationBarHidden=YES;
 }
 
-#pragma mark ----------TABLE VIEW DELEGATE -------------
+#pragma mark --------------TABLE VIEW DELEGATE -------------
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+-(void)tableView:(UITableView *)tabView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+    {
+    
+    UITableViewCell *cell = [tabView cellForRowAtIndexPath:indexPath];
+    NSString *object =[NSString stringWithFormat:@"%@",cell.textLabel.text];
+    NSString *index =[NSString stringWithFormat:@"%d",(int)indexPath.row];
+    
+    NSDictionary *dict =@{@"object":object,
+                          @"index":index};
+    
+    if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [self.defaultEditingTagControl.tags removeObject:dict];
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.defaultEditingTagControl.tags addObject:dict];
+    }
+    
+    [self.defaultEditingTagControl reloadTagSubviews];
 }
 
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+    {
     return [[[self fetchedResultsController] fetchedObjects] count];
 }
 
--(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index{
+-(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+    {
     return 1;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+    {
     return @"Favourite";
 }
 
@@ -102,28 +123,25 @@
     return 1;
 }
 
-#pragma mark ----------TABLE VIEW DATASOURCE -----------
+#pragma mark ---------------------TABLE VIEW DATASOURCE ----------------
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(UITableViewCell *)tableView:(UITableView *)tabView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+    {
     
-    UITableViewCell *cell =[tableView  dequeueReusableCellWithIdentifier:@"ContactCell"];
+    UITableViewCell *cell =[tabView  dequeueReusableCellWithIdentifier:@"ContactCell"];
     
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-    
-    cell.textLabel.text = user.displayName;
-    
+    cell.textLabel.text = user.jidStr;
     [self configurePhotoForCell:cell user:user];
-
     return cell;
 }
 
 
 
-#pragma mark -------------UITABLECELL HELPERS-------------------
-
+#pragma mark --------------------UITABLECELL HELPERS---------------------
 
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPUserCoreDataStorageObject *)user
-{
+    {
     // Our xmppRosterStorage will cache photos as they arrive from the xmppvCardAvatarModule.
     // We only need to ask the avatar module for a photo, if the roster doesn't have it.
     
@@ -133,8 +151,6 @@
     }
     else
     {
-        
-    
         NSData *photoData = [[[self appDelegate] xmppvCardAvatarModule] photoDataForJID:user.jid];
         
         if (photoData != nil)
@@ -144,15 +160,29 @@
     }
 }
 
+#pragma mark -------------------TLTAG-CONTROL-DELEGATE--------------------
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)tagsControl:(TLTagsControl *)tagsControl tappedAtIndex:(NSInteger)index
+    {
+    NSLog(@"%ld",(long)index);
+    NSDictionary *dict=[self.defaultEditingTagControl.tags objectAtIndex:index];
+    NSLog(@"%@",[dict valueForKey:@"index"]);
 }
-*/
+
+-(void)tagsControl:(TLTagsControl *)tagsControl deletedAtIndex:(NSInteger)index
+    {
+    
+    [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathWithIndex:index] animated:YES];
+    NSIndexPath *path =[NSIndexPath indexPathForRow:index inSection:0];
+    UITableViewCell *cell =[self.tableView cellForRowAtIndexPath:path];
+    
+    if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+
+    
+}
 
 @end

@@ -2681,6 +2681,9 @@
                                         <include reference="YC3-gl-koK"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <outlet property="delegate" destination="4Aq-aM-Aht" id="Zlp-wt-t5X"/>
+                                </connections>
                             </scrollView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HNX-P3-Fdi">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -2691,7 +2694,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q2G-Dx-e3h" id="lPh-7J-CK2">
-                                            <rect key="frame" x="0.0" y="0.0" width="201" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </tableViewCellContentView>
