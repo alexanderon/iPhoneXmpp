@@ -272,9 +272,32 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
+    
+    
+   /* NSXMLElement *queryElement = [NSXMLElement elementWithName: @"query" xmlns: @"jabber:iq:last"];
+    NSXMLElement *iqStanza = [NSXMLElement elementWithName: @"iq"];
+    [iqStanza addAttributeWithName: @"type" stringValue: @"get"];
+    [iqStanza addAttributeWithName:John@192.168.1.100  stringValue: @"from"];
+    [iqStanza addAttributeWithName:Jacob@192.168.1.100 stringValue: @"to"];
+    [iqStanza addAttributeWithName: @"last1" stringValue: @"id"];
+    [iqStanza addChild: queryElement];
+    [self.xmppStream sendElement:iqStanza];*/
+    
+  
+    
+    /*XMPPIQ *iq = [XMPPIQ iqWithType:@"get" to:servrJID];
+    [iq addAttributeWithName:@"from" stringValue:[[[self appDelegate]xmppStream] myJID].full];
+    NSXMLElement *query = [NSXMLElement elementWithName:@"query"];
+    [query addAttributeWithName:@"xmlns" stringValue:@"http://jabber.org/protocol/disco#items"];
+    [iq addChild:query];
+    [[[self appDelegate]xmppStream] sendElement:iq];*/
+
+    
     return 1;
     
 }
+
+
 
 
 
@@ -348,7 +371,8 @@
     [self.tableview scrollToRowAtIndexPath:topIndexPath
                       atScrollPosition:UITableViewScrollPositionMiddle
                               animated:YES];
-
+    
+  
     
 }
 

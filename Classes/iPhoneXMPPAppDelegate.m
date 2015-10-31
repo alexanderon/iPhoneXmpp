@@ -98,9 +98,9 @@
     return [xmppMessageArchivingStorage mainThreadManagedObjectContext];
 }
 
--(NSManagedObjectContext *)managedObjectContext_muc{
+/*-(NSManagedObjectContext *)managedObjectContext_muc{
     return [xmppRoomStorage mainThreadManagedObjectContext];
-}
+}*/
 
 #pragma mark Private
 

@@ -481,7 +481,7 @@
                                         <rect key="frame" x="99" y="13" width="36" height="35"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AQ5-yL-C5X" userLabel="transButton">
@@ -769,6 +769,9 @@
                                                     <state key="normal" title="Accept">
                                                         <color key="titleColor" red="1" green="0.98039215690000003" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="124" y="6" width="55" height="32"/>
+                                                    </variation>
                                                     <connections>
                                                         <action selector="btnAcceptClick:" destination="Fe7-H0-26C" eventType="touchUpInside" id="BwZ-E1-Su6"/>
                                                     </connections>
@@ -779,6 +782,9 @@
                                                     <state key="normal" title="Reject">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="189" y="7" width="43" height="30"/>
+                                                    </variation>
                                                     <connections>
                                                         <action selector="btnRejectClick:" destination="Fe7-H0-26C" eventType="touchUpInside" id="dzT-jB-RIi"/>
                                                     </connections>

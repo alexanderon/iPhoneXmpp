@@ -236,6 +236,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    //[user.groups.count];
     
     cell.textLabel.text = user.displayName;
     
@@ -250,6 +251,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
     
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+   
     
     ChatViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"] ;
     vc.resource=[[[user primaryResource]jid]resource];
