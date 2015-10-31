@@ -25,7 +25,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 #pragma mark ------------------ View lifecycle---------------------
 -(void)viewDidLoad{
     [super viewDidLoad];
- //   NSLog(@"%@",[[[self fetchedGroupsResultsController]fetchedObjects] count]);
+    NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
+    
     
 }
 
@@ -71,8 +72,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 #pragma mark -------------------NSFetchedResultsController---------------------
 
-/*-(NSFetchedResultsController *)fetchedGroupsResultsController{
-
+-(NSFetchedResultsController *)fetchedGroupsResultsController{
+    
     if (fetchedGroupsResultsController == nil) {
         NSManagedObjectContext *moc  =[[self appDelegate] managedObjectContext_roster];
         
@@ -80,11 +81,13 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         NSSortDescriptor *sortByName = [[NSSortDescriptor alloc]
                                         initWithKey:@"name" ascending:YES];
+        NSArray *sortDescriptors = @[sortByName];
+
         
         NSFetchRequest *groupsFetchRequest = [[NSFetchRequest alloc] init];
         [groupsFetchRequest setEntity:groupEntity];
         [groupsFetchRequest setFetchBatchSize:10];
-        [groupsFetchRequest setSortDescriptors:[NSArray arrayWithObject:sortByName]];
+        [groupsFetchRequest setSortDescriptors:sortDescriptors];
         
         fetchedGroupsResultsController =[[NSFetchedResultsController alloc]
                                          initWithFetchRequest:groupsFetchRequest
@@ -96,11 +99,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         {
             DDLogError(@"Error performing fetch: %@", error);
         }
-
+        
         
     }
     return fetchedGroupsResultsController;
-}*/
+}
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
@@ -108,6 +111,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     {
         NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_roster];
         
+
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
                                                   inManagedObjectContext:moc];
         
@@ -145,7 +149,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark ------------------UITableViewCell helpers------------------------
+#pragma mark ------------------UITableViewCell helpers--------------------------
 
 
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPUserCoreDataStorageObject *)user
@@ -168,7 +172,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
 }
 
-#pragma mark ------------------UITableView--------------------
+#pragma mark ------------------UITableView-------------------------------------
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -198,6 +202,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
+    {
+      NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
+        NSLog(@"%d",(int)[[[self fetchedGroupsResultsController]fetchedObjects]count]);
+       
+        NSLog(@"%@", [[self fetchedGroupsResultsController].fetchedObjects objectAtIndex:0]);
+        
+        XMPPGroupCoreDataStorageObject *obj =[[self fetchedGroupsResultsController].fetchedObjects objectAtIndex:0];
+        NSLog(@"%@",obj.name);
+    }
+    
     NSArray *sections = [[self fetchedResultsController] sections];
     
     if (sectionIndex < [sections count])
@@ -246,7 +260,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark ------------------Actions-------------------------
+#pragma mark ------------------Actions-----------------------------------------
 
 
 - (IBAction)settings:(id)sender
