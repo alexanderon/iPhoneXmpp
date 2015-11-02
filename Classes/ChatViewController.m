@@ -349,7 +349,9 @@
             [message addChild:photo];
         }
         
-        [[self appDelegate].xmppStream sendElement:message];
+       [[self appDelegate].xmppStream sendElement:message];
+       
+        
         
         self.chatWindow.text = @"";
      
@@ -372,6 +374,14 @@
                       atScrollPosition:UITableViewScrollPositionMiddle
                               animated:YES];
     
+    //For the Group Chat Within the Group
+    {
+        NSArray*jids =@[@"test1@192.1678.0.120",@"test2@192.168.0.120",@"test3@192.1680.120",@"test4@192.168.0.120"];
+        XMPPMessage *msg=[XMPPMessage multicastMessageWithType:@"chat" jids:jids module:@"192.168.0.120"];
+        [msg addBody:@"Hello EveryBuddy"];
+        [[self appDelegate].xmppStream sendElement:msg];
+    }   
+
   
     
 }

@@ -20,6 +20,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
+		B70656551BE773010037E6A2 /* XMPPMessage+XEP_0033.m in Sources */ = {isa = PBXBuildFile; fileRef = B70656541BE773010037E6A2 /* XMPPMessage+XEP_0033.m */; settings = {ASSET_TAGS = (); }; };
 		B72FDFB01BD7B86800D553C8 /* MLChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFAF1BD7B86800D553C8 /* MLChatCell.m */; settings = {ASSET_TAGS = (); }; };
 		B72FDFBD1BD7BAAB00D553C8 /* MLImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B72FDFBC1BD7BAAB00D553C8 /* MLImageManager.m */; settings = {ASSET_TAGS = (); }; };
 		B7448A0B1BD9F70800B6F3EF /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7448A091BD9F70800B6F3EF /* MessageCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -210,6 +211,8 @@
 		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RootViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iPhoneXMPP-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iPhoneXMPP-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		B70656531BE773010037E6A2 /* XMPPMessage+XEP_0033.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPMessage+XEP_0033.h"; sourceTree = "<group>"; };
+		B70656541BE773010037E6A2 /* XMPPMessage+XEP_0033.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPMessage+XEP_0033.m"; sourceTree = "<group>"; };
 		B72FDFAE1BD7B86800D553C8 /* MLChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLChatCell.h; sourceTree = "<group>"; };
 		B72FDFAF1BD7B86800D553C8 /* MLChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLChatCell.m; sourceTree = "<group>"; };
 		B72FDFB51BD7B9A600D553C8 /* MLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLConstants.h; sourceTree = "<group>"; };
@@ -675,6 +678,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B70656521BE771820037E6A2 /* XEP-0033 */ = {
+			isa = PBXGroup;
+			children = (
+				B70656531BE773010037E6A2 /* XMPPMessage+XEP_0033.h */,
+				B70656541BE773010037E6A2 /* XMPPMessage+XEP_0033.m */,
+			);
+			path = "XEP-0033";
+			sourceTree = "<group>";
+		};
 		B72FDFAD1BD7B7D700D553C8 /* TableCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -878,6 +890,7 @@
 		B7B5BDA71BD0DD66008BD204 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B70656521BE771820037E6A2 /* XEP-0033 */,
 				B7B5BDA81BD0DD66008BD204 /* BandwidthMonitor */,
 				B7B5BDAB1BD0DD66008BD204 /* CoreDataStorage */,
 				B7B5BDAF1BD0DD66008BD204 /* FileTransfer */,
@@ -1753,6 +1766,7 @@
 				B7B5BF4F1BD0DD66008BD204 /* XMPPBlocking.m in Sources */,
 				B7B5BF381BD0DD66008BD204 /* XMPPRegistration.m in Sources */,
 				B7B5BF5E1BD0DD66008BD204 /* XMPPMessage+XEP_0308.m in Sources */,
+				B70656551BE773010037E6A2 /* XMPPMessage+XEP_0033.m in Sources */,
 				B7B5BF161BD0DD66008BD204 /* XMPPRoom.xcdatamodeld in Sources */,
 				B7B5BF271BD0DD66008BD204 /* XMPPvCardCoreDataStorageObject.m in Sources */,
 				B7B5BEFC1BD0DD66008BD204 /* XMPPPresence.m in Sources */,

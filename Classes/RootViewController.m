@@ -21,16 +21,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
+#pragma mark ------------------ View lifecycle---------------------------------
 
-#pragma mark ------------------ View lifecycle---------------------
--(void)viewDidLoad{
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
+   // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
     
     
 }
-
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -70,7 +69,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
 }
 
-#pragma mark -------------------NSFetchedResultsController---------------------
+#pragma mark -------------------NSFetchedResultsController----------------------
 
 -(NSFetchedResultsController *)fetchedGroupsResultsController{
     
@@ -105,7 +104,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     return fetchedGroupsResultsController;
 }
 
-- (NSFetchedResultsController *)fetchedResultsController
+-(NSFetchedResultsController *)fetchedResultsController
 {
     if (fetchedResultsController == nil)
     {
@@ -202,7 +201,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    {
+   /* {
       NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
         NSLog(@"%d",(int)[[[self fetchedGroupsResultsController]fetchedObjects]count]);
        
@@ -210,7 +209,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         XMPPGroupCoreDataStorageObject *obj =[[self fetchedGroupsResultsController].fetchedObjects objectAtIndex:0];
         NSLog(@"%@",obj.name);
-    }
+    }*/
     
     NSArray *sections = [[self fetchedResultsController] sections];
     
@@ -291,7 +290,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 #pragma mark ------------------ Navigation ----------------------
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if ([[segue identifier] isEqualToString:@"CreateGroup"]) {
         self.popUpView.hidden=YES;
     }
