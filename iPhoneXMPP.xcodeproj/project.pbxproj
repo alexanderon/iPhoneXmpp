@@ -29,6 +29,7 @@
 		B7448A101BD9FA1100B6F3EF /* orange.png in Resources */ = {isa = PBXBuildFile; fileRef = B7448A0E1BD9FA1100B6F3EF /* orange.png */; settings = {ASSET_TAGS = (); }; };
 		B7448A161BDA4AAB00B6F3EF /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7448A131BDA4AAB00B6F3EF /* HPGrowingTextView.m */; settings = {ASSET_TAGS = (); }; };
 		B7448A171BDA4AAB00B6F3EF /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = B7448A151BDA4AAB00B6F3EF /* HPTextViewInternal.m */; settings = {ASSET_TAGS = (); }; };
+		B766BCF61BE8BC8C007D8AC4 /* GroupListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B766BCF51BE8BC8C007D8AC4 /* GroupListViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B76C31181BDDF165002B8F2C /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B76C31161BDDF165002B8F2C /* ImageViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		B76C31191BDDF165002B8F2C /* ImageViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B76C31171BDDF165002B8F2C /* ImageViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 		B76C311C1BDE2A30002B8F2C /* divan.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B76C311B1BDE2A30002B8F2C /* divan.mp3 */; settings = {ASSET_TAGS = (); }; };
@@ -227,6 +228,8 @@
 		B7448A131BDA4AAB00B6F3EF /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
 		B7448A141BDA4AAB00B6F3EF /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
 		B7448A151BDA4AAB00B6F3EF /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
+		B766BCF41BE8BC8C007D8AC4 /* GroupListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupListViewController.h; sourceTree = "<group>"; };
+		B766BCF51BE8BC8C007D8AC4 /* GroupListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupListViewController.m; sourceTree = "<group>"; };
 		B76C31151BDDF165002B8F2C /* ImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewCell.h; sourceTree = "<group>"; };
 		B76C31161BDDF165002B8F2C /* ImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCell.m; sourceTree = "<group>"; };
 		B76C31171BDDF165002B8F2C /* ImageViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewCell.xib; sourceTree = "<group>"; };
@@ -609,6 +612,8 @@
 				B7F481711BE22A69000ADD48 /* ContactListViewController.m */,
 				B7F481771BE24A0F000ADD48 /* FetcheResultViewController.h */,
 				B7F481781BE24A0F000ADD48 /* FetcheResultViewController.m */,
+				B766BCF41BE8BC8C007D8AC4 /* GroupListViewController.h */,
+				B766BCF51BE8BC8C007D8AC4 /* GroupListViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1777,6 +1782,7 @@
 				B7B5BF021BD0DD66008BD204 /* XMPPOutgoingFileTransfer.m in Sources */,
 				B7B5BF581BD0DD66008BD204 /* XEP_0223.m in Sources */,
 				B7B5BF411BD0DD66008BD204 /* XMPPCapsCoreDataStorageObject.m in Sources */,
+				B766BCF61BE8BC8C007D8AC4 /* GroupListViewController.m in Sources */,
 				B7B5BF711BD0DD66008BD204 /* DDDispatchQueueLogFormatter.m in Sources */,
 				B7B5BF1B1BD0DD66008BD204 /* XMPPRoomHybridStorage.m in Sources */,
 				B7B5BF4D1BD0DD66008BD204 /* XMPPMessage+XEP_0184.m in Sources */,
@@ -1954,7 +1960,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
@@ -1970,7 +1976,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 			};

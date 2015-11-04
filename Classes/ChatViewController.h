@@ -24,14 +24,14 @@
 
 
 
-@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,XMPPOutgoingFileTransferDelegate,XMPPIncomingFileTransferDelegate,HPGrowingTextViewDelegate>
+@interface ChatViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,XMPPOutgoingFileTransferDelegate,XMPPIncomingFileTransferDelegate,HPGrowingTextViewDelegate,XMPPRoomDelegate>
 {
     NSFetchedResultsController *fetchedResultsController;
     NSMutableArray *turnSockets;
     NSMutableArray *sentMessages;
     NSMutableArray* _messagelist;
     HPGrowingTextView * chatFeild;
-    
+    XMPPRoom *xmppRoom;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *chatWindow;
@@ -40,7 +40,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (weak, nonatomic) IBOutlet UIImageView *imgUser;
 @property (weak, nonatomic) IBOutlet UILabel *lblUserName;
-@property (weak,nonatomic) XMPPUserCoreDataStorageObject *user;
+@property (weak, nonatomic) XMPPUserCoreDataStorageObject *user;
+@property (weak, nonatomic) XMPPGroupCoreDataStorageObject *group;
+@property (atomic) BOOL isGroupchat;
 
 
 - (IBAction)btnChooseImageClick:(id)sender;

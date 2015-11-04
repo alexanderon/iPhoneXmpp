@@ -95,7 +95,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     }
 }
 
-
 - (UIImage *)shrinkImage:(UIImage *)original toSize:(CGSize)size
     {
     UIGraphicsBeginImageContextWithOptions(size, YES, 0);
@@ -123,7 +122,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     UIGraphicsEndImageContext();
     return final;
 }
-
 
  #pragma mark - Navigation
  

@@ -8,7 +8,15 @@
 
 #import "ChatViewController.h"
 #import "ProfileViewController.h"
+#import "DDLog.h"
 
+
+// Log levels: off, error, warn, info, verbose
+#if DEBUG
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+#else
+static const int ddLogLevel = LOG_LEVEL_INFO;
+#endif
 
 @interface ChatViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) UIImage *image;
@@ -17,28 +25,37 @@
 @end
 
 @implementation ChatViewController
+{
+    XMPPMUC *muc;
+
+}
 @synthesize user;
 @synthesize imgUser;
 @synthesize lblUserName;
 
-#pragma mark Accessors
-- (iPhoneXMPPAppDelegate *)appDelegate{
+#pragma mark --------------GLOBAL METHODS ---------------------------
+
+- (iPhoneXMPPAppDelegate *)appDelegate
+{
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
-- (XMPPStream *)xmppStream {
+- (XMPPStream *)xmppStream
+{
     return [[self appDelegate] xmppStream];
 }
 
-- (XMPPMessageArchiving *)xmppMessageArchivingModule{
+- (XMPPMessageArchiving *)xmppMessageArchivingModule
+{
     return [[self appDelegate] xmppMessageArchivingModule];
 }
 
 
 
-#pragma mark -View Methods
+#pragma mark ----------------VIEW LIFE CYCLE -------------------------
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
@@ -52,15 +69,58 @@
     sentMessages= [[NSMutableArray alloc] init];
     turnSockets = [[NSMutableArray alloc] init];
     
-    TURNSocket *turnSocket = [[TURNSocket alloc] initWithStream:[self xmppStream] toJID:[XMPPJID jidWithString:user.jidStr]];
+   /* TURNSocket *turnSocket = [[TURNSocket alloc] initWithStream:[self xmppStream] toJID:[XMPPJID jidWithString:user.jidStr]];
     [turnSockets addObject:turnSocket];
-    [turnSocket startWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [turnSocket startWithDelegate:self delegateQueue:dispatch_get_main_queue()];*/
     
     [[self xmppMessageArchivingModule] activate:[self xmppStream]];
 
-    [self loadarchivemsg];
-  
+   // [self loadarchivemsg];
+   
+    [self setupchatFeild];
+    [self.contentView addSubview:chatFeild];
     
+    chatFeild.delegate=self;
+    
+    if (self.isGroupchat)
+    {
+        [self setupMUC];
+        [self loadGroupChatMsgs];
+    }
+    else
+    {
+        [self loadarchivemsg];
+
+    }
+
+}
+
+-(void)setupMUC
+{
+    
+    muc =[[XMPPMUC alloc]init];
+    [muc activate:[self appDelegate].xmppStream];
+    [muc addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    
+    XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
+    //   NSString *roomID=@"chillarparty@conference.192.168.0.120";
+    NSString *roomID=[NSString stringWithFormat:@"%@@conference.192.168.0.120",@"google"];
+    XMPPJID *roomJID =[XMPPJID jidWithString:roomID];
+    
+    
+    xmppRoom =[[XMPPRoom alloc]initWithRoomStorage:roomMemory
+                                                         jid:roomJID
+                                               dispatchQueue:dispatch_get_main_queue()];
+    [xmppRoom activate:[[self appDelegate] xmppStream]];
+    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [xmppRoom joinRoomUsingNickname:@"test4" history:nil password:nil];
+    [xmppRoom fetchConfigurationForm];
+    [xmppRoom inviteUser:[XMPPJID jidWithString:@"dipesh@192.168.0.120"] withMessage:@"hi"];
+    
+}
+
+-(void)setupchatFeild
+{
     chatFeild =[[HPGrowingTextView alloc]initWithFrame:[self.contentView frame]];
     [chatFeild setTintColor:[UIColor blueColor]];
     
@@ -72,7 +132,7 @@
     chatFeild.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     chatFeild.animateHeightChange=YES;
     [chatFeild.internalTextView becomeFirstResponder];
-  
+    
     //To make the border look very close to a UITextField
     [chatFeild.internalTextView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
     [chatFeild.internalTextView.layer setBorderWidth:2.0];
@@ -81,14 +141,10 @@
     chatFeild.internalTextView.layer.cornerRadius = 5;
     chatFeild.internalTextView.clipsToBounds = YES;
 
-    
-    [self.contentView addSubview:chatFeild];
-    
-    chatFeild.delegate=self;
-
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden=YES;
    
@@ -99,49 +155,135 @@
     [self.tableview reloadData];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:YES];
+
+#pragma  mark-----------------LOAD MESSAGES/USER-----------------------
+
+-(void)loadarchivemsg
+{
+    
+    XMPPMessageArchivingCoreDataStorage *_xmppMsgStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+    
+    NSManagedObjectContext *moc = [_xmppMsgStorage mainThreadManagedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
+                                                         inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc]init];
+    [request setEntity:entityDescription];
+    //   [request setFetchLimit:1];
+    [request setFetchBatchSize:20];
+    
+    NSError *error;
+    NSString *predicateFrmt = @"bareJidStr == %@";
+    NSPredicate *predicate =[NSPredicate predicateWithFormat:predicateFrmt,user.jidStr];
+    request.predicate = predicate;
+    NSArray *messages = [moc executeFetchRequest:request error:&error];
     
     
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark -=SetUp Image =-
-
-- (void)setUpImage{
-       
-    if (user.photo != nil)
-    {
-        self.imgUser.image=user.photo;
-    }
-    else
-    {
-        NSData *photoData = [[[self appDelegate] xmppvCardAvatarModule] photoDataForJID:user.jid];
+    for (XMPPMessageArchiving_Message_CoreDataObject *message in messages) {
         
-        if (photoData != nil)
-           imgUser.image = [UIImage imageWithData:photoData];
+        NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
+        
+        NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
+        [m setObject:message.body forKey:@"msg"];
+        
+        if ([[element attributeStringValueForName:@"to"] isEqualToString:user.jidStr])
+        {
+            
+            [m setObject:@"you" forKey:@"sender"];
+            
+        }
         else
-            imgUser.image = [UIImage imageNamed:@"defaultPerson"];
+        {
+            [m setObject:user.jidStr forKey:@"sender"];
+        }
+        
+        //  n(@"%@",[element elementForName:@"image"] );
+        
+        NSDate *date = message.timestamp;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+        [m setObject:[dateFormatter stringFromDate:date] forKey:@"time"];
+        
+        if ([element elementForName:@"image"]) {
+            [m setObject:[self decodeBase64ToImage:[[element elementForName:@"image"] stringValue ] ] forKey:@"image"];
+        }
+        
+        [sentMessages addObject:m];
+        
     }
+    [self.tableview reloadData];
+    
+}
+
+
+-(void)loadGroupChatMsgs
+{
+    
+    XMPPMessageArchivingCoreDataStorage *_xmppMsgStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+    
+    NSManagedObjectContext *moc = [_xmppMsgStorage mainThreadManagedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
+                                                         inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc]init];
+    [request setEntity:entityDescription];
+    //   [request setFetchLimit:1];
+    [request setFetchBatchSize:20];
+    [request setFetchLimit:20];
+    
+    NSError *error;
+    NSString *predicateFrmt = @"bareJidStr == %@";
+    NSString *conferenceRoom=[NSString  stringWithFormat:@"%@@conference.192.168.0.120",@"google"];
+    NSPredicate *predicate =[NSPredicate predicateWithFormat:predicateFrmt,conferenceRoom];
+    request.predicate = predicate;
+    NSArray *messages = [moc executeFetchRequest:request error:&error];
+    
+    
+    for (XMPPMessageArchiving_Message_CoreDataObject *message in messages) {
+        
+        NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
+        
+        NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
+        [m setObject:message.body forKey:@"msg"];
+        [m setObject:[element attributeStringValueForName:@"to"] forKey:@"sender"];
+        
+        /* if ([[element attributeStringValueForName:@"to"] isEqualToString:user.jidStr])
+        {
+            
+            [m setObject:@"you" forKey:@"sender"];
+            
+        }
+        else
+        {
+            [m setObject:user.jidStr forKey:@"sender"];
+        }*/
+        
+        //  n(@"%@",[element elementForName:@"image"] );
+        
+        NSDate *date = message.timestamp;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+        [m setObject:[dateFormatter stringFromDate:date] forKey:@"time"];
+        
+        if ([element elementForName:@"image"]) {
+            [m setObject:[self decodeBase64ToImage:[[element elementForName:@"image"] stringValue ] ] forKey:@"image"];
+        }
+        
+        [sentMessages addObject:m];
+        
+    }
+    [self.tableview reloadData];
 
 }
 
-- (void)setUserName{
-    lblUserName.text=user.displayName;
-}
 
--(NSString *)getResource{
-    return [[[user primaryResource]jid] resource];
-}
-#pragma mark Table view delegates
+#pragma mark -----------------TABLE VIEW DELEGATE ----------------------
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
     
     /* static NSString *CellIdentifier = @"MessageCellIdentifier";
@@ -234,9 +376,8 @@
     
 }
 
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 
     NSDictionary * currentTweet = [sentMessages objectAtIndex: indexPath.row];
     
@@ -260,7 +401,8 @@
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
+{
     
     return  [sentMessages count];
     
@@ -270,7 +412,8 @@
     
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     
     
     
@@ -299,14 +442,12 @@
 
 
 
-
-
-
 #pragma mark -
-#pragma mark Actions
+#pragma mark -------------SENDING MESSAGE -----------------
 
 
-- (IBAction)sendMessage {
+- (IBAction)sendMessage
+{
     
     NSString *messageStr = chatFeild.text;
     
@@ -314,6 +455,11 @@
     if([messageStr length] > 0 || [self.image isKindOfClass:[UIImage class]] )
         
     {
+        if (self.isGroupchat) {
+            [xmppRoom sendMessageWithBody:messageStr];
+            return;
+        }
+        
         
         NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
         
@@ -322,6 +468,8 @@
         NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
         
         [message addAttributeWithName:@"type" stringValue:@"chat"];
+        
+        //[message addAttributeWithName:@"to" stringValue:user.jidStr];
         
         [message addAttributeWithName:@"to" stringValue:user.jidStr];
         
@@ -375,14 +523,12 @@
                               animated:YES];
     
     //For the Group Chat Within the Group
-    {
+   /* {
         NSArray*jids =@[@"test1@192.1678.0.120",@"test2@192.168.0.120",@"test3@192.1680.120",@"test4@192.168.0.120"];
         XMPPMessage *msg=[XMPPMessage multicastMessageWithType:@"chat" jids:jids module:@"192.168.0.120"];
         [msg addBody:@"Hello EveryBuddy"];
         [[self appDelegate].xmppStream sendElement:msg];
-    }   
-
-  
+    } */
     
 }
 
@@ -394,20 +540,24 @@
 }
 
 
-#pragma mark - handling messges notfications
+#pragma mark - ---------RELAOD  TABLE --------------------------
 
 -(void) reloadTable
 {
     [self.tableview reloadData];
 }
 
+#pragma mark -----------RECEIVE MESSAGE/XMPP STREM DELEGATE-----
 
-#pragma mark - XmppStream Delegate
-
-- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
+-(void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
     
+    
     // A simple example of inbound message handling.
+    
+    if (self.isGroupchat) {
+        return;
+    }
     
     if ([message isChatMessageWithBody])
     {
@@ -442,68 +592,38 @@
 }
 
 
-#pragma  mark- Load Previous Messages
-
--(void)loadarchivemsg
+#pragma mark --------------SETTING IMAGES
+- (void)setUpImage
 {
     
-    XMPPMessageArchivingCoreDataStorage *_xmppMsgStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
-    
-    NSManagedObjectContext *moc = [_xmppMsgStorage mainThreadManagedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
-                                                         inManagedObjectContext:moc];
-    NSFetchRequest *request = [[NSFetchRequest alloc]init];
-    [request setEntity:entityDescription];
-    //   [request setFetchLimit:1];
-    [request setFetchBatchSize:20];
-    
-    NSError *error;
-    NSString *predicateFrmt = @"bareJidStr == %@";
-    NSPredicate *predicate =[NSPredicate predicateWithFormat:predicateFrmt,user.jidStr];
-    request.predicate = predicate;
-    NSArray *messages = [moc executeFetchRequest:request error:&error];
-    
-    
-    for (XMPPMessageArchiving_Message_CoreDataObject *message in messages) {
-        
-        NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
-        
-        NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
-        [m setObject:message.body forKey:@"msg"];
-        
-        if ([[element attributeStringValueForName:@"to"] isEqualToString:user.jidStr])
-        {
-            
-            [m setObject:@"you" forKey:@"sender"];
-            
-        }
-        else
-        {
-            [m setObject:user.jidStr forKey:@"sender"];
-        }
-        
-      //  n(@"%@",[element elementForName:@"image"] );
-        
-        NSDate *date = message.timestamp;
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-        [m setObject:[dateFormatter stringFromDate:date] forKey:@"time"];
-        
-        if ([element elementForName:@"image"]) {
-             [m setObject:[self decodeBase64ToImage:[[element elementForName:@"image"] stringValue ] ] forKey:@"image"];
-        }
-       
-        [sentMessages addObject:m];
-        
+    if (user.photo != nil)
+    {
+        self.imgUser.image=user.photo;
     }
-    [self.tableview reloadData];
-
+    else
+    {
+        NSData *photoData = [[[self appDelegate] xmppvCardAvatarModule] photoDataForJID:user.jid];
+        
+        if (photoData != nil)
+            imgUser.image = [UIImage imageWithData:photoData];
+        else
+            imgUser.image = [UIImage imageNamed:@"defaultPerson"];
+    }
+    
 }
 
-#pragma mark - Decode Image
+- (void)setUserName
+{
+    lblUserName.text=user.displayName;
+}
 
+-(NSString *)getResource
+{
+    return [[[user primaryResource]jid] resource];
+}
+
+
+#pragma mark --------------DECODE IMAGE
 /*- (UIImage *)decodeBase64ToImage:(NSString *)strEncodeData
 {
     NSData *data = [[NSData alloc]initWithBase64EncodedString:strEncodeData options:
@@ -511,8 +631,10 @@
     return [UIImage imageWithData:data];
 }*/
 
-#pragma mark - select Image From Gallary
-- (IBAction)btnChooseImageClick:(id)sender{
+#pragma mark --------------GALLARY 
+
+- (IBAction)btnChooseImageClick:(id)sender
+{
     [self pickMediaFromSource:UIImagePickerControllerSourceTypePhotoLibrary];
 }
 
@@ -542,9 +664,10 @@
 }
 
 
-#pragma mark -send File 
+#pragma mark -------------SEND FILE----------------------
 
-- (IBAction)btnFileSendClick:(id)sender {
+- (IBAction)btnFileSendClick:(id)sender
+{
     if (!_fileTransfer) {
         _fileTransfer = [[XMPPOutgoingFileTransfer alloc]
                          initWithDispatchQueue:dispatch_get_main_queue()];
@@ -585,8 +708,7 @@
 
 }
 
-
-#pragma mark - XMPPOutgoingFileTransferDelegate Methods
+#pragma mark - -----------FILE TRANSFER DELEGATE ------------
 
 - (void)xmppOutgoingFileTransfer:(XMPPOutgoingFileTransfer *)sender
                 didFailWithError:(NSError *)error
@@ -612,12 +734,11 @@
     [alert show];
 }
 
-
-#pragma mark - Image Picker Controller delegate methods
-
+#pragma mark --------------IMAGE PICKER DELEGATE -----------
 
 
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
     self.lastChosenMediaType = info[UIImagePickerControllerMediaType];
     if ([self.lastChosenMediaType isEqual:(NSString *)kUTTypeImage]) {
         self.image = info[UIImagePickerControllerOriginalImage];
@@ -626,36 +747,33 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
+
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
-
-
-
-#pragma mark - Back Button Click
-- (IBAction)btnBackClick:(id)sender {
+#pragma mark ----------------BACK BUTTON --------------------
+- (IBAction)btnBackClick:(id)sender
+{
     self.navigationController.navigationBarHidden=FALSE;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - ---------------SHOW USER PROFILE ----------------
 
-#pragma mark - Show Profile
-
-
-- (IBAction)showProfile:(id)sender {
+- (IBAction)showProfile:(id)sender
+{
     
     ProfileViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"ProfileViewController"];
     vc.user=user;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+# pragma mark ---------------TEXTVIEW DELEGATE -----------------
 
-
-# pragma mark Textview delegeate functions
-
--(void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height{
+-(void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
+{
     
     float diff = (growingTextView.frame.size.height - height);
     CGRect r = self.contentView.frame;
@@ -663,5 +781,123 @@
     r.origin.y += diff;
     self.contentView.frame = r;
     
+}
+
+#pragma mark ----------------XMPP STREAM -DELEGATE ---------------------
+
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
+{
+    return NO;
+}
+
+#pragma mark ----------------XMPP ROOM DELEGATE -------------------------
+
+- (void)xmppRoomDidCreate:(XMPPRoom *)sender
+{
+    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+}
+
+- (void)xmppRoomDidJoin:(XMPPRoom *)sender
+{
+    [sender fetchConfigurationForm];
+    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+}
+
+- (void)xmppRoom:(XMPPRoom *)sender didFetchConfigurationForm:(NSXMLElement *)configForm
+{
+    
+    
+    NSXMLElement *newConfig = [configForm copy];
+    NSArray *fields = [newConfig elementsForName:@"field"];
+    
+    for (NSXMLElement *field in fields)
+    {
+        NSString *var = [field attributeStringValueForName:@"var"];
+        // Make Room Persistent
+        if ([var isEqualToString:@"muc#roomconfig_persistentroom"]) {
+            [field removeChildAtIndex:0];
+            [field addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
+        }
+    }
+    
+    [sender configureRoomUsingOptions:newConfig];
+}
+
+-(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID
+{
+    
+    NSString *fromStr=[message fromStr];
+    
+   fromStr= [[fromStr componentsSeparatedByString:@"/"]lastObject];
+    NSLog(@"%@",fromStr);
+    
+    
+    if ([[message body]length])
+    {
+//        XMPPUserCoreDataStorageObject *user = [[self appDelegate].xmppRosterStorage userForJID:occupantJID
+//                                                                                    xmppStream:[self xmppStream]
+//                                                                          managedObjectContext:[[self appDelegate] managedObjectContext_roster]];
+        
+        NSString *body = [[message elementForName:@"body"] stringValue];
+       // NSString *displayName = [user displayName];
+        
+        NSMutableDictionary *m = [[NSMutableDictionary alloc] init];
+        [m setObject:[body substituteEmoticons] forKey:@"msg"];
+        [m setObject:[occupantJID user] forKey:@"sender"];
+        [m setObject:[NSString getCurrentTime] forKey:@"time"];
+        
+//        if ([[message elementForName:@"image"] stringValue]!=nil)
+//            [m setObject:[self decodeBase64ToImage:[[message elementForName:@"image"] stringValue]] forKey:@"image"];
+        [sentMessages addObject:m];
+        
+        NSIndexPath *path1 = [NSIndexPath indexPathForRow:[sentMessages count]-1  inSection:0];
+        
+        [self.tableview beginUpdates];
+        [self.tableview insertRowsAtIndexPaths:@[path1] withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableview endUpdates];
+        
+        if(![self.tableview.indexPathsForVisibleRows containsObject:path1])
+        {
+            [self.tableview scrollToRowAtIndexPath:path1 atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    }
+}
+
+-(void)xmppRoom:(XMPPRoom *)sender occupantDidJoin:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence
+{
+}
+
+-(void)xmppRoom:(XMPPRoom *)sender occupantDidLeave:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence
+{
+
+    [xmppRoom leaveRoom];
+    [xmppRoom deactivate];
+    [xmppRoom removeDelegate:self];
+
+}
+
+
+#pragma mark ---------------XMPP MUC DELEGATE----------------------------
+
+-(void)xmppMUC:(XMPPMUC *)sender roomJID:(XMPPJID *)roomJID didReceiveInvitation:(XMPPMessage *)message
+{
+    
+    NSLog(@"Requst For :%@ ,with Message:%@",roomJID ,message);
+    XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
+    
+    XMPPRoom *xmppRoom =[[XMPPRoom alloc]initWithRoomStorage:roomMemory
+                                                         jid:roomJID
+                                               dispatchQueue:dispatch_get_main_queue()];
+    
+    [xmppRoom activate:[[self appDelegate] xmppStream]];
+    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [xmppRoom joinRoomUsingNickname:[[self appDelegate].xmppStream.myJID bare] history:nil password:nil];
+    
+    
+}
+
+-(void)xmppMUC:(XMPPMUC *)sender roomJID:(XMPPJID *)roomJID didReceiveInvitationDecline:(XMPPMessage *)message
+{
+    NSLog(@"");
 }
 @end

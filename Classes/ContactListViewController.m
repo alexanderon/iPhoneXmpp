@@ -31,6 +31,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 @synthesize tableView;
 
+
+#pragma  mark -PATH TO DOCUMENT DIRECTORY------------
+-(void)pathToDocumetDirectory{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"/MyFolder"];
+    NSLog(@"%@",dataPath);
+}
+
 #pragma mark ----------------VIEW LIFECYCLE -------------
 -(void)viewDidLoad
 {
@@ -62,7 +71,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
    // [self getChildrenOfNode:@"hello"];
     //[self getItemsInCollection:@"hello"];
    // [self serviceDiscovery];
-    [self messageToExtendedAdress];
+    //[self messageToExtendedAdress];
+    [self messageToRoom];
+    [self pathToDocumetDirectory];
 
 }
 
@@ -108,16 +119,19 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 -(void)messageToExtendedAdress{
-    NSString* server = @"192.168.0.120"; //or whatever the server address for multicast
-   // XMPPJID *servrJID = [XMPPJID jidWithString:server];
+//    NSString* server = @"192.168.0.120"; //or whatever the server address for multicast
+//    XMPPJID *servrJID = [XMPPJID jidWithString:server];
     
-    NSXMLElement *address1 =[NSXMLElement elementWithName:@"adress"];
-    [address1 addAttributeWithName:@"type" stringValue:[XMPPJID jidWithString:@"test1@192.168.0.120"].full ];
+    NSXMLElement *address1 =[NSXMLElement elementWithName:@"address"];
+    [address1 addAttributeWithName:@"type" stringValue:@"to"];
+    [address1 addAttributeWithName:@"jid" stringValue:[XMPPJID jidWithString:@"test4@192.168.0.120"].full ];
     [address1 addAttributeWithName:@"desc" stringValue:@"Joe Hildebrand"];
     
-    NSXMLElement *address2 =[NSXMLElement elementWithName:@"adress"];
-    [address1 addAttributeWithName:@"type" stringValue:[XMPPJID jidWithString:@"test2@192.168.0.120"].full ];
-    [address1 addAttributeWithName:@"desc" stringValue:@"Jeremie Miller"];
+    NSXMLElement *address2 =[NSXMLElement elementWithName:@"address"];
+    [address2 addAttributeWithName:@"type" stringValue:@"cc"];
+    [address2 addAttributeWithName:@"jid" stringValue:[XMPPJID jidWithString:@"test1@192.168.0.120"].full ];
+    [address2 addAttributeWithName:@"desc" stringValue:@"Jeremie Miller"];
+    
     
     NSXMLElement *addresses =[NSXMLElement elementWithName:@"addresses" xmlns:@"http://jabber.org/protocol/address"];
     [addresses addChild:address1];
@@ -127,13 +141,46 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [body setStringValue:@"Hello World!"];
     
     NSXMLElement *message =[NSXMLElement elementWithName:@"message"];
-    [message addAttributeWithName:@"to" stringValue:@"multicast.192.168.0.120"];
+    [message addAttributeWithName:@"to" stringValue:@"192.168.0.120"];
     [message addChild:addresses];
     [message addChild:body];
     
     
     [[[self appDelegate]xmppStream] sendElement:message];
 
+}
+
+-(void)messageToRoom{
+    
+    NSXMLElement *group=[NSXMLElement elementWithName:@"group"];
+    [group setStringValue:@"ChillarParty"];
+    
+    NSXMLElement *address1 =[NSXMLElement elementWithName:@"address"];
+    [address1 addAttributeWithName:@"type" stringValue:@"to"];
+    [address1 addAttributeWithName:@"desc" stringValue:@"Foo Group"];
+    [address1 addChild:group];
+    
+    NSXMLElement *address2 =[NSXMLElement elementWithName:@"address"];
+    [address2 addAttributeWithName:@"type" stringValue:@"replyroom"];
+    [address2 addAttributeWithName:@"jid" stringValue:[XMPPJID jidWithString:@"hello@conference.192.168.0.120"].full ];
+    [address2 addAttributeWithName:@"desc" stringValue:@"Jeremie Miller"];
+    
+    
+    NSXMLElement *addresses =[NSXMLElement elementWithName:@"addresses" xmlns:@"http://jabber.org/protocol/address"];
+    [addresses addChild:address1];
+    [addresses addChild:address2];
+    
+    NSXMLElement *body =[NSXMLElement elementWithName:@"body"];
+    [body setStringValue:@"Hello World!"];
+    
+    NSXMLElement *message =[NSXMLElement elementWithName:@"message"];
+    [message addAttributeWithName:@"to" stringValue:@"192.168.0.120"];
+    [message addChild:addresses];
+    [message addChild:body];
+    
+    
+    [[[self appDelegate]xmppStream] sendElement:message];
+    
 }
 
 #pragma mark ----------------GROUP CREATION IQS------------------------
@@ -450,7 +497,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
      //   [self subscribe:@"test4@192.168.0.120" toCollectionNode:@"hello"];
     
     XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
-    NSString *roomID=@"hello@conference.192.168.0.120";
+    NSString *roomID=@"google@conference.192.168.0.120";
     XMPPJID *roomJID =[XMPPJID jidWithString:roomID];
     
     
@@ -461,7 +508,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [xmppRoom joinRoomUsingNickname:@"nickName" history:nil password:nil];
     [xmppRoom fetchConfigurationForm];
-      
+    [xmppRoom inviteUser:[XMPPJID jidWithString:@"test4@192.168.0.120"] withMessage:@"hi"];
     
 }
 

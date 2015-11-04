@@ -71,7 +71,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 #pragma mark -------------------NSFetchedResultsController----------------------
 
--(NSFetchedResultsController *)fetchedGroupsResultsController{
+-(NSFetchedResultsController *)fetchedGroupsResultsController
+{
     
     if (fetchedGroupsResultsController == nil) {
         NSManagedObjectContext *moc  =[[self appDelegate] managedObjectContext_roster];
@@ -176,12 +177,17 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    
     return [[[self fetchedResultsController] sections] count];
+    
 }
 
 - (NSString *)tableView:(UITableView *)sender titleForHeaderInSection:(NSInteger)sectionIndex
 {
     NSArray *sections = [[self fetchedResultsController] sections];
+    NSArray *sectionGroup=[[self fetchedGroupsResultsController] sections];
+    NSLog(@"%lu",(unsigned long)sectionGroup.count);
+    NSLog(@"%lu",(unsigned long)(int)[sections count]);
     
     if (sectionIndex < [sections count])
     {
@@ -195,7 +201,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
             default : return @"Offline";
         }
     }
-    
     return @"";
 }
 
@@ -218,6 +223,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         id <NSFetchedResultsSectionInfo> sectionInfo = sections[sectionIndex];
         return sectionInfo.numberOfObjects;
     }
+   /* else
+    {
+        return [[[self fetchedGroupsResultsController]fetchedObjects]count];
+    }*/
     
     return 0;
 }
@@ -234,16 +243,35 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
                                       reuseIdentifier:CellIdentifier];
     }
     
-    XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-    //[user.groups.count];
+
+    NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
     
-    cell.textLabel.text = user.displayName;
     
-    [self configurePhotoForCell:cell user:user];
+    if (indexPath.row<(int)[[[self fetchedResultsController]fetchedObjects]count]) {
+      
+        XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        
+        cell.textLabel.text = user.displayName;
+        
+        [self configurePhotoForCell:cell user:user];
+        
+        NSLog(@"%@",[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES]);
+        
+        
+    }/*else{
+        int row =indexPath.row-(int)[[[self fetchedResultsController]fetchedObjects]count];
+        
+        XMPPGroupCoreDataStorageObject *group=[[self fetchedGroupsResultsController]objectAtIndexPath:[indexPath initWithIndex:row]];
+        
+        cell.textLabel.text=group.name;
+        return cell;
+        
+    }*/
     
-    NSLog(@"%@",[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES]);
+    
     
     return cell;
+   
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
