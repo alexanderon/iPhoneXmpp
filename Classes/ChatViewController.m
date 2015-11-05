@@ -85,7 +85,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     if (self.isGroupchat)
     {
         [self setupMUC];
-        [self loadGroupChatMsgs];
+     //   [self loadGroupChatMsgs];
     }
     else
     {
@@ -115,7 +115,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [xmppRoom joinRoomUsingNickname:@"test4" history:nil password:nil];
     [xmppRoom fetchConfigurationForm];
-    [xmppRoom inviteUser:[XMPPJID jidWithString:@"dipesh@192.168.0.120"] withMessage:@"hi"];
+  //  [xmppRoom inviteUser:[XMPPJID jidWithString:@"dipesh@192.168.0.120"] withMessage:@"hi"];
     
 }
 
@@ -217,7 +217,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
--(void)loadGroupChatMsgs
+/*-(void)loadGroupChatMsgs
 {
     
     XMPPMessageArchivingCoreDataStorage *_xmppMsgStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
@@ -247,16 +247,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [m setObject:message.body forKey:@"msg"];
         [m setObject:[element attributeStringValueForName:@"to"] forKey:@"sender"];
         
-        /* if ([[element attributeStringValueForName:@"to"] isEqualToString:user.jidStr])
-        {
-            
-            [m setObject:@"you" forKey:@"sender"];
-            
-        }
-        else
-        {
-            [m setObject:user.jidStr forKey:@"sender"];
-        }*/
+//         if ([[element attributeStringValueForName:@"to"] isEqualToString:user.jidStr])
+//        {
+//            
+//            [m setObject:@"you" forKey:@"sender"];
+//            
+//        }
+//        else
+//        {
+//            [m setObject:user.jidStr forKey:@"sender"];
+//        }
         
         //  n(@"%@",[element elementForName:@"image"] );
         
@@ -276,7 +276,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     [self.tableview reloadData];
 
-}
+}*/
 
 
 #pragma mark -----------------TABLE VIEW DELEGATE ----------------------
@@ -869,11 +869,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 -(void)xmppRoom:(XMPPRoom *)sender occupantDidLeave:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence
 {
-
+    
     [xmppRoom leaveRoom];
     [xmppRoom deactivate];
     [xmppRoom removeDelegate:self];
-
+    
 }
 
 

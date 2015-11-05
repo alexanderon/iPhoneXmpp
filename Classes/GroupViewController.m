@@ -7,6 +7,7 @@
 //
 
 #import "GroupViewController.h"
+#import "Rest.h"
 
 @interface GroupViewController ()<UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -21,6 +22,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden=YES;
+      
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated

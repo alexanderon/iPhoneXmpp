@@ -179,6 +179,7 @@
 		B7B5BF781BD0DD66008BD204 /* build-libidn.sh in Resources */ = {isa = PBXBuildFile; fileRef = B7B5BEE51BD0DD66008BD204 /* build-libidn.sh */; settings = {ASSET_TAGS = (); }; };
 		B7B5BF791BD0DD66008BD204 /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B5BEE71BD0DD66008BD204 /* libidn.a */; settings = {ASSET_TAGS = (); }; };
 		B7B5BF7B1BD0DFB5008BD204 /* main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7B5BF7A1BD0DFB5008BD204 /* main.storyboard */; settings = {ASSET_TAGS = (); }; };
+		B7DC54431BEA3AE300F74BD0 /* Rest.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DC54421BEA3AE300F74BD0 /* Rest.m */; settings = {ASSET_TAGS = (); }; };
 		B7E3AA651BD4EFBE00313328 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA641BD4EFBE00313328 /* NSString+Utils.m */; settings = {ASSET_TAGS = (); }; };
 		B7E3AA681BD5094900313328 /* RequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA671BD5094900313328 /* RequestViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B7E3AA701BD50E5700313328 /* RequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7E3AA6F1BD50E5700313328 /* RequestTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -537,6 +538,8 @@
 		B7B5BEE81BD0DD66008BD204 /* stringprep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringprep.h; sourceTree = "<group>"; };
 		B7B5BEE91BD0DD66008BD204 /* XMPPFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
 		B7B5BF7A1BD0DFB5008BD204 /* main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = main.storyboard; sourceTree = "<group>"; };
+		B7DC54411BEA3AE300F74BD0 /* Rest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rest.h; sourceTree = "<group>"; };
+		B7DC54421BEA3AE300F74BD0 /* Rest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rest.m; sourceTree = "<group>"; };
 		B7E3AA631BD4EFBE00313328 /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
 		B7E3AA641BD4EFBE00313328 /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
 		B7E3AA661BD5094900313328 /* RequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestViewController.h; sourceTree = "<group>"; };
@@ -614,6 +617,8 @@
 				B7F481781BE24A0F000ADD48 /* FetcheResultViewController.m */,
 				B766BCF41BE8BC8C007D8AC4 /* GroupListViewController.h */,
 				B766BCF51BE8BC8C007D8AC4 /* GroupListViewController.m */,
+				B7DC54411BEA3AE300F74BD0 /* Rest.h */,
+				B7DC54421BEA3AE300F74BD0 /* Rest.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1842,6 +1847,7 @@
 				B7B5BF3A1BD0DD66008BD204 /* XMPPDateTimeProfiles.m in Sources */,
 				B7B5BF4C1BD0DD66008BD204 /* XMPPPresence+XEP_0172.m in Sources */,
 				B7B5BEFE1BD0DD66008BD204 /* XMPPBandwidthMonitor.m in Sources */,
+				B7DC54431BEA3AE300F74BD0 /* Rest.m in Sources */,
 				B7B5BF491BD0DD66008BD204 /* XMPPURI.m in Sources */,
 				B7B5BF501BD0DD66008BD204 /* XMPPStreamManagementMemoryStorage.m in Sources */,
 				B7B5BF681BD0DD66008BD204 /* XMPPTimer.m in Sources */,

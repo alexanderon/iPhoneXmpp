@@ -10,6 +10,7 @@
 #import "iPhoneXMPPAppDelegate.h"
 #import "ChatViewController.h"
 #import "DDLog.h"
+#import "Rest.h"
 
 // Log levels: off, error, warn, info, verbose
 #if DEBUG
@@ -27,6 +28,26 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
+
+#pragma mark -VIew lifecycle
+
+-(void)viewDidLoad
+{
+    [[Rest sharedInstance]setUser:@"test1" Password:@"123"];
+   // [[Rest sharedInstance]getRosterItemsforUser:@"test4"];
+   // [[Rest sharedInstance]getGroupsItemsforUser:@"test4"];
+  //  [[Rest sharedInstance]getChatRooms];
+   // [[Rest sharedInstance]addUser:@"test3" ToGroup:@"chalo"];
+    //[[Rest sharedInstance]getChatRoomWithName:@"chalo"];
+  //  [[Rest sharedInstance]createGroupWithName:@"Jalsa" Description:@"FunGroup"];
+    //[[Rest sharedInstance]addUser:@"test1" ToGroup:@"Jalsa"];
+    //[[Rest sharedInstance]addUser:@"test4" ToGroup:@"Jalsa"];
+    
+  //  [[Rest sharedInstance]addUser:@"test1" ToGroup:@"Jalsa"];
+    
+
+    NSLog(@"%lu",[[[self fetchedGroupsResultsController]fetchedObjects]count]);
+ }
 
 
 #pragma mark -------------------NSFetchedResultsController----------------------
@@ -85,7 +106,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-  
+    NSLog(@"%lu",[[[self fetchedGroupsResultsController]fetchedObjects]count]);
+
      return [[[self fetchedGroupsResultsController]fetchedObjects]count];
 }
 
