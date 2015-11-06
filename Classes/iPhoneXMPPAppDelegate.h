@@ -25,6 +25,7 @@
     XMPPRoomCoreDataStorage *xmppRoomStorage;
     XMPPRoomMemoryStorage *roomMemory;
 	NSString *password;
+    
 	
 	BOOL customCertEvaluation;
 	
@@ -45,7 +46,8 @@
 @property (nonatomic, strong, readonly) XMPPMessageArchivingCoreDataStorage *xmppMessageArchivingStorage;
 @property (nonatomic, strong, readonly) XMPPMessageArchiving *xmppMessageArchivingModule;
 @property (nonatomic, strong, readonly) XMPPIncomingFileTransfer *xmppIncomingFileTransfer;
-
+@property (nonatomic,strong) NSString*myJid;
+@property (nonatomic,strong)NSString *password;
 
 
 @property (nonatomic, strong) SettingsViewController *settingsViewController;

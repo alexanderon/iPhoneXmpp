@@ -7,6 +7,7 @@
 //
 
 #import "GroupViewController.h"
+#import "ContactListViewController.h"
 #import "Rest.h"
 
 @interface GroupViewController ()<UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -128,17 +129,24 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 
  #pragma mark - Navigation
  
-  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
     {
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
+        
+        
      
      if ([[segue identifier] isEqualToString:@"SelectContacts"]) {
          if (!self.lblGroupName.text.length >0) {
              return;
          }
+         [(ContactListViewController *)[segue destinationViewController] setGroupName:self.txtGroupName.text];
      }
  }
 
+- (IBAction)btnBackClick:(id)sender {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

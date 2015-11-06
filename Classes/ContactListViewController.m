@@ -11,6 +11,7 @@
 #import "TLTagsControl.h"
 #import "XMPPRoomMemoryStorage.h"
 #import "XMPPMUC.h"
+#import "Rest.h"
 
 #if DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
@@ -61,20 +62,20 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     tableView.delegate=self;
     tableView.dataSource=self;
     
-   // [self getRooms];
+    // [self getRooms];
     [[[self appDelegate] xmppStream]addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
     muc =[[XMPPMUC alloc]init];
     [muc activate:[self appDelegate].xmppStream];
     [muc addDelegate:self delegateQueue:dispatch_get_main_queue()];
-   // [self createGroup:@"hello"];
-   // [self getChildrenOfNode:@"hello"];
+    // [self createGroup:@"hello"];
+    // [self getChildrenOfNode:@"hello"];
     //[self getItemsInCollection:@"hello"];
-   // [self serviceDiscovery];
+    // [self serviceDiscovery];
     //[self messageToExtendedAdress];
-    [self messageToRoom];
+    
     [self pathToDocumetDirectory];
-
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -99,186 +100,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark ---------------EXTENDED STANZA -033-IQS-------------------
-
--(void)serviceDiscovery{
-    NSString* server = @"192.168.0.120"; //or whatever the server address for multicast
-    XMPPJID *servrJID = [XMPPJID jidWithString:server];
-    
-    NSXMLElement *query = [NSXMLElement elementWithName:@"query"
-                                                  xmlns:@"http://jabber.org/protocol/disco#info"];
-    
-    
-    XMPPIQ *iq=[XMPPIQ iqWithType:@"get"
-                               to:servrJID
-                        elementID:@"info1"
-                            child:query];
-    [iq addAttributeWithName:@"from" stringValue:[[[self appDelegate]xmppStream] myJID].full];
-    [[[self appDelegate]xmppStream] sendElement:iq];
-
-}
-
--(void)messageToExtendedAdress{
-//    NSString* server = @"192.168.0.120"; //or whatever the server address for multicast
-//    XMPPJID *servrJID = [XMPPJID jidWithString:server];
-    
-    NSXMLElement *address1 =[NSXMLElement elementWithName:@"address"];
-    [address1 addAttributeWithName:@"type" stringValue:@"to"];
-    [address1 addAttributeWithName:@"jid" stringValue:[XMPPJID jidWithString:@"test4@192.168.0.120"].full ];
-    [address1 addAttributeWithName:@"desc" stringValue:@"Joe Hildebrand"];
-    
-    NSXMLElement *address2 =[NSXMLElement elementWithName:@"address"];
-    [address2 addAttributeWithName:@"type" stringValue:@"cc"];
-    [address2 addAttributeWithName:@"jid" stringValue:[XMPPJID jidWithString:@"test1@192.168.0.120"].full ];
-    [address2 addAttributeWithName:@"desc" stringValue:@"Jeremie Miller"];
-    
-    
-    NSXMLElement *addresses =[NSXMLElement elementWithName:@"addresses" xmlns:@"http://jabber.org/protocol/address"];
-    [addresses addChild:address1];
-    [addresses addChild:address2];
-    
-    NSXMLElement *body =[NSXMLElement elementWithName:@"body"];
-    [body setStringValue:@"Hello World!"];
-    
-    NSXMLElement *message =[NSXMLElement elementWithName:@"message"];
-    [message addAttributeWithName:@"to" stringValue:@"192.168.0.120"];
-    [message addChild:addresses];
-    [message addChild:body];
-    
-    
-    [[[self appDelegate]xmppStream] sendElement:message];
-
-}
-
--(void)messageToRoom{
-    
-    NSXMLElement *group=[NSXMLElement elementWithName:@"group"];
-    [group setStringValue:@"ChillarParty"];
-    
-    NSXMLElement *address1 =[NSXMLElement elementWithName:@"address"];
-    [address1 addAttributeWithName:@"type" stringValue:@"to"];
-    [address1 addAttributeWithName:@"desc" stringValue:@"Foo Group"];
-    [address1 addChild:group];
-    
-    NSXMLElement *address2 =[NSXMLElement elementWithName:@"address"];
-    [address2 addAttributeWithName:@"type" stringValue:@"replyroom"];
-    [address2 addAttributeWithName:@"jid" stringValue:[XMPPJID jidWithString:@"hello@conference.192.168.0.120"].full ];
-    [address2 addAttributeWithName:@"desc" stringValue:@"Jeremie Miller"];
-    
-    
-    NSXMLElement *addresses =[NSXMLElement elementWithName:@"addresses" xmlns:@"http://jabber.org/protocol/address"];
-    [addresses addChild:address1];
-    [addresses addChild:address2];
-    
-    NSXMLElement *body =[NSXMLElement elementWithName:@"body"];
-    [body setStringValue:@"Hello World!"];
-    
-    NSXMLElement *message =[NSXMLElement elementWithName:@"message"];
-    [message addAttributeWithName:@"to" stringValue:@"192.168.0.120"];
-    [message addChild:addresses];
-    [message addChild:body];
-    
-    
-    [[[self appDelegate]xmppStream] sendElement:message];
-    
-}
-
-#pragma mark ----------------GROUP CREATION IQS------------------------
-
--(void)createGroup:(NSString *)groupName{
-    {
-        NSString* server = @"pubsub.192.168.0.120"; //or whatever the server address for muc is
-        XMPPJID *servrJID = [XMPPJID jidWithString:server];
-        
-        NSXMLElement *create =[NSXMLNode elementWithName:@"create"];
-        [create addAttributeWithName:@"node" stringValue:groupName];
-        NSXMLElement *pubsub=[NSXMLElement elementWithName:@"pubsub" xmlns:@"http://jabber.org/protocol/pubsub"];
-        
-        [pubsub addChild:create];
-        
-        XMPPIQ*iq =[XMPPIQ iqWithType:@"set"
-                                   to:servrJID
-                            elementID:@"create1"
-                                child:pubsub];
-        
-        
-        [iq addAttributeWithName:@"from" stringValue:[[[self appDelegate]xmppStream] myJID].full];
-        [[[self appDelegate]xmppStream]sendElement:iq];
-        
-    }
-    
-}
-
--(void)subscribe:(NSString *)userjidStr toCollectionNode:(NSString *)groupName{
-    
-    NSString* server = @"pubsub.192.168.0.120"; //or whatever the server address for muc is
-    XMPPJID *servrJID = [XMPPJID jidWithString:server];
-    
-    /* NSXMLElement *entity =[NSXMLElement elementWithName:@"entity"];
-     [entity addAttributeWithName:@"jid" objectValue:[XMPPJID jidWithString:userjidStr]];
-     [entity addAttributeWithName:@"affiliation" stringValue:@"none"];
-     [entity addAttributeWithName:@"subscription" stringValue:@"subscribed"];
-     
-     NSXMLElement *entities=[NSXMLElement elementWithName:@"entities"];
-     [entities addAttributeWithName:@"node" stringValue:groupName];
-     
-     [entities addChild:entity];*/
-    
-    NSXMLElement *subscribe =[NSXMLElement elementWithName:@"subscribe"];
-    [subscribe addAttributeWithName:@"jid" stringValue:userjidStr];
-    [subscribe addAttributeWithName:@"node" stringValue:groupName];
-    
-    
-    NSXMLElement *pubsub=[NSXMLElement elementWithName:@"pubsub" xmlns:@"http://jabber.org/protocol/pubsub"];
-    [pubsub addChild:subscribe];
-    
-    XMPPIQ*iq =[XMPPIQ iqWithType:@"set"
-                               to:servrJID
-                        elementID:@"collsub1"
-                            child:pubsub];
-    
-    
-    [iq addAttributeWithName:@"from" stringValue:[[[self appDelegate]xmppStream] myJID].full];
-    [[[self appDelegate]xmppStream]sendElement:iq];
-    
-}
-
--(void)getChildrenOfNode:(NSString *)collectionNode{
-    NSString* server = @"pubsub.192.168.0.120"; //or whatever the server address for muc is
-    XMPPJID *servrJID = [XMPPJID jidWithString:server];
-    
-    NSXMLElement *query = [NSXMLElement elementWithName:@"query"
-                                                  xmlns:@"http://jabber.org/protocol/disco#items"];
-    [query addAttributeWithName:@"node" stringValue:collectionNode];
-    
-    XMPPIQ *iq=[XMPPIQ iqWithType:@"get"
-                               to:servrJID
-                        elementID:@"disco1"
-                            child:query];
-    [iq addAttributeWithName:@"from" stringValue:[[[self appDelegate]xmppStream] myJID].full];
-    [[[self appDelegate]xmppStream] sendElement:iq];
-    
-}
-
--(void)getItemsInCollection:(NSString *)CollectionNode{
-    NSString* server = @"pubsub.192.168.0.120"; //or whatever the server address for muc is
-    XMPPJID *servrJID = [XMPPJID jidWithString:server];
-    
-    NSXMLElement *pubsub =[NSXMLElement elementWithName:@"pubsub" xmlns:@"http://jabber.org/protocol/pubsub"];
-    NSXMLElement *items =[NSXMLElement elementWithName:@"items"];
-    [items addAttributeWithName:@"node" stringValue:CollectionNode];
-    [pubsub addChild:items];
-    
-    
-    XMPPIQ *iq=[XMPPIQ iqWithType:@"get"
-                               to:servrJID
-                        elementID:@"disco1"
-                            child:pubsub];
-    [iq addAttributeWithName:@"from" stringValue:[[[self appDelegate]xmppStream] myJID].full];
-    [[[self appDelegate]xmppStream] sendElement:iq];
-    
-}
-
 
 #pragma mark ----------------GENEREAL METHODS-----------------
 
@@ -292,19 +113,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     self.navigationController.navigationBarHidden=YES;
 }
 
--(void)getRooms
-{
-    NSString* server = @"192.168.0.120"; //or whatever the server address for muc is
-    XMPPJID *servrJID = [XMPPJID jidWithString:server];
-    XMPPIQ *iq = [XMPPIQ iqWithType:@"get" to:servrJID];
-    [iq addAttributeWithName:@"from" stringValue:[[[self appDelegate]xmppStream] myJID].full];
-    NSXMLElement *query = [NSXMLElement elementWithName:@"query"];
-    [query addAttributeWithName:@"xmlns" stringValue:@"http://jabber.org/protocol/disco#items"];
-    [iq addChild:query];
-    [[[self appDelegate]xmppStream] sendElement:iq];
-    
-    
-    }
 
 
 
@@ -411,13 +219,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
 }
 
-#pragma mark ----------------XMPP STREAM -DELEGATE ---------------------
 
-- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
-{
-   // NSLog(@"%@",[iq description]);
-    return NO;
-}
 
 #pragma mark ----------------XMPP ROOM DELEGATE -------------------------
 
@@ -432,46 +234,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 }
 
-- (void)xmppRoom:(XMPPRoom *)sender didFetchConfigurationForm:(NSXMLElement *)configForm
-{
-    
-    
-    NSXMLElement *newConfig = [configForm copy];
-    NSArray *fields = [newConfig elementsForName:@"field"];
-    
-    for (NSXMLElement *field in fields)
-    {
-        NSString *var = [field attributeStringValueForName:@"var"];
-        // Make Room Persistent
-        if ([var isEqualToString:@"muc#roomconfig_persistentroom"]) {
-            [field removeChildAtIndex:0];
-            [field addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
-        }
-    }
-    
-    for (NSDictionary *dict in self.defaultEditingTagControl.tags) {
-        NSString *object =[dict valueForKey:@"object"];
-        [sender inviteUser:[XMPPJID jidWithString:object] withMessage:@"GReetings"];
-    }
-    
-    [sender configureRoomUsingOptions:newConfig];
-}
-
--(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID
-{
-
-   // NSLog(@"Received Message From:%@",[occupantJID bare]);
-    NSLog(@"Message is:%@",[message body]);
-}
 
 
 #pragma mark ---------------XMPP MUC DELEGATE----------------------------
 
 -(void)xmppMUC:(XMPPMUC *)sender roomJID:(XMPPJID *)roomJID didReceiveInvitation:(XMPPMessage *)message{
-
+    
     NSLog(@"Requst For :%@ ,with Message:%@",roomJID ,message);
     XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
-
+    
     XMPPRoom *xmppRoom =[[XMPPRoom alloc]initWithRoomStorage:roomMemory
                                                          jid:roomJID
                                                dispatchQueue:dispatch_get_main_queue()];
@@ -479,7 +250,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [xmppRoom activate:[[self appDelegate] xmppStream]];
     [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [xmppRoom joinRoomUsingNickname:[[self appDelegate].xmppStream.myJID bare] history:nil password:nil];
-
+    
     
 }
 
@@ -493,41 +264,57 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (IBAction)btnCreateGroupClick:(id)sender
 {
-   
-     //   [self subscribe:@"test4@192.168.0.120" toCollectionNode:@"hello"];
+    [[Rest sharedInstance]setUser:@"dipesh" Password:@"Test105*"];
+  
+    [[Rest sharedInstance]createGroupWithName:self.groupName Description:@"descrition" withCompletionHandler:^(int data) {
+        NSLog(@"%d",data);
+        NSLog(@"%@",self.defaultEditingTagControl.tags);
+        for (NSDictionary *dict  in self.defaultEditingTagControl.tags) {
+            
+            NSString *user =[dict objectForKey:@"object"];
+            [[Rest sharedInstance]addUser:user ToGroup:self.groupName];
+        }
+        [[Rest sharedInstance]addUser:@"dipesh" ToGroup:self.groupName];
+    }] ;
     
-    XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
-    NSString *roomID=@"google@conference.192.168.0.120";
-    XMPPJID *roomJID =[XMPPJID jidWithString:roomID];
+  
+    
+    [[Rest sharedInstance]createChatRoomWithName:self.groupName Description:@"description" withCompletionHandler:^(int data) {
+        
+            NSLog(@"%d",data);
+            
+            for (NSDictionary *dict  in self.defaultEditingTagControl.tags) {
+                
+                NSString *user =[dict objectForKey:@"object"];
+                
+                [[Rest sharedInstance]addUser:user ToChatRoom:self.groupName Role:@"members"];
+            }
+            [[Rest sharedInstance]addUser:@"dipesh" ToChatRoom:self.groupName Role:@"admins"];
+        
+    } ];
     
     
-    XMPPRoom *xmppRoom =[[XMPPRoom alloc]initWithRoomStorage:roomMemory
-                                                         jid:roomJID
-                                               dispatchQueue:dispatch_get_main_queue()];
-    [xmppRoom activate:[[self appDelegate] xmppStream]];
-    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [xmppRoom joinRoomUsingNickname:@"nickName" history:nil password:nil];
-    [xmppRoom fetchConfigurationForm];
-    [xmppRoom inviteUser:[XMPPJID jidWithString:@"test4@192.168.0.120"] withMessage:@"hi"];
+    
+    //  [[Rest sharedInstance]createChatRoomWithName:self.groupName];
+    // [[Rest sharedInstance]addUser:@"test1@192.168.0.120" ToGroup:self.groupName];
+    
+    
+    
+    //    XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
+    //    NSString *roomID=@"google@conference.192.168.0.120";
+    //    XMPPJID *roomJID =[XMPPJID jidWithString:roomID];
+    //
+    //
+    //    XMPPRoom *xmppRoom =[[XMPPRoom alloc]initWithRoomStorage:roomMemory
+    //                                                         jid:roomJID
+    //                                               dispatchQueue:dispatch_get_main_queue()];
+    //    [xmppRoom activate:[[self appDelegate] xmppStream]];
+    //    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    //    [xmppRoom joinRoomUsingNickname:@"nickName" history:nil password:nil];
+    //    [xmppRoom fetchConfigurationForm];
+    //    [xmppRoom inviteUser:[XMPPJID jidWithString:@"test4@192.168.0.120"] withMessage:@"hi"];
     
 }
-
-/*-(void)createRoom:(NSString *)nameOfRoom andJoinAs:(NSString *)nickName{
-    
-    XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
-    NSString *roomID=[NSString stringWithFormat:@"%@,@conference.192.168.0.120",nameOfRoom];
-    
-    XMPPJID *roomJID =[XMPPJID jidWithString:roomID];
-    
-    
-    XMPPRoom *xmppRoom =[[XMPPRoom alloc]initWithRoomStorage:roomMemory
-                                                         jid:roomJID
-                                               dispatchQueue:dispatch_get_main_queue()];
-    [xmppRoom activate:[[self appDelegate] xmppStream]];
-    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [xmppRoom joinRoomUsingNickname:nic  history:nil password:nil];
-}*/
-
 
 - (IBAction)btnBackClick:(id)sender
 {

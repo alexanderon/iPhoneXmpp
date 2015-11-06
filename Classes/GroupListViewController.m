@@ -33,18 +33,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 -(void)viewDidLoad
 {
-    [[Rest sharedInstance]setUser:@"test1" Password:@"123"];
-   // [[Rest sharedInstance]getRosterItemsforUser:@"test4"];
-   // [[Rest sharedInstance]getGroupsItemsforUser:@"test4"];
-  //  [[Rest sharedInstance]getChatRooms];
-   // [[Rest sharedInstance]addUser:@"test3" ToGroup:@"chalo"];
-    //[[Rest sharedInstance]getChatRoomWithName:@"chalo"];
-  //  [[Rest sharedInstance]createGroupWithName:@"Jalsa" Description:@"FunGroup"];
-    //[[Rest sharedInstance]addUser:@"test1" ToGroup:@"Jalsa"];
-    //[[Rest sharedInstance]addUser:@"test4" ToGroup:@"Jalsa"];
-    
-  //  [[Rest sharedInstance]addUser:@"test1" ToGroup:@"Jalsa"];
-    
+    [[Rest sharedInstance]setUser:@"test2" Password:@"123"];
 
     NSLog(@"%lu",[[[self fetchedGroupsResultsController]fetchedObjects]count]);
  }

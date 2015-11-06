@@ -297,7 +297,8 @@
     
 	NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
 	NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
-
+    self.myJid=myJID;
+    self.password=myPassword;
 	//
 	// If you don't want to use the Settings view to set the JID, 
 	// uncomment the section below to hard code a JID and password.
@@ -311,6 +312,7 @@
 
 	[xmppStream setMyJID:[XMPPJID jidWithString:myJID]];
 	password = myPassword;
+    
 
 	NSError *error = nil;
 	if (![xmppStream connectWithTimeout:XMPPStreamTimeoutNone error:&error])
@@ -460,6 +462,7 @@
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error
 {
+    NSLog(@"%@",error.description);
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 }
 

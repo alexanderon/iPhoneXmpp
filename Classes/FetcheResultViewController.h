@@ -14,6 +14,8 @@
 
 
 @interface FetcheResultViewController : UIViewController<NSFetchedResultsControllerDelegate>
+
+@property(nonatomic,strong)NSString *groupName;
 - (NSFetchedResultsController *)fetchedResultsController;
 - (iPhoneXMPPAppDelegate *)appDelegate;
 @end

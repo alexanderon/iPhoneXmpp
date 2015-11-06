@@ -14,7 +14,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 @implementation RootViewController
 
-#pragma mark Accessors
+#pragma mark ------------------ Accessors
 
 - (iPhoneXMPPAppDelegate *)appDelegate
 {
@@ -69,9 +69,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
 }
 
-#pragma mark -------------------NSFetchedResultsController----------------------
+#pragma mark -------------------NSFetchedResultsController
 
--(NSFetchedResultsController *)fetchedGroupsResultsController
+/*-(NSFetchedResultsController *)fetchedGroupsResultsController
 {
     
     if (fetchedGroupsResultsController == nil) {
@@ -103,7 +103,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
     }
     return fetchedGroupsResultsController;
-}
+}*/
 
 -(NSFetchedResultsController *)fetchedResultsController
 {
@@ -149,8 +149,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark ------------------UITableViewCell helpers--------------------------
-
+#pragma mark ------------------UITableViewCell helpers
 
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPUserCoreDataStorageObject *)user
 {
@@ -172,7 +171,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
 }
 
-#pragma mark ------------------UITableView-------------------------------------
+#pragma mark ------------------UITableView
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -185,8 +184,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (NSString *)tableView:(UITableView *)sender titleForHeaderInSection:(NSInteger)sectionIndex
 {
     NSArray *sections = [[self fetchedResultsController] sections];
-    NSArray *sectionGroup=[[self fetchedGroupsResultsController] sections];
-    NSLog(@"%lu",(unsigned long)sectionGroup.count);
+  //  NSArray *sectionGroup=[[self fetchedGroupsResultsController] sections];
+ //   NSLog(@"%lu",(unsigned long)sectionGroup.count);
     NSLog(@"%lu",(unsigned long)(int)[sections count]);
     
     if (sectionIndex < [sections count])
@@ -223,6 +222,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         id <NSFetchedResultsSectionInfo> sectionInfo = sections[sectionIndex];
         return sectionInfo.numberOfObjects;
     }
+    
    /* else
     {
         return [[[self fetchedGroupsResultsController]fetchedObjects]count];
@@ -291,7 +291,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 #pragma mark ------------------Actions-----------------------------------------
 
-
 - (IBAction)settings:(id)sender
 {
     SettingsViewController* settingsViewController = [(UIStoryboard *)[UIStoryboard storyboardWithName:@"main" bundle:nil] instantiateViewControllerWithIdentifier:@"SettingsViewController"];
@@ -302,6 +301,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     
 }
+
 - (IBAction)btnAddClick:(id)sender
 {
     
