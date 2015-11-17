@@ -451,11 +451,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
     
     NSString *messageStr = chatFeild.text;
-    
-    
     if([messageStr length] > 0 || [self.image isKindOfClass:[UIImage class]] )
         
-    {
+        {
         if (self.isGroupchat) {
             [xmppRoom sendMessageWithBody:messageStr];
             return;
