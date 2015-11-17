@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="61" id="KGk-i7-Jjw" customClass="musicTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="391" height="61"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="391" height="60"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6X-Tb-Huv">
+                        <rect key="frame" x="0.0" y="0.0" width="391" height="60"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nlB-6m-7ot" userLabel="smallPopUpView">
+                                <rect key="frame" x="0.0" y="0.0" width="391" height="60"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gaQ-zx-6ZA" userLabel="ThumbNail">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                        <animations/>
+                                        <color key="tintColor" red="0.89343410519999999" green="0.95361631889999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="2Zb-tD-tiq"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="Lc1-p2-0p8"/>
+                                            <constraint firstAttribute="height" constant="60" id="dTS-AB-CKZ"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="iNa-xJ-02c"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6EF-XT-ltQ" userLabel="SongName">
+                                        <rect key="frame" x="75" y="15" width="306" height="17"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.89343410519999999" green="0.95361631889999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="highlightedColor" red="0.89343410519999999" green="0.95361631889999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kE-VX-fNU" userLabel="SingerName">
+                                        <rect key="frame" x="75" y="34" width="246" height="15"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.89343410519999999" green="0.95361631889999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KKd-Xr-gWa" userLabel="btnplay">
+                                        <rect key="frame" x="331" y="0.0" width="60" height="60"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="Oa0-f4-49b"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="-20" minY="-20" maxX="-30" maxY="-20"/>
+                                        <state key="normal" image="Play-icon.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yNP-q2-mP7" userLabel="btnDownload">
+                                        <rect key="frame" x="0.0" y="0.0" width="321" height="60"/>
+                                        <animations/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" red="0.59081167040000004" green="0.59081167040000004" blue="0.59081167040000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" red="0.1764705882" green="0.035294117649999998" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="gaQ-zx-6ZA" firstAttribute="leading" secondItem="nlB-6m-7ot" secondAttribute="leading" id="1ao-48-voj"/>
+                                    <constraint firstItem="KKd-Xr-gWa" firstAttribute="leading" secondItem="6kE-VX-fNU" secondAttribute="trailing" constant="10" id="2FP-VT-4b8"/>
+                                    <constraint firstItem="6EF-XT-ltQ" firstAttribute="leading" secondItem="gaQ-zx-6ZA" secondAttribute="trailing" constant="15" id="81y-fX-cBp"/>
+                                    <constraint firstAttribute="bottom" secondItem="gaQ-zx-6ZA" secondAttribute="bottom" id="GU5-aY-ZIU"/>
+                                    <constraint firstAttribute="trailing" secondItem="6EF-XT-ltQ" secondAttribute="trailing" constant="10" id="Gbq-cs-eRU"/>
+                                    <constraint firstAttribute="bottom" secondItem="yNP-q2-mP7" secondAttribute="bottom" id="Kie-Tp-quT"/>
+                                    <constraint firstItem="KKd-Xr-gWa" firstAttribute="leading" secondItem="yNP-q2-mP7" secondAttribute="trailing" constant="10" id="KzQ-4y-7Qb"/>
+                                    <constraint firstAttribute="bottom" secondItem="KKd-Xr-gWa" secondAttribute="bottom" id="RiH-AT-utv"/>
+                                    <constraint firstItem="yNP-q2-mP7" firstAttribute="leading" secondItem="nlB-6m-7ot" secondAttribute="leading" id="Rm5-Fe-T3s"/>
+                                    <constraint firstItem="KKd-Xr-gWa" firstAttribute="top" secondItem="nlB-6m-7ot" secondAttribute="top" id="SfL-np-YOA"/>
+                                    <constraint firstItem="6kE-VX-fNU" firstAttribute="top" secondItem="6EF-XT-ltQ" secondAttribute="bottom" constant="2" id="T6C-Vs-c26"/>
+                                    <constraint firstItem="6EF-XT-ltQ" firstAttribute="top" secondItem="nlB-6m-7ot" secondAttribute="top" constant="15" id="egd-CS-Gnm"/>
+                                    <constraint firstItem="6kE-VX-fNU" firstAttribute="leading" secondItem="gaQ-zx-6ZA" secondAttribute="trailing" constant="15" id="rZJ-Au-m7R"/>
+                                    <constraint firstAttribute="trailing" secondItem="KKd-Xr-gWa" secondAttribute="trailing" id="soA-rw-vGC"/>
+                                    <constraint firstItem="yNP-q2-mP7" firstAttribute="top" secondItem="nlB-6m-7ot" secondAttribute="top" id="suB-cM-bCk"/>
+                                    <constraint firstAttribute="height" constant="60" id="tHW-oJ-37F"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="nlB-6m-7ot" secondAttribute="trailing" id="88k-sz-fMg"/>
+                            <constraint firstAttribute="height" constant="60" id="9Lg-S1-YBQ"/>
+                            <constraint firstItem="nlB-6m-7ot" firstAttribute="leading" secondItem="E6X-Tb-Huv" secondAttribute="leading" id="GhW-3D-3Mw"/>
+                            <constraint firstItem="nlB-6m-7ot" firstAttribute="top" secondItem="E6X-Tb-Huv" secondAttribute="top" id="W4M-Vw-NaE"/>
+                            <constraint firstAttribute="bottom" secondItem="nlB-6m-7ot" secondAttribute="bottom" id="h3K-vJ-W4K"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="E6X-Tb-Huv" secondAttribute="bottom" id="YEY-Ag-Hp4"/>
+                    <constraint firstItem="E6X-Tb-Huv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Yfo-B9-NCI"/>
+                    <constraint firstItem="E6X-Tb-Huv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="zcX-Bv-Wc5"/>
+                    <constraint firstAttribute="trailing" secondItem="E6X-Tb-Huv" secondAttribute="trailing" id="zl7-d7-jQv"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="btnDownload" destination="yNP-q2-mP7" id="k45-4z-Cgy"/>
+                <outlet property="btnPlay" destination="KKd-Xr-gWa" id="kzH-2s-b8z"/>
+                <outlet property="lblSingerName" destination="6kE-VX-fNU" id="ai3-hP-UGE"/>
+            </connections>
+            <point key="canvasLocation" x="458.5" y="303.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Play-icon.png" width="108" height="47"/>
+    </resources>
+</document>

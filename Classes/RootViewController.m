@@ -36,7 +36,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [super viewDidLoad];
    // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
    // [self fileUpload];
-    [self uploadImageAsync1:nil];
+   // [self uploadImageAsync1:nil];
     
 }
 
@@ -391,83 +391,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     NSLog(@"Started!");
 }
 
-
--(void)uploadImageAsync1:(id)sender
-{
-    
-    if( [self setParams]){
-        
-        NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-        
-        // Loads the data for a URL request and executes a handler block on an operation queue when the request completes or fails.
-        [NSURLConnection sendAsynchronousRequest:request
-                                           queue:queue
-                               completionHandler:^(NSURLResponse *urlResponse, NSData *data, NSError *error){
-                                   NSLog(@"Completed");
-                                   
-                                  // response.text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                   
-                                  // [indicator stopAnimating];
-                                   [UIApplication sharedApplication].networkActivityIndicatorVisible = FALSE;
-                                   
-                                   if (error) {
-                                       NSLog(@"error:%@", error.localizedDescription);
-                                   }
-                                   
-                               }];
-    }
-    
-    
-}
-
-
--(BOOL) setParams
-{
-    NSString *filePath=[[NSBundle mainBundle]pathForResource:@"divan" ofType:@"mp3"];
-    
-   pngData = [NSData dataWithContentsOfFile:filePath];
-
-    
-    if(pngData != nil){
-        
-       // [indicator startAnimating];
-        
-        request = [NSMutableURLRequest new];
-        request.timeoutInterval = 20.0;
-        [request setURL:[NSURL URLWithString:URL]];
-        [request setHTTPMethod:@"POST"];
-        //[request setCachePolicy:NSURLCacheStorageNotAllowed];
-        
-        NSString *boundary = @"---------------------------14737809831466499882746641449";
-        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-        [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-        [request setValue:@"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" forHTTPHeaderField:@"Accept"];
-        [request setValue:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/536.26.14 (KHTML, like Gecko) Version/6.0.1 Safari/536.26.14" forHTTPHeaderField:@"User-Agent"];
-        
-        NSMutableData *body = [NSMutableData data];
-        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@.mp3\"\r\n", @"Uploaded_file"] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        [body appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        [body appendData:[NSData dataWithData:pngData]];
-        
-        [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        
-        [request setHTTPBody:body];
-        [request addValue:[NSString stringWithFormat:@"%d", [body length]] forHTTPHeaderField:@"Content-Length"];
-        
-        return TRUE;
-        
-    }else{
-        
-   //     response.text = NO_IMAGE;
-        
-        return FALSE;
-    }
-}
 
 
 @end

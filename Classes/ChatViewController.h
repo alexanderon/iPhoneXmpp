@@ -21,6 +21,7 @@
 #import "ImageViewCell.h"
 #import "HPGrowingTextView.h"
 #import "XMPPMessage+XEP_0033.h"
+#import "musicTableViewCell.h"
 
 
 
