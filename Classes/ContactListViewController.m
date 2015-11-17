@@ -49,30 +49,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [self showNavigation];
     [self hideNaviagation];
     
-    // [self.defaultEditingTagControl setMode:TLTagsControlModeList];
     [self.defaultEditingTagControl setTapDelegate:self];
-    //[demoTagsControl reloadTagSubviews];
-    //[demoTagsControl setTapDelegate:self];
-    
-    
-    //[self.view addSubview:demoTagsControl];
-    //[self drawUnderLine:demoTagsControl.tag];
-    // self.defaultEditingTagControl.delegate = self;
     
     tableView.delegate=self;
     tableView.dataSource=self;
     
-    // [self getRooms];
     [[[self appDelegate] xmppStream]addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
     muc =[[XMPPMUC alloc]init];
     [muc activate:[self appDelegate].xmppStream];
     [muc addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    // [self createGroup:@"hello"];
-    // [self getChildrenOfNode:@"hello"];
-    //[self getItemsInCollection:@"hello"];
-    // [self serviceDiscovery];
-    //[self messageToExtendedAdress];
     
     [self pathToDocumetDirectory];
     
@@ -112,8 +98,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
     self.navigationController.navigationBarHidden=YES;
 }
-
-
 
 
 #pragma mark ----------------TABLE VIEW DELEGATE -------------
@@ -274,7 +258,17 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
             NSString *user =[dict objectForKey:@"object"];
             [[Rest sharedInstance]addUser:user ToGroup:self.groupName];
         }
-        [[Rest sharedInstance]addUser:@"dipesh" ToGroup:self.groupName];
+        
+        NSString *user =[self appDelegate].myJid;
+    
+        if ([user containsString:@"@"]) {
+            
+            user=[[user componentsSeparatedByString:@"@"]firstObject];
+        }
+        
+
+        
+        [[Rest sharedInstance]addUser:user ToGroup:self.groupName];
     }] ;
     
   
@@ -289,6 +283,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
                 
                 [[Rest sharedInstance]addUser:user ToChatRoom:self.groupName Role:@"members"];
             }
+        
+        NSString *user =[self appDelegate].myJid;
+        
+        if ([user containsString:@"@"]) {
+            
+            user=[[user componentsSeparatedByString:@"@"]firstObject];
+        }
+        
+
+
             [[Rest sharedInstance]addUser:@"dipesh" ToChatRoom:self.groupName Role:@"admins"];
         
     } ];
@@ -296,12 +300,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     
     //  [[Rest sharedInstance]createChatRoomWithName:self.groupName];
-    // [[Rest sharedInstance]addUser:@"test1@192.168.0.120" ToGroup:self.groupName];
+    // [[Rest sharedInstance]addUser:@"test1@servername" ToGroup:self.groupName];
     
     
     
     //    XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
-    //    NSString *roomID=@"google@conference.192.168.0.120";
+    //    NSString *roomID=@"google@conference.servername";
     //    XMPPJID *roomJID =[XMPPJID jidWithString:roomID];
     //
     //
@@ -312,7 +316,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     //    [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
     //    [xmppRoom joinRoomUsingNickname:@"nickName" history:nil password:nil];
     //    [xmppRoom fetchConfigurationForm];
-    //    [xmppRoom inviteUser:[XMPPJID jidWithString:@"test4@192.168.0.120"] withMessage:@"hi"];
+    //    [xmppRoom inviteUser:[XMPPJID jidWithString:@"test4@servername"] withMessage:@"hi"];
     
 }
 

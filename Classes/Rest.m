@@ -7,6 +7,7 @@
 //
 
 #import "Rest.h"
+#import "iPhoneXMPPAppDelegate.h"
 
 @interface Rest()
 
@@ -29,6 +30,11 @@ static  Rest *rest =nil;
         });
     }
     return rest;
+}
+
+- (iPhoneXMPPAppDelegate *)appDelegate
+{
+    return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 +(void)downloadDataFromURL:(NSURL *)url withCompletionHandler:(void (^)(NSData *))completionHandler
@@ -81,7 +87,15 @@ static  Rest *rest =nil;
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
                                     initWithURL:baseURL];
-    NSString *auth=[self getAuthString:self.username   Password:self.password OfType:@"Basic"];
+    NSString *user =[self appDelegate].myJid;
+    NSString *pass=[self appDelegate].password;
+    if ([user containsString:@"@"]) {
+        
+        user=[[user componentsSeparatedByString:@"@"]firstObject];
+    }
+    
+    
+    NSString *auth=[self getAuthString:user  Password:pass OfType:@"Basic"];
     [request setHTTPMethod:httpMethod];
     [request setValue:contentType  forHTTPHeaderField:@"Content-type"];
     [request setValue:acceptType forHTTPHeaderField:@"Accept"];
@@ -96,7 +110,7 @@ static  Rest *rest =nil;
                     OfType:(NSString *)authType
 {
     
-    NSString* loginString = [NSString stringWithFormat:@"%@:%@", self.username  ,self.password];
+    NSString* loginString = [NSString stringWithFormat:@"%@:%@", @"dipesh" ,@"Test105*"];
     NSData *    loginData =[loginString dataUsingEncoding:(NSUTF8StringEncoding)];
     NSString * base64LoginString =  [loginData base64EncodedStringWithOptions:nil];
     NSLog(@"%@",base64LoginString);
@@ -107,9 +121,9 @@ static  Rest *rest =nil;
     return @"";
 }
 
--(void)getRosterItemsforUser:(NSString *)username
+-(void)getRosterItemsforUser:(NSString *)username withCompletionHandler:(void (^)(NSData *))completionHandler
 {
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/users/%@/roster",username];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/roster",servername,username];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
 
     
@@ -120,24 +134,27 @@ static  Rest *rest =nil;
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *responseCode, NSData *responseData, NSError *responseError) {
         NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&responseError]);
+        completionHandler(responseData);
     }];
     
     
     
 }
 
--(void)getGroupsItemsforUser:(NSString *)username
+-(void)getGroupsItemsforUser:(NSString *)username  withCompletionHandler:(void (^)(NSData *))completionHandler
 {
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/users/%@/groups",username];
+    
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/groups",servername,username];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"GET"
                                                   ContentType:@"application/json"
                                                        Accept:@"application/json"
                                                    RequestURL:baseUrl];
-    
+    NSLog(@"%@",request.URL);
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *responseCode, NSData *responseData, NSError *responseError) {
-        NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&responseError]);
+            NSLog(@"%@",[[NSMutableString alloc]initWithData:responseData encoding:NSUTF8StringEncoding]);
+        completionHandler(responseData);
     }];
     
 
@@ -147,7 +164,7 @@ static  Rest *rest =nil;
 -(void)createGroupWithName:(NSString *)groupName Description:(NSString *)description withCompletionHandler:(void (^)(int data))completionHandler
 {
 
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/groups"];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/groups",servername];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
@@ -175,7 +192,7 @@ static  Rest *rest =nil;
 
 -(void)removeUser:(NSString *)username FromGroup:(NSString *)group
 {
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/users/%@/groups/%@",username,group];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/groups/%@",servername,username,group];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"DELETE"
@@ -195,7 +212,7 @@ static  Rest *rest =nil;
 {
 
     
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/lockouts/%@",username];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/lockouts/%@",servername,username];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
@@ -216,7 +233,7 @@ static  Rest *rest =nil;
 -(void)unlockUser:(NSString *)username
 {
     
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/lockouts/%@",username];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/lockouts/%@",servername,username];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"DELETE"
@@ -234,8 +251,8 @@ static  Rest *rest =nil;
 
 -(void)getChatRooms
 {
-
-    NSString *urlstring =@"http://192.168.0.120:9090/plugins/restapi/v1/chatrooms";
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/chatrooms",servername];
+    
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"GET"
@@ -252,8 +269,8 @@ static  Rest *rest =nil;
 
 -(void)createChatRoomWithName:(NSString *)roomName Description:(NSString *)description withCompletionHandler:(void (^)(int data))completionHandler
 {
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/chatrooms"];
-
+   NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/chatrooms",servername];
+    
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
@@ -285,7 +302,7 @@ static  Rest *rest =nil;
         username=[[username componentsSeparatedByString:@"@"] firstObject];
     }
     
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/users/%@/groups/%@",username,group];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/groups/%@",servername,username,group];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
@@ -310,7 +327,7 @@ static  Rest *rest =nil;
         user=[[user componentsSeparatedByString:@"@"] firstObject];
     }
 
-    NSString *urlstring =[NSString stringWithFormat:@"http://192.168.0.120:9090/plugins/restapi/v1/chatrooms/%@/members/%@",chatRoom,user];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/chatrooms/%@/members/%@",servername,chatRoom,user];
     NSURL *baseUrl =[NSURL URLWithString:urlstring];
     
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"

@@ -12,6 +12,8 @@
 @interface GroupListViewController : UIViewController <NSFetchedResultsControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 {
         NSFetchedResultsController *fetchedGroupsResultsController;
+    __block NSMutableArray *groups;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end

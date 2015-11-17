@@ -27,7 +27,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
     [super viewDidLoad];
    // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
-    
+    [self fileUpload];
     
 }
 
@@ -297,9 +297,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     [self.navigationController pushViewController:settingsViewController animated:YES];
     
-    
-    
-    
 }
 
 - (IBAction)btnAddClick:(id)sender
@@ -323,6 +320,66 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     if ([[segue identifier] isEqualToString:@"CreateGroup"]) {
         self.popUpView.hidden=YES;
     }
+}
+
+#pragma mark ------------------File Upload
+
+-(void)serviceDiscovery{
+    
+    
+    NSXMLElement *request =[NSXMLElement elementWithName:@"request"];
+    [request addAttributeWithName:@"urn:xmpp:http:upload" stringValue:@""];
+    
+    NSXMLElement *filename =[NSXMLElement elementWithName:@"filename"];
+    [filename setStringValue:@"aqua.png"];
+    
+    
+    NSXMLElement *size =[NSXMLElement elementWithName:@"size"];
+    [size setStringValue:@"1355"];
+    
+    NSXMLElement *contentType =[NSXMLElement elementWithName:@"content-type"];
+    [contentType setStringValue:@"image/png"];
+    
+    [request addChild:filename];
+    [request addChild:size];
+    [request addChild:contentType];
+    
+    
+    
+   
+  
+    XMPPIQ *iq =[[XMPPIQ alloc]initWithType:@"get" to:[XMPPJID jidWithString:@"192.168.0.154"] elementID:@"step_3" child:request];
+    [iq addAttributeWithName:@"from" stringValue:[[XMPPJID jidWithString:@"test4@192.168.0.154/9spl"] full]];
+    [[[self appDelegate] xmppStream] sendElement:iq];
+    NSLog(@"%@",iq);
+    
+}
+
+
+-(void)fileUpload{
+    NSString *filePath=[[NSBundle mainBundle]pathForResource:@"divan" ofType:@"mp3"];
+    
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    NSMutableString *urlString = [[NSMutableString alloc] initWithFormat:@"name=thefile&&filename=recording"];
+    [urlString appendFormat:@"%@", data];
+    NSData *postData = [urlString dataUsingEncoding:NSASCIIStringEncoding
+                               allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%d", (int)[postData length]];
+    NSString *baseurl = @"http://localhost:8080/demo/yourServerScript.php";
+    
+    NSURL *url = [NSURL URLWithString:baseurl];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
+    [urlRequest setHTTPMethod: @"POST"];
+    [urlRequest setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [urlRequest setValue:@"application/x-www-form-urlencoded"
+      forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setHTTPBody:postData];
+    
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:urlRequest delegate:self];
+    [connection start];
+    
+    NSLog(@"Started!");
 }
 
 @end

@@ -210,7 +210,7 @@
 	// 
 	// If you don't specify a hostPort, then the default (5222) will be used.
 	
-	//[xmppStream setHostName:@"https://192.168.0.120/opt/openfire"];
+	//[xmppStream setHostName:@"https://servername/opt/openfire"];
 	//[xmppStream setHostPort:5223];
     
     NSLog(@"%@",xmppStream.hostName);
@@ -227,7 +227,7 @@
 }
 
 /*-(void)SubscribeToUser{
-    [xmppRoster addUser:[XMPPJID jidWithString:@"test2@192.168.0.120"] withNickname:@"test2"];
+    [xmppRoster addUser:[XMPPJID jidWithString:@"test2@servername"] withNickname:@"test2"];
     
 }*/
 
@@ -310,7 +310,8 @@
 		return NO;
 	}
 
-	[xmppStream setMyJID:[XMPPJID jidWithString:myJID]];
+	//[xmppStream setMyJID:[XMPPJID jidWithString:myJID]];
+    [xmppStream setMyJID:[XMPPJID jidWithString:myJID resource:@"9spl"]];
 	password = myPassword;
     
 

@@ -18,7 +18,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 static const int ddLogLevel = LOG_LEVEL_INFO;
 #endif
 
-@interface ChatViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface ChatViewController () < UIImagePickerControllerDelegate,UINavigationControllerDelegate > 
 @property (strong, nonatomic) UIImage *image;
 @property (copy, nonatomic) NSString *lastChosenMediaType;
 @property (nonatomic, strong) XMPPOutgoingFileTransfer *fileTransfer;
@@ -103,8 +103,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [muc addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
     XMPPRoomMemoryStorage *roomMemory=[[XMPPRoomMemoryStorage alloc]init];
-    //   NSString *roomID=@"chillarparty@conference.192.168.0.120";
-    NSString *roomID=[NSString stringWithFormat:@"%@@conference.192.168.0.120",@"google"];
+    //   NSString *roomID=@"chillarparty@conference.servername";
+    NSString *roomID=[NSString stringWithFormat:@"%@@conference.%@",self.groupName,servername];
     XMPPJID *roomJID =[XMPPJID jidWithString:roomID];
     
     
@@ -115,7 +115,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [xmppRoom joinRoomUsingNickname:@"test4" history:nil password:nil];
     [xmppRoom fetchConfigurationForm];
-  //  [xmppRoom inviteUser:[XMPPJID jidWithString:@"dipesh@192.168.0.120"] withMessage:@"hi"];
+   // [xmppRoom inviteUser:[XMPPJID jidWithString:@"test2@192.168.0.120"] withMessage:@"hi"];
     
 }
 
@@ -233,7 +233,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     NSError *error;
     NSString *predicateFrmt = @"bareJidStr == %@";
-    NSString *conferenceRoom=[NSString  stringWithFormat:@"%@@conference.192.168.0.120",@"google"];
+    NSString *conferenceRoom=[NSString  stringWithFormat:@"%@@conference.servername",@"google"];
     NSPredicate *predicate =[NSPredicate predicateWithFormat:predicateFrmt,conferenceRoom];
     request.predicate = predicate;
     NSArray *messages = [moc executeFetchRequest:request error:&error];
@@ -280,6 +280,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 
 #pragma mark -----------------TABLE VIEW DELEGATE ----------------------
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -524,8 +525,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     //For the Group Chat Within the Group
    /* {
-        NSArray*jids =@[@"test1@192.1678.0.120",@"test2@192.168.0.120",@"test3@192.1680.120",@"test4@192.168.0.120"];
-        XMPPMessage *msg=[XMPPMessage multicastMessageWithType:@"chat" jids:jids module:@"192.168.0.120"];
+        NSArray*jids =@[@"test1@192.1678.0.120",@"test2@servername",@"test3@192.1680.120",@"test4@servername"];
+        XMPPMessage *msg=[XMPPMessage multicastMessageWithType:@"chat" jids:jids module:@"servername"];
         [msg addBody:@"Hello EveryBuddy"];
         [[self appDelegate].xmppStream sendElement:msg];
     } */
@@ -624,6 +625,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 
 #pragma mark --------------DECODE IMAGE
+
 /*- (UIImage *)decodeBase64ToImage:(NSString *)strEncodeData
 {
     NSData *data = [[NSData alloc]initWithBase64EncodedString:strEncodeData options:
@@ -830,8 +832,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
    fromStr= [[fromStr componentsSeparatedByString:@"/"]lastObject];
     NSLog(@"%@",fromStr);
-    
-    
     if ([[message body]length])
     {
 //        XMPPUserCoreDataStorageObject *user = [[self appDelegate].xmppRosterStorage userForJID:occupantJID

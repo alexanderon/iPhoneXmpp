@@ -634,6 +634,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B76EE9F11BECC4E200518416 /* JsonClasses */,
 				B7EA82281BDF8C27005B50FA /* LaunchScreen.xib */,
 				B76C311A1BDE2A27002B8F2C /* Song */,
 				B7B5BF7A1BD0DFB5008BD204 /* main.storyboard */,
@@ -750,6 +751,13 @@
 				B76C311B1BDE2A30002B8F2C /* divan.mp3 */,
 			);
 			path = Song;
+			sourceTree = "<group>";
+		};
+		B76EE9F11BECC4E200518416 /* JsonClasses */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = JsonClasses;
 			sourceTree = "<group>";
 		};
 		B7B5BD6E1BD0DD66008BD204 /* xmpp */ = {

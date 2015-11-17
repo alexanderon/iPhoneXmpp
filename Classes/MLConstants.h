@@ -19,7 +19,7 @@
 #define kMLHasRoomsNotice @"kMLHasRoomsNotice"
 #define kMonalCallStartedNotice @"kMonalCallStartedNotice"
 #define kMLHasConnectedNotice @"kMLHasConnectedNotice"
-
+#define servername @"192.168.0.120"
 
 /*
  *  System Versioning Preprocessor Macros

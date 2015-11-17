@@ -33,13 +33,31 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 -(void)viewDidLoad
 {
-    [[Rest sharedInstance]setUser:@"test2" Password:@"123"];
-
+    NSString *user =[self appDelegate].myJid;
+    NSString *password=[self appDelegate].password;
+    if ([user containsString:@"@"]) {
+        
+        user=[[user componentsSeparatedByString:@"@"]firstObject];
+    }
+    
+    NSLog(@"%@",[self appDelegate].password);
+    
+    [[Rest sharedInstance]setUser:user Password:password];
+    [[Rest sharedInstance]getGroupsItemsforUser:@"test4" withCompletionHandler:^(NSData *data) {
+        NSLog(@"%@",[[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
+        NSDictionary *dict=(NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+     //   NSLog(@"%@",dict);
+        NSArray *groupname=[dict objectForKey:@"groupname"];
+        groups=[[NSMutableArray alloc]initWithArray:groupname];
+        NSLog(@"%d",(int)[groupname count]);
+      
+    }];
+    
+    
+    NSLog(@"%d",(int)[groups count]);
     NSLog(@"%lu",[[[self fetchedGroupsResultsController]fetchedObjects]count]);
  }
-
-
-#pragma mark -------------------NSFetchedResultsController----------------------
+   #pragma mark -------------------NSFetchedResultsController
 
 -(NSFetchedResultsController *)fetchedGroupsResultsController
 {
@@ -75,18 +93,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     return fetchedGroupsResultsController;
 }
 
-
-
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [[self tableView] reloadData];
 }
 
-
-
 #pragma mark ------------------UITableView-------------------------------------
-
-
 
 - (NSString *)tableView:(UITableView *)sender titleForHeaderInSection:(NSInteger)sectionIndex
 {
@@ -95,9 +107,24 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    NSLog(@"%lu",[[[self fetchedGroupsResultsController]fetchedObjects]count]);
-
-     return [[[self fetchedGroupsResultsController]fetchedObjects]count];
+    NSString *user =[self appDelegate].myJid;
+    NSString *password=[self appDelegate].password;
+    if ([user containsString:@"@"]) {
+        
+        user=[[user componentsSeparatedByString:@"@"]firstObject];
+    }
+    
+    NSLog(@"%@",[self appDelegate].password);
+    __block int counting;
+    
+    [[Rest sharedInstance]setUser:user Password:password];
+    [[Rest sharedInstance]getGroupsItemsforUser:@"test4" withCompletionHandler:^(NSData *data) {
+        NSDictionary *dict=(NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        NSArray *groupname=[dict objectForKey:@"groupname"];
+        counting =(int)[groupname count];
+    }];
+    return counting;
+  
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,9 +149,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         cell.textLabel.text = group.name;
         
         
-      
-        
-        
     }
 
     
@@ -139,6 +163,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     ChatViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"] ;
     vc.group=group;
+   
+    vc.groupName =group.name;
     vc.isGroupchat=YES;
     [self.navigationController pushViewController:vc animated:YES] ;
 }
