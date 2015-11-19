@@ -121,7 +121,10 @@ static  Rest *rest =nil;
     return @"";
 }
 
--(void)getRosterItemsforUser:(NSString *)username withCompletionHandler:(void (^)(NSData *))completionHandler
+#pragma mark --------------------ROSTER ITEMS
+
+-(void)getRosterItemsforUser:(NSString *)username
+       withCompletionHandler:(void (^)(NSData *))completionHandler
 {
     NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/roster",servername,username];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
@@ -141,7 +144,42 @@ static  Rest *rest =nil;
     
 }
 
--(void)getGroupsItemsforUser:(NSString *)username  withCompletionHandler:(void (^)(NSData *))completionHandler
+-(void)addRoster:(NSString *)rosterUserName
+          toUser:(NSString *)userName
+{
+    
+    if ([userName containsString:@"@"]) {
+        userName=[[userName componentsSeparatedByString:@"@"] firstObject];
+    }
+    
+    NSString *urlstring =[NSString stringWithFormat:@" http://%@:9090/plugins/restapi/v1/users/%@/roster",servername,userName];
+    NSURL *baseUrl=[NSURL URLWithString:urlstring];
+    
+    NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
+                                                  ContentType:@"application/xml"
+                                                       Accept:@"application/json"
+                                                   RequestURL:baseUrl];
+    
+    NSString *xmlString =[NSString stringWithFormat:@"<rosterItem><jid>%@</jid></rosterItem>",rosterUserName];
+    
+    
+    //NSString *xmlString =[NSString stringWithFormat:@"<group><name>%@</name><description>%@</description></group>",groupName,description];
+    
+    [request setHTTPBody:[xmlString dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:[NSString stringWithFormat:@"%d",(int)[xmlString length]]forHTTPHeaderField:@"Content-length"];
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue  currentQueue] completionHandler:^(NSURLResponse *responseCode, NSData *responseData, NSError *responseError) {
+        NSLog(@"%@, %@, %@",responseCode,responseData,responseError);
+    }];
+    
+   
+}
+
+#pragma mark --------------------GROUPS
+
+-(void)getGroupsItemsforUser:(NSString *)username
+       withCompletionHandler:(void (^)(NSData *))completionHandler
 {
     
     NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/groups",servername,username];
@@ -161,7 +199,9 @@ static  Rest *rest =nil;
 
 }
 
--(void)createGroupWithName:(NSString *)groupName Description:(NSString *)description withCompletionHandler:(void (^)(int data))completionHandler
+-(void)createGroupWithName:(NSString *)groupName
+               Description:(NSString *)description
+     withCompletionHandler:(void (^)(int data))completionHandler
 {
 
     NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/groups",servername];
@@ -189,8 +229,34 @@ static  Rest *rest =nil;
     
 }
 
+-(void)addUser:(NSString *)username ToGroup:(NSString *)group
+{
+    if ([username containsString:@"@"]) {
+        username=[[username componentsSeparatedByString:@"@"] firstObject];
+    }
+    
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/groups/%@",servername,username,group];
+    NSURL *baseUrl=[NSURL URLWithString:urlstring];
+    
+    NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
+                                                  ContentType:@"application/xml"
+                                                       Accept:@"application/json"
+                                                   RequestURL:baseUrl];
+    
+    
+    
+    
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue  currentQueue] completionHandler:^(NSURLResponse *responseCode, NSData *responseData, NSError *responseError) {
+        NSLog(@"%@, %@, %@",responseCode,responseData,responseError);
+    }];
+    
+    
+}
 
--(void)removeUser:(NSString *)username FromGroup:(NSString *)group
+
+-(void)removeUser:(NSString *)username
+        FromGroup:(NSString *)group
 {
     NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/groups/%@",servername,username,group];
     NSURL *baseUrl=[NSURL URLWithString:urlstring];
@@ -249,6 +315,8 @@ static  Rest *rest =nil;
 
 }
 
+#pragma mark  -------------------CHATROOM
+
 -(void)getChatRooms
 {
     NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/chatrooms",servername];
@@ -267,7 +335,9 @@ static  Rest *rest =nil;
 
 }
 
--(void)createChatRoomWithName:(NSString *)roomName Description:(NSString *)description withCompletionHandler:(void (^)(int data))completionHandler
+-(void)createChatRoomWithName:(NSString *)roomName
+                  Description:(NSString *)description
+        withCompletionHandler:(void (^)(int data))completionHandler
 {
    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/chatrooms",servername];
     
@@ -296,31 +366,6 @@ static  Rest *rest =nil;
 
 }
 
--(void)addUser:(NSString *)username ToGroup:(NSString *)group
-{
-    if ([username containsString:@"@"]) {
-        username=[[username componentsSeparatedByString:@"@"] firstObject];
-    }
-    
-    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/groups/%@",servername,username,group];
-    NSURL *baseUrl=[NSURL URLWithString:urlstring];
-    
-    NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
-                                                  ContentType:@"application/xml"
-                                                       Accept:@"application/json"
-                                                   RequestURL:baseUrl];
-    
-    
-    
-    
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue  currentQueue] completionHandler:^(NSURLResponse *responseCode, NSData *responseData, NSError *responseError) {
-        NSLog(@"%@, %@, %@",responseCode,responseData,responseError);
-    }];
-    
-    
-}
-
 -(void)addUser:(NSString *)user ToChatRoom:(NSString *)chatRoom Role:(NSString *)role
 {
     if ([user containsString:@"@"]) {
@@ -337,4 +382,41 @@ static  Rest *rest =nil;
     NSURLConnection *connection =[[NSURLConnection alloc]initWithRequest:request delegate:self];
     [connection start];
 }
+
+
+#pragma mark ------------------USER
+
+-(void)createUserwithName:(NSString *)username Password:(NSString *)password
+{
+    
+    
+    if ([username containsString:@"@"]) {
+        username=[[username componentsSeparatedByString:@"@"] firstObject];
+    }
+    
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users",servername];
+    NSURL *baseUrl=[NSURL URLWithString:urlstring];
+    
+    NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
+                                                  ContentType:@"application/json"
+                                                       Accept:@"application/json"
+                                                   RequestURL:baseUrl];
+    
+    NSString *jsonString =[NSString stringWithFormat:@"{\"username\":\"%@\",\"password\":\"%@\"}",username,password];
+    
+    
+    //NSString *xmlString =[NSString stringWithFormat:@"<group><name>%@</name><description>%@</description></group>",groupName,description];
+    
+    [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setValue:[NSString stringWithFormat:@"%d",(int)[jsonString length]]forHTTPHeaderField:@"Content-length"];
+
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue  currentQueue] completionHandler:^(NSURLResponse *responseCode, NSData *responseData, NSError *responseError) {
+        NSLog(@"%@, %@, %@",responseCode,responseData,responseError);
+    }];
+    
+    
+
+}
+
 @end

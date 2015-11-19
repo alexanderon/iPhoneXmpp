@@ -27,5 +27,6 @@
                                   ContentType:(NSString *)contentType
                                        Accept:(NSString *)acceptType
                                    RequestURL:(NSURL    *)baseURL;
+-(void)createUserwithName:(NSString *)username Password:(NSString *)password;
 
 @end

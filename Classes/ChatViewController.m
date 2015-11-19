@@ -1067,10 +1067,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
     dataPath = [documentsDirectory stringByAppendingPathComponent:@"Music"];
     
-    NSError *error;
-
-
-    
     NSURL *myUrl = [NSURL URLWithString:[url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSURLRequest *myRequest = [NSURLRequest requestWithURL:myUrl cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
    
