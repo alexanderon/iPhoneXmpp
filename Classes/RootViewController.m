@@ -41,6 +41,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     // [self getSearchFeilds];
     [self getDetailsofRegisteredUser:@"dipesh"];
     // [self getSearchFeilds];
+    
+    [[[self appDelegate]xmppStream] addDelegate:self delegateQueue:dispatch_get_main_queue()];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -478,12 +481,55 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 //We will get response here
 
-//- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
-//{
-//    
-//    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-//    NSLog(@"searched format %@", iq);
-//    
-//}
+- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
+{
+  
+    NSXMLElement *query=[iq elementForName:@"query" xmlns:@"jabber:iq:search"];
+    
+    NSXMLElement * x=[query elementForName:@"x"];
+    NSLog(@"%@",x);
+    NSXMLElement *item =[x elementForName:@"item"];
+    NSLog(@"%@",item);
+
+    NSLog(@"%@",item.children);
+    for (NSXMLElement *field in item.children)
+    {
+        NSLog(@"%@",field);
+        NSXMLElement *value = [field elementForName:@"value"];
+        NSLog(@"%@",[value stringValue]);
+    }
+    
+   /* for (int i=0; i<[item childCount]; i++) {
+        
+        NSXMLElement *field =[item elementForName:@"field"];
+        NSLog(@"%@",field);
+        NSXMLElement *value =[item elementForName:@"value"];
+        NSLog(@"%@",value);
+        NSLog(@"%@",value.);
+
+        
+    /*    if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
+            NSXMLElement *value =[item elementForName:@"value"];
+            
+            NSLog(@"%@",   [[value elementForName:@"value"] stringValue]);
+        }
+        
+
+    }*/
+    
+//     if (field) {
+//        
+//       
+//        
+//        if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
+//            NSXMLElement *field =[item elementForName:@"value"];
+//            [field]
+//            NSLog(@"%@",field);
+//        }
+//        
+//    }
+    
+    
+}
 
 @end
