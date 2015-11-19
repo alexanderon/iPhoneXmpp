@@ -49,9 +49,7 @@
 @synthesize xmppMessageArchivingModule;
 @synthesize xmppMessageArchivingStorage;
 @synthesize settingsViewController;
-//@synthesize pendingRequests;
 @synthesize xmppIncomingFileTransfer;
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -483,54 +481,10 @@
 	return NO;
 }
 
-/*- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
-{
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 
-	// A simple example of inbound message handling.
-
-	if ([message isChatMessageWithBody])
-	{
-		XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[message from]
-		                                                         xmppStream:xmppStream
-		                                               managedObjectContext:[self managedObjectContext_roster]];
-      //  NSLog(@"%@",user.subscription);
-        
-		NSString *body = [[message elementForName:@"body"] stringValue];
-		NSString *displayName = [user displayName];
-
-		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-		{
-			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
-															  message:body 
-															 delegate:nil 
-													cancelButtonTitle:@"Ok" 
-													otherButtonTitles:nil];
-			[alertView show];
-		}
-		else
-		{
-			// We are not active, so use a local notification instead
-			UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-			localNotification.alertAction = @"Ok";
-			localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n\n%@",displayName,body];
-
-			[[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-		}
-	}
-}*/
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
-/*
-    if ([presence.type isEqualToString:@"subscribe"]) {
-        if (!pendingRequests) {
-            pendingRequests =[[NSMutableSet alloc]init];
-        }
-        [pendingRequests addObject:presence.from];
-    }
-//   NSString *presenceFromStr =[presence fromStr];*/
- 
     
     DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
     
@@ -564,45 +518,7 @@
     
     NSLog(@"%@",presence);
     
- /*   DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-    
-    XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[presence from]
-                                                             xmppStream:xmppStream
-                                                   managedObjectContext:[self managedObjectContext_roster]];
-    
-    
-    NSString *displayName = [user displayName];
-    NSString *jidStrBare = [presence fromStr];
-    NSString *body = nil;
-            if (![displayName isEqualToString:jidStrBare])
-    {
-        body = [NSString stringWithFormat:@"Buddy request from %@ <%@>", displayName, jidStrBare];
-    }
-    else
-    {
-        body = [NSString stringWithFormat:@"Buddy request from %@", displayName];
-    }
-    
-    
-    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
-                                                            message:body
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Not implemented"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-    else
-    {
-        // We are not active, so use a local notification instead
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.alertAction = @"Not implemented";
-        localNotification.alertBody = body;
-        
-        [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-    }*/
-    
+
 }
 
 #pragma mark - XMPPIncomingFileTransferDelegate Methods
@@ -612,11 +528,6 @@
 {
 }
 
-/*- (void)xmppIncomingFileTransfer:(XMPPIncomingFileTransfer *)sender
-               didReceiveSIOffer:(XMPPIQ *)offer
-{
-    [sender acceptSIOffer:offer];
-}*/
 
 - (void)xmppIncomingFileTransfer:(XMPPIncomingFileTransfer *)sender
               didSucceedWithData:(NSData *)data
@@ -643,41 +554,9 @@
 -(void)turnSocketDidFail:(TURNSocket *)sender{
     NSLog(@"%@",sender);	
 }
+
+#pragma mark -----------------------SEARCH USER.
+
+
 @end
 
-/**
- * Allows a delegate to hook into the TLS handshake and manually validate the peer it's connecting to.
- *
- * This is only called if the stream is secured with settings that include:
- * - GCDAsyncSocketManuallyEvaluateTrust == YES
- * That is, if a delegate implements xmppStream:willSecureWithSettings:, and plugs in that key/value pair.
- *
- * Thus this delegate method is forwarding the TLS evaluation callback from the underlying GCDAsyncSocket.
- *
- * Typically the delegate will use SecTrustEvaluate (and related functions) to properly validate the peer.
- *
- * Note from Apple's documentation:
- *   Because [SecTrustEvaluate] might look on the network for certificates in the certificate chain,
- *   [it] might block while attempting network access. You should never call it from your main thread;
- *   call it only from within a function running on a dispatch queue or on a separate thread.
- *
- * This is why this method uses a completionHandler block rather than a normal return value.
- * The idea is that you should be performing SecTrustEvaluate on a background thread.
- * The completionHandler block is thread-safe, and may be invoked from a background queue/thread.
- * It is safe to invoke the completionHandler block even if the socket has been closed.
- *
- * Keep in mind that you can do all kinds of cool stuff here.
- * For example:
- *
- * If your development server is using a self-signed certificate,
- * then you could embed info about the self-signed cert within your app, and use this callback to ensure that
- * you're actually connecting to the expected dev server.
- *
- * Also, you could present certificates that don't pass SecTrustEvaluate to the client.
- * That is, if SecTrustEvaluate comes back with problems, you could invoke the completionHandler with NO,
- * and then ask the client if the cert can be trusted. This is similar to how most browsers act.
- *
- * Generally, only one delegate should implement this method.
- * However, if multiple delegates implement this method, then the first to invoke the completionHandler "wins".
- * And subsequent invocations of the completionHandler are ignored.
- **/

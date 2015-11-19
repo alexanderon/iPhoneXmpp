@@ -14,11 +14,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 @implementation RootViewController
 {
-   NSMutableURLRequest *request;
+    NSMutableURLRequest *request;
     NSData *pngData;
 #define URL            @"http://localhost:8080/demo/yourServerScript.php"  // change this URL
-
-
+    
+    
 }
 
 #pragma mark ------------------ Accessors
@@ -34,10 +34,13 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
     pngData=nil;
     [super viewDidLoad];
-   // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
-   // [self fileUpload];
-   // [self uploadImageAsync1:nil];
-    
+    // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
+    // [self fileUpload];
+    // [self uploadImageAsync1:nil];
+    [self getAuthorized];
+    // [self getSearchFeilds];
+    [self getDetailsofRegisteredUser:@"dipesh"];
+    // [self getSearchFeilds];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -80,47 +83,13 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 #pragma mark -------------------NSFetchedResultsController
 
-/*-(NSFetchedResultsController *)fetchedGroupsResultsController
-{
-    
-    if (fetchedGroupsResultsController == nil) {
-        NSManagedObjectContext *moc  =[[self appDelegate] managedObjectContext_roster];
-        
-        NSEntityDescription *groupEntity =[NSEntityDescription entityForName:@"XMPPGroupCoreDataStorageObject" inManagedObjectContext:moc];
-        
-        NSSortDescriptor *sortByName = [[NSSortDescriptor alloc]
-                                        initWithKey:@"name" ascending:YES];
-        NSArray *sortDescriptors = @[sortByName];
-
-        
-        NSFetchRequest *groupsFetchRequest = [[NSFetchRequest alloc] init];
-        [groupsFetchRequest setEntity:groupEntity];
-        [groupsFetchRequest setFetchBatchSize:10];
-        [groupsFetchRequest setSortDescriptors:sortDescriptors];
-        
-        fetchedGroupsResultsController =[[NSFetchedResultsController alloc]
-                                         initWithFetchRequest:groupsFetchRequest
-                                         managedObjectContext:moc                                                                             sectionNameKeyPath:nil                                                                                      cacheName:nil];
-        [fetchedGroupsResultsController setDelegate:self];
-        
-        NSError *error = nil;
-        if (![fetchedGroupsResultsController performFetch:&error])
-        {
-            DDLogError(@"Error performing fetch: %@", error);
-        }
-        
-        
-    }
-    return fetchedGroupsResultsController;
-}*/
-
 -(NSFetchedResultsController *)fetchedResultsController
 {
     if (fetchedResultsController == nil)
     {
         NSManagedObjectContext *moc = [[self appDelegate] managedObjectContext_roster];
         
-
+        
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
                                                   inManagedObjectContext:moc];
         
@@ -193,8 +162,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (NSString *)tableView:(UITableView *)sender titleForHeaderInSection:(NSInteger)sectionIndex
 {
     NSArray *sections = [[self fetchedResultsController] sections];
-  //  NSArray *sectionGroup=[[self fetchedGroupsResultsController] sections];
- //   NSLog(@"%lu",(unsigned long)sectionGroup.count);
+    //  NSArray *sectionGroup=[[self fetchedGroupsResultsController] sections];
+    //   NSLog(@"%lu",(unsigned long)sectionGroup.count);
     NSLog(@"%lu",(unsigned long)(int)[sections count]);
     
     if (sectionIndex < [sections count])
@@ -214,15 +183,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-   /* {
-      NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
-        NSLog(@"%d",(int)[[[self fetchedGroupsResultsController]fetchedObjects]count]);
-       
-        NSLog(@"%@", [[self fetchedGroupsResultsController].fetchedObjects objectAtIndex:0]);
-        
-        XMPPGroupCoreDataStorageObject *obj =[[self fetchedGroupsResultsController].fetchedObjects objectAtIndex:0];
-        NSLog(@"%@",obj.name);
-    }*/
+    /* {
+     NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
+     NSLog(@"%d",(int)[[[self fetchedGroupsResultsController]fetchedObjects]count]);
+     
+     NSLog(@"%@", [[self fetchedGroupsResultsController].fetchedObjects objectAtIndex:0]);
+     
+     XMPPGroupCoreDataStorageObject *obj =[[self fetchedGroupsResultsController].fetchedObjects objectAtIndex:0];
+     NSLog(@"%@",obj.name);
+     }*/
     
     NSArray *sections = [[self fetchedResultsController] sections];
     
@@ -232,10 +201,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         return sectionInfo.numberOfObjects;
     }
     
-   /* else
-    {
-        return [[[self fetchedGroupsResultsController]fetchedObjects]count];
-    }*/
+    /* else
+     {
+     return [[[self fetchedGroupsResultsController]fetchedObjects]count];
+     }*/
     
     return 0;
 }
@@ -252,12 +221,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
                                       reuseIdentifier:CellIdentifier];
     }
     
-
+    
     NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
     
     
     if (indexPath.row<(int)[[[self fetchedResultsController]fetchedObjects]count]) {
-      
+        
         XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         
         cell.textLabel.text = user.displayName;
@@ -268,26 +237,26 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         
     }/*else{
-        int row =indexPath.row-(int)[[[self fetchedResultsController]fetchedObjects]count];
-        
-        XMPPGroupCoreDataStorageObject *group=[[self fetchedGroupsResultsController]objectAtIndexPath:[indexPath initWithIndex:row]];
-        
-        cell.textLabel.text=group.name;
-        return cell;
-        
-    }*/
+      int row =indexPath.row-(int)[[[self fetchedResultsController]fetchedObjects]count];
+      
+      XMPPGroupCoreDataStorageObject *group=[[self fetchedGroupsResultsController]objectAtIndexPath:[indexPath initWithIndex:row]];
+      
+      cell.textLabel.text=group.name;
+      return cell;
+      
+      }*/
     
     
     
     return cell;
-   
+    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-   
+    
     
     ChatViewController *vc =[self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"] ;
     vc.resource=[[[user primaryResource]jid]resource];
@@ -298,14 +267,13 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark ------------------Actions-----------------------------------------
+#pragma mark ------------------Actions
 
 - (IBAction)settings:(id)sender
 {
     SettingsViewController* settingsViewController = [(UIStoryboard *)[UIStoryboard storyboardWithName:@"main" bundle:nil] instantiateViewControllerWithIdentifier:@"SettingsViewController"];
     
     [self.navigationController pushViewController:settingsViewController animated:YES];
-    
 }
 
 - (IBAction)btnAddClick:(id)sender
@@ -322,7 +290,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
-#pragma mark ------------------ Navigation ----------------------
+#pragma mark ------------------ Navigation
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -333,7 +301,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 #pragma mark ------------------File Upload
 
--(void)serviceDiscovery{
+-(void)serviceDiscovery
+{
     
     
     NSXMLElement *request =[NSXMLElement elementWithName:@"request"];
@@ -355,17 +324,17 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     
     
-   
-  
+    
+    
     XMPPIQ *iq =[[XMPPIQ alloc]initWithType:@"get" to:[XMPPJID jidWithString:@"192.168.0.154"] elementID:@"step_3" child:request];
     [iq addAttributeWithName:@"from" stringValue:[[XMPPJID jidWithString:@"test4@192.168.0.154/9spl"] full]];
     [[[self appDelegate] xmppStream] sendElement:iq];
     NSLog(@"%@",iq);
-    
 }
 
 
--(void)fileUpload{
+-(void)fileUpload
+{
     NSString *filePath=[[NSBundle mainBundle]pathForResource:@"divan" ofType:@"mp3"];
     
     NSData *data = [NSData dataWithContentsOfFile:filePath];
@@ -392,5 +361,129 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 
+#pragma mark -----------------USER DETAILS
+
+-(void)getAuthorized
+{
+    /* <iq type='set' id='auth2'>
+     <query xmlns='jabber:iq:auth'>
+     <username>bill</username>
+     <password>Calli0pe</password>
+     <resource>globe</resource>
+     </query>
+     </iq>*/
+    
+    
+    NSXMLElement *query =[NSXMLElement elementWithName:@"query" xmlns:@"jabber:iq:auth"];
+    
+    NSXMLElement *username =[NSXMLElement elementWithName:@"username"];
+    NSXMLElement *password =[NSXMLElement elementWithName:@"password"];
+    NSXMLElement *resource =[NSXMLElement elementWithName:@"resource"];
+    
+    [username setStringValue:@"test4"];
+    [password setStringValue:@"123"];
+    [resource setStringValue:@"9spl"];
+    
+    [query addChild:username];
+    [query addChild:password];
+    [query addChild:resource];
+    
+    XMPPIQ *iq = [XMPPIQ iqWithType:@"set" to:[XMPPJID jidWithString:servername] elementID:@"auth" child:query];
+    [iq addAttributeWithName:@"xml:lang" stringValue:@"en"];
+    [iq addAttributeWithName:@"from" stringValue:[[[[self appDelegate] xmppStream] myJID] full]];
+    [[[self appDelegate]xmppStream ] sendElement:iq];
+    
+    NSLog(@"%@",iq);
+    
+    
+}
+
+-(void)getSearchFeilds
+{
+    NSXMLElement *query =[NSXMLElement elementWithName:@"query" xmlns:@"jabber:iq:search"];
+    XMPPIQ *iq = [XMPPIQ iqWithType:@"get" to:[XMPPJID jidWithString:servername] elementID:@"search" child:query];
+    [iq addAttributeWithName:@"xml:lang" stringValue:@"en"];
+    [iq addAttributeWithName:@"from" stringValue:[[[[self appDelegate] xmppStream] myJID] full]];
+    [[[self appDelegate]xmppStream ] sendElement:iq];
+    NSLog(@"%@",iq);
+    
+}
+
+- (void)getDetailsofRegisteredUser :(NSString *)SearchString
+{
+    
+    //To Search Peticular User either by using their name, email or username
+    //
+    NSString *userBare1  = [[[[self appDelegate] xmppStream] myJID] bare];
+    NSXMLElement *query = [NSXMLElement elementWithName:@"query"];
+    [query addAttributeWithName:@"xmlns" stringValue:@"jabber:iq:search"];
+    
+    NSXMLElement *x = [NSXMLElement elementWithName:@"x" xmlns:@"jabber:x:data"];
+    [x addAttributeWithName:@"type" stringValue:@"submit"];
+    
+    NSXMLElement *formType = [NSXMLElement elementWithName:@"field"];
+    [formType addAttributeWithName:@"type" stringValue:@"hidden"];
+    [formType addAttributeWithName:@"var" stringValue:@"FORM_TYPE"];
+    [formType addChild:[NSXMLElement elementWithName:@"value" stringValue:@"jabber:iq:search" ]];
+    
+    NSXMLElement *userName = [NSXMLElement elementWithName:@"field"];
+    [userName addAttributeWithName:@"var" stringValue:@"Username"];
+    [userName addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1" ]];
+    
+    NSXMLElement *name = [NSXMLElement elementWithName:@"field"];
+    [name addAttributeWithName:@"var" stringValue:@"Name"];
+    [name addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
+    
+    NSXMLElement *email = [NSXMLElement elementWithName:@"field"];
+    [email addAttributeWithName:@"var" stringValue:@"Email"];
+    [email addChild:[NSXMLElement elementWithName:@"value" stringValue:@"1"]];
+    
+    //Here in the place of SearchString we have to provide registered user name or emailid or username(if it matches in Server it provide registered user details otherwise Server provides response as empty)
+    NSXMLElement *search = [NSXMLElement elementWithName:@"field"];
+    [search addAttributeWithName:@"var" stringValue:@"search"];
+    [search addChild:[NSXMLElement elementWithName:@"value" stringValue:[NSString stringWithFormat:@"%@", SearchString]]];
+    
+    [x addChild:formType];
+    [x addChild:userName];
+    [x addChild:name];
+    [x addChild:email];
+    [x addChild:search];
+    [query addChild:x];
+    
+    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+    [iq addAttributeWithName:@"type" stringValue:@"set"];
+    [iq addAttributeWithName:@"id" stringValue:@"searchByUserName"];
+    [iq addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"search.%@",servername]];
+    [iq addAttributeWithName:@"from" stringValue:userBare1];
+    [iq addChild:query];
+    [[[self appDelegate] xmppStream] sendElement:iq];
+    
+    /* NSString *bareJID  = [[[[self appDelegate]xmppStream] myJID] full];
+     
+     NSXMLElement *query = [NSXMLElement elementWithName:@"query"];
+     [query addAttributeWithName:@"xmlns" stringValue:@"jabber:iq:search"];
+     
+     NSXMLElement *email = [NSXMLElement elementWithName:@"email" stringValue:SearchString];
+     [query addChild:email];
+     
+     NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+     [iq addAttributeWithName:@"type" stringValue:@"set"];
+     [iq addAttributeWithName:@"id" stringValue:@"search2"];
+     [iq addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"search.%@",[[[self appDelegate]xmppStream] myJID].domain]];
+     [iq addAttributeWithName:@"from" stringValue:bareJID];
+     [iq addAttributeWithName:@"xml:lang" stringValue:@"en"];
+     [iq addChild:query];
+     [[[self appDelegate]xmppStream] sendElement:iq];*/
+}
+
+//We will get response here
+
+//- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
+//{
+//    
+//    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+//    NSLog(@"searched format %@", iq);
+//    
+//}
 
 @end

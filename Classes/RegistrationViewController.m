@@ -52,7 +52,6 @@
     [btnChooseCountry setTitle:[country valueForKey:@"name"] forState:UIControlStateNormal];
 }
 
-
 #pragma mark -------------------TEXT FEILD DELEGATE
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -61,7 +60,7 @@
     return (self.txtmobileNumber.text.length <10);
 }
 
-#pragma mark ------------------CREATE USER  
+#pragma mark -------------------CREATE USER
 
 - (IBAction)btnCreateUser:(id)sender
 {
