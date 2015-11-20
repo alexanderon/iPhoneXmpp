@@ -1,9 +1,11 @@
+@import AddressBook;
 #import "RootViewController.h"
 #import "iPhoneXMPPAppDelegate.h"
 #import "SettingsViewController.h"
 #import "XMPPFramework.h"
 #import "DDLog.h"
 #import "ChatViewController.h"
+#import "Rest.h"
 
 // Log levels: off, error, warn, info, verbose
 #if DEBUG
@@ -17,6 +19,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     NSMutableURLRequest *request;
     NSData *pngData;
 #define URL            @"http://localhost:8080/demo/yourServerScript.php"  // change this URL
+    NSMutableArray *rosterItems;
     
     
 }
@@ -37,13 +40,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
     // [self fileUpload];
     // [self uploadImageAsync1:nil];
-    [self getAuthorized];
-    // [self getSearchFeilds];
-    [self getDetailsofRegisteredUser:@"dipesh"];
-    // [self getSearchFeilds];
+    [self fetchContact];
+    if (rosterItems) {
+        [self getAuthorized];
+        for (NSDictionary *contact in rosterItems) {
+            [self getDetailsofRegisteredUser:[contact valueForKey:@"name"]];
+        }
+    }
     
     [[[self appDelegate]xmppStream] addDelegate:self delegateQueue:dispatch_get_main_queue()];
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -483,51 +489,131 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
 {
-  
+    
     NSXMLElement *query=[iq elementForName:@"query" xmlns:@"jabber:iq:search"];
     
     NSXMLElement * x=[query elementForName:@"x"];
-    NSLog(@"%@",x);
+    // NSLog(@"%@",x);
     NSXMLElement *item =[x elementForName:@"item"];
-    NSLog(@"%@",item);
-
-    NSLog(@"%@",item.children);
+    //  NSLog(@"%@",item);
+    
+    // NSLog(@"%@",item.children);
+    
+    
     for (NSXMLElement *field in item.children)
     {
-        NSLog(@"%@",field);
+        //NSLog(@"%@",field);
+        NSLog(@"%@",[field attributesAsDictionary]);
+        
         NSXMLElement *value = [field elementForName:@"value"];
         NSLog(@"%@",[value stringValue]);
-    }
-    
-   /* for (int i=0; i<[item childCount]; i++) {
         
-        NSXMLElement *field =[item elementForName:@"field"];
-        NSLog(@"%@",field);
-        NSXMLElement *value =[item elementForName:@"value"];
-        NSLog(@"%@",value);
-        NSLog(@"%@",value.);
-
-        
-    /*    if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
-            NSXMLElement *value =[item elementForName:@"value"];
-            
-            NSLog(@"%@",   [[value elementForName:@"value"] stringValue]);
+        if([[[field attributesAsDictionary] valueForKey:@"var"] isEqualToString:@"Name"])
+        {
+               [[Rest sharedInstance]addRoster:[value stringValue] toUser:[[[self appDelegate] xmppStream] myJID].user];
         }
         
-
-    }*/
+    }
     
-//     if (field) {
-//        
-//       
-//        
-//        if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
-//            NSXMLElement *field =[item elementForName:@"value"];
-//            [field]
-//            NSLog(@"%@",field);
-//        }
-//        
-//    }
+    /* for (int i=0; i<[item childCount]; i++) {
+     
+     NSXMLElement *field =[item elementForName:@"field"];
+     NSLog(@"%@",field);
+     NSXMLElement *value =[item elementForName:@"value"];
+     NSLog(@"%@",value);
+     NSLog(@"%@",value.);
+     
+     
+     /*    if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
+     NSXMLElement *value =[item elementForName:@"value"];
+     
+     NSLog(@"%@",   [[value elementForName:@"value"] stringValue]);
+     }
+     
+     
+     }*/
+    
+    //     if (field) {
+    //
+    //
+    //
+    //        if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
+    //            NSXMLElement *field =[item elementForName:@"value"];
+    //            [field]
+    //            NSLog(@"%@",field);
+    //        }
+    //
+    //    }
+    
+    return  NO;
+}
+
+- (void)fetchContact
+{
+    
+    ABAddressBookRef addressBook;
+    __block BOOL userDidGrantAddressBookAccess;
+    
+    CFErrorRef addressBookError = NULL;
+    
+    if ( ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined ||
+        ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized )
+    {
+        addressBook = ABAddressBookCreateWithOptions(NULL, &addressBookError);
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+        
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error){
+            userDidGrantAddressBookAccess = granted;
+            dispatch_semaphore_signal(sema);
+        });
+        
+        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    }
+    else
+    {
+        if ( ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
+            ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted )
+        {
+            // Display an error.
+        }
+    }
+    
+    NSArray *allContacts = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
+    NSLog(@"%@",allContacts);
+    
+    int count =(int)[allContacts count];
+    
+    rosterItems =[[NSMutableArray alloc]init];
+    
+    
+    
+    for (int i=0;i<count;i++)
+    {
+        ABRecordRef record = (__bridge ABRecordRef)([allContacts objectAtIndex:i]);
+        NSString *firstName= CFBridgingRelease(ABRecordCopyValue(record, kABPersonFirstNameProperty));
+        ABMultiValueRef *phones  =ABRecordCopyValue(record, kABPersonPhoneProperty);
+        NSMutableDictionary *contactInfo=[[NSMutableDictionary alloc]init];
+        
+        [contactInfo setValue:firstName forKey:@"name"];
+        
+        NSMutableArray *mobiles =[[NSMutableArray alloc]init];
+        for(CFIndex j = 0; j < ABMultiValueGetCount(phones); j++)
+        {
+            CFStringRef phoneNumberRef = ABMultiValueCopyValueAtIndex(phones, j);
+            CFStringRef locLabel = ABMultiValueCopyLabelAtIndex(phones, j);
+            NSString *phoneLabel =(__bridge NSString*) ABAddressBookCopyLocalizedLabel(locLabel);
+            //CFRelease(phones);
+            NSString *phoneNumber = (__bridge NSString *)phoneNumberRef;
+            CFRelease(phoneNumberRef);
+            CFRelease(locLabel);
+            [mobiles addObject:phoneNumber];
+            NSLog(@"  - %@ (%@)", phoneNumber, phoneLabel);
+        }
+        
+        [contactInfo setObject:mobiles forKey:@"mobiles"];
+        NSLog(@"%@",firstName);
+        [rosterItems addObject:contactInfo];
+    }
     
     
 }

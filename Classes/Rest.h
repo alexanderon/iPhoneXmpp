@@ -28,5 +28,7 @@
                                        Accept:(NSString *)acceptType
                                    RequestURL:(NSURL    *)baseURL;
 -(void)createUserwithName:(NSString *)username Password:(NSString *)password;
+-(void)addRoster:(NSString *)rosterUserName
+          toUser:(NSString *)userName;
 
 @end

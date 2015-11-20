@@ -55,12 +55,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Classes/RegistrationViewController.m"
-            timestampString = "469620832.580689"
+            filePath = "Classes/RootViewController.m"
+            timestampString = "469695228.336358"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
+            startingLineNumber = "619"
+            endingLineNumber = "619"
             landmarkName = "-fetchContact"
             landmarkType = "5">
          </BreakpointContent>
@@ -71,13 +71,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Classes/RootViewController.m"
-            timestampString = "469634004.602785"
+            filePath = "Classes/Rest.m"
+            timestampString = "469696160.761517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
-            landmarkName = "-xmppStream:didReceiveIQ:"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "-addRoster:toUser:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[Rest addRoster:toUser:]"
+                  moduleName = "iPhoneXMPP"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Data/Chat%20Applications/iPhoneXMPP/Classes/Rest.m"
+                  timestampString = "469696229.886749"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "175"
+                  endingLineNumber = "175"
+                  offsetFromSymbolStart = "827">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__25-[Rest addRoster:toUser:]_block_invoke"
+                  moduleName = "iPhoneXMPP"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Data/Chat%20Applications/iPhoneXMPP/Classes/Rest.m"
+                  timestampString = "469696229.887266"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "175"
+                  endingLineNumber = "175"
+                  offsetFromSymbolStart = "105">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Classes/Rest.m"
+            timestampString = "469696073.16075"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "-addRoster:toUser:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

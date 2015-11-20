@@ -152,9 +152,12 @@ static  Rest *rest =nil;
         userName=[[userName componentsSeparatedByString:@"@"] firstObject];
     }
     
-    NSString *urlstring =[NSString stringWithFormat:@" http://%@:9090/plugins/restapi/v1/users/%@/roster",servername,userName];
-    NSURL *baseUrl=[NSURL URLWithString:urlstring];
+    NSString *urlstring =[NSString stringWithFormat:@"http://%@:9090/plugins/restapi/v1/users/%@/roster",servername,userName];
+   // NSURL *baseUrl =[[NSURL alloc]initWithString:urlstring];
     
+    NSURL *baseUrl=[[NSURL alloc]initWithString:[urlstring stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSLog(@"%@",[urlstring stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
     NSMutableURLRequest *request =[self RequestWithHttpMethod:@"POST"
                                                   ContentType:@"application/xml"
                                                        Accept:@"application/json"

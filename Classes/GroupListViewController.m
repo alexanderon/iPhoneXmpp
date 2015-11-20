@@ -140,8 +140,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     
     
-
-    
     if (indexPath.row<(int)[[[self fetchedGroupsResultsController]fetchedObjects]count]) {
         
         XMPPGroupCoreDataStorageObject *group = [[self fetchedGroupsResultsController] objectAtIndexPath:indexPath];
