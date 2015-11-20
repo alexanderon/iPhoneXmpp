@@ -37,7 +37,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 {
     pngData=nil;
     [super viewDidLoad];
-    // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
+    [self fetchedResultsController];
     // [self fileUpload];
     // [self uploadImageAsync1:nil];
     [self fetchContact];
@@ -135,7 +135,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [[self tableView] reloadData];
 }
 
-
 #pragma mark ------------------UITableViewCell helpers
 
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPUserCoreDataStorageObject *)user
@@ -208,6 +207,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     {
         id <NSFetchedResultsSectionInfo> sectionInfo = sections[sectionIndex];
         return sectionInfo.numberOfObjects;
+        NSLog(@"%lu",(unsigned long)sectionInfo.numberOfObjects);
     }
     
     /* else
@@ -238,7 +238,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         
-        cell.textLabel.text = user.displayName;
+        cell.textLabel.text = (user.displayName == nil || [user.displayName isEqualToString:@"null"])?user.jid.user:user.displayName;
         
         [self configurePhotoForCell:cell user:user];
         
@@ -298,7 +298,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
 }
 
-
 #pragma mark ------------------ Navigation
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -341,7 +340,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     NSLog(@"%@",iq);
 }
 
-
 -(void)fileUpload
 {
     NSString *filePath=[[NSBundle mainBundle]pathForResource:@"divan" ofType:@"mp3"];
@@ -368,7 +366,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     NSLog(@"Started!");
 }
-
 
 #pragma mark -----------------USER DETAILS
 
@@ -497,9 +494,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     NSXMLElement *item =[x elementForName:@"item"];
     //  NSLog(@"%@",item);
     
-    // NSLog(@"%@",item.children);
-    
-    
     for (NSXMLElement *field in item.children)
     {
         //NSLog(@"%@",field);
@@ -510,43 +504,31 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         if([[[field attributesAsDictionary] valueForKey:@"var"] isEqualToString:@"Name"])
         {
-               [[Rest sharedInstance]addRoster:[value stringValue] toUser:[[[self appDelegate] xmppStream] myJID].user];
+          //     [[Rest sharedInstance]addRoster:[value stringValue] toUser:[[[self appDelegate] xmppStream] myJID].user];
+            
+            NSString *myUserName =[[[self appDelegate] xmppStream] myJID].user;
+            
+            [[Rest sharedInstance]getRosterItemsforUser:myUserName withCompletionHandler:^(NSData *data) {
+            
+                NSLog(@"%@",[[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
+                
+            }];
+            
+            if (!myUserName) {
+                [self addUser:[value stringValue]];
+            }
+            
         }
         
     }
     
-    /* for (int i=0; i<[item childCount]; i++) {
-     
-     NSXMLElement *field =[item elementForName:@"field"];
-     NSLog(@"%@",field);
-     NSXMLElement *value =[item elementForName:@"value"];
-     NSLog(@"%@",value);
-     NSLog(@"%@",value.);
-     
-     
-     /*    if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
-     NSXMLElement *value =[item elementForName:@"value"];
-     
-     NSLog(@"%@",   [[value elementForName:@"value"] stringValue]);
-     }
-     
-     
-     }*/
-    
-    //     if (field) {
-    //
-    //
-    //
-    //        if ([[field attributeStringValueForName:@"var"] isEqualToString:@"Name"] ) {
-    //            NSXMLElement *field =[item elementForName:@"value"];
-    //            [field]
-    //            NSLog(@"%@",field);
-    //        }
-    //
-    //    }
-    
-    return  NO;
+      return  NO;
 }
+
+-(void)addUser:(NSString *)user
+{
+     [[Rest sharedInstance]addRoster:user toUser:[[[self appDelegate] xmppStream] myJID].user];
+    }
 
 - (void)fetchContact
 {

@@ -404,12 +404,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="nnw-hy-u3h" kind="relationship" relationship="rootViewController" id="h9x-FV-iiG"/>
+                        <segue destination="nnw-hy-u3h" kind="relationship" relationship="rootViewController" id="eGF-GQ-1te"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17e-7v-Nz4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="150" y="-895.5"/>
+            <point key="canvasLocation" x="174" y="-895.5"/>
         </scene>
         <!--ChatView-->
         <scene sceneID="91P-9o-NOZ">
@@ -491,15 +491,24 @@
                                             <action selector="showProfile:" destination="LYx-MZ-Vft" eventType="touchUpInside" id="RZI-9d-YTq"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMb-jh-pAn" userLabel="lblLastSeen">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.69621799511338267" blue="0.28294028014790495" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="sMb-jh-pAn" secondAttribute="trailing" constant="30" id="2y2-jH-5Yd"/>
                                     <constraint firstItem="LkW-Vs-0dW" firstAttribute="leading" secondItem="sFV-GY-S2C" secondAttribute="leading" constant="10" id="36U-oy-xHb"/>
                                     <constraint firstItem="AQ5-yL-C5X" firstAttribute="centerY" secondItem="Nww-DB-LDx" secondAttribute="centerY" id="Fj5-2c-Agp"/>
                                     <constraint firstItem="Nww-DB-LDx" firstAttribute="leading" secondItem="LkW-Vs-0dW" secondAttribute="trailing" constant="10" id="GSx-Hv-1cD"/>
                                     <constraint firstAttribute="trailing" secondItem="byL-kc-zeY" secondAttribute="trailing" constant="10" id="L8Z-Ao-rMi"/>
                                     <constraint firstItem="LkW-Vs-0dW" firstAttribute="centerY" secondItem="sFV-GY-S2C" secondAttribute="centerY" id="PjO-sq-U38"/>
+                                    <constraint firstAttribute="bottom" secondItem="sMb-jh-pAn" secondAttribute="bottom" constant="8" id="SIV-cb-G0b"/>
                                     <constraint firstItem="AQ5-yL-C5X" firstAttribute="leading" secondItem="Nww-DB-LDx" secondAttribute="leading" id="f0T-Z8-bTP"/>
                                     <constraint firstItem="byL-kc-zeY" firstAttribute="leading" secondItem="Nww-DB-LDx" secondAttribute="trailing" constant="10" id="f8p-8m-9iw"/>
                                     <constraint firstItem="LkW-Vs-0dW" firstAttribute="top" secondItem="sFV-GY-S2C" secondAttribute="top" constant="20" id="fAs-EA-qTj">
@@ -516,11 +525,10 @@
                                     <mask key="subviews">
                                         <exclude reference="LkW-Vs-0dW"/>
                                         <exclude reference="AQ5-yL-C5X"/>
+                                        <exclude reference="sMb-jh-pAn"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="lgf-jx-Lwd"/>
-                                        <exclude reference="Fj5-2c-Agp"/>
-                                        <exclude reference="f0T-Z8-bTP"/>
                                         <exclude reference="36U-oy-xHb"/>
                                         <exclude reference="PjO-sq-U38"/>
                                         <exclude reference="fAs-EA-qTj"/>
@@ -528,21 +536,24 @@
                                         <exclude reference="GSx-Hv-1cD"/>
                                         <exclude reference="hW7-kD-E0w"/>
                                         <exclude reference="sMW-Vn-XeJ"/>
+                                        <exclude reference="Fj5-2c-Agp"/>
+                                        <exclude reference="f0T-Z8-bTP"/>
                                         <exclude reference="L8Z-Ao-rMi"/>
                                         <exclude reference="f8p-8m-9iw"/>
                                         <exclude reference="fgS-Gb-NNU"/>
                                         <exclude reference="sDZ-fX-2kt"/>
+                                        <exclude reference="2y2-jH-5Yd"/>
+                                        <exclude reference="SIV-cb-G0b"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="subviews">
                                         <include reference="LkW-Vs-0dW"/>
                                         <include reference="AQ5-yL-C5X"/>
+                                        <include reference="sMb-jh-pAn"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="lgf-jx-Lwd"/>
-                                        <include reference="Fj5-2c-Agp"/>
-                                        <include reference="f0T-Z8-bTP"/>
                                         <include reference="36U-oy-xHb"/>
                                         <include reference="PjO-sq-U38"/>
                                         <include reference="fAs-EA-qTj"/>
@@ -550,10 +561,14 @@
                                         <include reference="GSx-Hv-1cD"/>
                                         <include reference="hW7-kD-E0w"/>
                                         <include reference="sMW-Vn-XeJ"/>
+                                        <include reference="Fj5-2c-Agp"/>
+                                        <include reference="f0T-Z8-bTP"/>
                                         <include reference="L8Z-Ao-rMi"/>
                                         <include reference="f8p-8m-9iw"/>
                                         <include reference="fgS-Gb-NNU"/>
                                         <include reference="sDZ-fX-2kt"/>
+                                        <include reference="2y2-jH-5Yd"/>
+                                        <include reference="SIV-cb-G0b"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -722,6 +737,7 @@
                     <connections>
                         <outlet property="contentView" destination="7hw-iF-9ye" id="acZ-Sx-esu"/>
                         <outlet property="imgUser" destination="Nww-DB-LDx" id="Cax-XL-ebZ"/>
+                        <outlet property="lblLastSeen" destination="sMb-jh-pAn" id="rMX-1R-AGM"/>
                         <outlet property="lblUserName" destination="byL-kc-zeY" id="9PZ-KF-fNT"/>
                         <outlet property="tableview" destination="4GW-yS-RFt" id="oSe-Pg-fvW"/>
                     </connections>

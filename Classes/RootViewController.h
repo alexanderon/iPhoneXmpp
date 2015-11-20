@@ -5,7 +5,7 @@
 @interface RootViewController : UIViewController   <NSFetchedResultsControllerDelegate,UITableViewDataSource,UITableViewDelegate>
 {
 	NSFetchedResultsController *fetchedResultsController;
-    NSFetchedResultsController *fetchedGroupsResultsController;
+ //   NSFetchedResultsController *fetchedGroupsResultsController;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

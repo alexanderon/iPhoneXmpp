@@ -121,8 +121,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [[Rest sharedInstance]getGroupsItemsforUser:@"test4" withCompletionHandler:^(NSData *data) {
         NSDictionary *dict=(NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
         NSArray *groupname=[dict objectForKey:@"groupname"];
-        counting =(int)[groupname count];
+        counting =[groupname count];
+        NSLog(@"%d",[groupname count]);
     }];
+    NSLog(@"%d",counting);
     return counting;
   
 }
@@ -145,6 +147,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         XMPPGroupCoreDataStorageObject *group = [[self fetchedGroupsResultsController] objectAtIndexPath:indexPath];
         
         cell.textLabel.text = group.name;
+        NSLog(@"%@",group.name);
         
         
     }

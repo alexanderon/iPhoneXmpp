@@ -45,6 +45,7 @@
 @property (weak, nonatomic) XMPPGroupCoreDataStorageObject *group;
 @property (atomic) BOOL isGroupchat;
 @property (weak ,nonatomic) NSString *groupName;
+@property (weak, nonatomic) IBOutlet UILabel *lblLastSeen;
 
 
 - (IBAction)btnChooseImageClick:(id)sender;

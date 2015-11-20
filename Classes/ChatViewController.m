@@ -10,7 +10,7 @@
 #import "ProfileViewController.h"
 #import "DDLog.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "XMPPLastActivity.h"
 
 // Log levels: off, error, warn, info, verbose
 #if DEBUG
@@ -19,7 +19,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 static const int ddLogLevel = LOG_LEVEL_INFO;
 #endif
 
-@interface ChatViewController () < UIImagePickerControllerDelegate,UINavigationControllerDelegate >
+@interface ChatViewController () < UIImagePickerControllerDelegate,UINavigationControllerDelegate,XMPPLastActivityDelegate>
 @property (strong, nonatomic) UIImage *image;
 @property (copy, nonatomic) NSString *lastChosenMediaType;
 @property (nonatomic, strong) XMPPOutgoingFileTransfer *fileTransfer;
@@ -34,6 +34,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 #define URL            @"http://localhost:8080/demo/yourServerScript.php"  // change this URL
     NSMutableData *myData ;
     NSString *dataPath;
+    XMPPLastActivity *xmppLastActivity;
     
 }
 
@@ -67,24 +68,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [super viewDidLoad];
     pngData=nil;
     url =nil;
-       // Do any additional setup after loading the view.
-    [self.tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
+    [self.tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [[self xmppStream]addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [[self xmppMessageArchivingModule] activate:[self xmppStream]];
     [[self appDelegate].xmppIncomingFileTransfer addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
     [self.chatWindow becomeFirstResponder];
     
     sentMessages= [[NSMutableArray alloc] init];
     turnSockets = [[NSMutableArray alloc] init];
-    
-    /* TURNSocket *turnSocket = [[TURNSocket alloc] initWithStream:[self xmppStream] toJID:[XMPPJID jidWithString:user.jidStr]];
-     [turnSockets addObject:turnSocket];
-     [turnSocket startWithDelegate:self delegateQueue:dispatch_get_main_queue()];*/
-    
-    [[self xmppMessageArchivingModule] activate:[self xmppStream]];
-    
-    // [self loadarchivemsg];
     
     [self setupchatFeild];
     [self.contentView addSubview:chatFeild];
@@ -94,7 +87,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     if (self.isGroupchat)
     {
         [self setupMUC];
-        //   [self loadGroupChatMsgs];
+      
     }
     else
     {
@@ -102,7 +95,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
     }
     
+    xmppLastActivity =[[XMPPLastActivity alloc]init];
+    [xmppLastActivity activate:[[self appDelegate] xmppStream]];
+    [xmppLastActivity addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
+  
 }
 
 -(void)setupMUC
@@ -167,6 +164,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [xmppLastActivity sendLastActivityQueryToJID:user.jid];
     
     
 }
@@ -970,7 +968,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     url=@"http://localhost:8080/demo/uploads/Uploaded_file.mp3";
 }
 
-
 -(BOOL) setParams
 {
     NSString *filePath=[[NSBundle mainBundle]pathForResource:@"divan" ofType:@"mp3"];
@@ -1046,7 +1043,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 #pragma mark ---------------Creating the Folder for stroging the audio files
 
--(void)createDocumentFolder{
+-(void)createDocumentFolder
+{
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
@@ -1099,4 +1097,37 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     NSLog(@"%@",appFile);
 }
 
+#pragma  mark -------------------LAST SEEN
+
+-(void)xmppLastActivity:(XMPPLastActivity *)sender didReceiveResponse:(XMPPIQ *)response{
+    
+    NSLog(@"%@",sender.description);
+    NSLog(@"%d",(int)response.lastActivitySeconds);
+    NSLog(@"%@",response.lastActivityUnavailableStatus);
+   
+    
+    if ((int)response.lastActivitySeconds>0) {
+        
+        
+        if ((int)response.lastActivitySeconds >31540000) {
+            
+            int yearsLastSeen =((int)(response.lastActivitySeconds)/31540000) ;
+            self.lblLastSeen.text=[NSString stringWithFormat:@"LastSeen: %d years ago",yearsLastSeen];
+        }else if (response.lastActivitySeconds>2628000){
+            int monthsLastSeen =((int)(response.lastActivitySeconds)/2628000) ;
+            self.lblLastSeen.text=[NSString stringWithFormat:@"LastSeen: %d months ago",monthsLastSeen];
+        }else if(response.lastActivitySeconds>86410){
+            int daysLastSeen =((int)(response.lastActivitySeconds)/86410) ;
+            self.lblLastSeen.text=[NSString stringWithFormat:@"LastSeen: %d days ago",daysLastSeen];
+        }else if (response.lastActivitySeconds>3600){
+            int hoursLastSeen =((int)(response.lastActivitySeconds)/3600) ;
+            self.lblLastSeen.text=[NSString stringWithFormat:@"LastSeen: %d hours ago",hoursLastSeen];
+        }else if (response.lastActivitySeconds>60){
+            int minutesLastSeen =((int)(response.lastActivitySeconds)/60) ;
+            self.lblLastSeen.text=[NSString stringWithFormat:@"LastSeen: %d minutes ago",minutesLastSeen];
+        }
+    }else{
+        self.lblLastSeen.text=@"online";
+    }
+}
 @end
