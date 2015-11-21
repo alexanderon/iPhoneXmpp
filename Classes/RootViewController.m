@@ -504,12 +504,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         if([[[field attributesAsDictionary] valueForKey:@"var"] isEqualToString:@"Name"])
         {
-          //     [[Rest sharedInstance]addRoster:[value stringValue] toUser:[[[self appDelegate] xmppStream] myJID].user];
+            //     [[Rest sharedInstance]addRoster:[value stringValue] toUser:[[[self appDelegate] xmppStream] myJID].user];
             
             NSString *myUserName =[[[self appDelegate] xmppStream] myJID].user;
             
             [[Rest sharedInstance]getRosterItemsforUser:myUserName withCompletionHandler:^(NSData *data) {
-            
+                
                 NSLog(@"%@",[[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
                 
             }];
@@ -522,13 +522,13 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
     }
     
-      return  NO;
+    return  YES;
 }
 
 -(void)addUser:(NSString *)user
 {
-     [[Rest sharedInstance]addRoster:user toUser:[[[self appDelegate] xmppStream] myJID].user];
-    }
+    [[Rest sharedInstance]addRoster:user toUser:[[[self appDelegate] xmppStream] myJID].user];
+}
 
 - (void)fetchContact
 {

@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "XMPPvCardTemp.h"
 
 
 @interface RootViewController : UIViewController   <NSFetchedResultsControllerDelegate,UITableViewDataSource,UITableViewDelegate>
