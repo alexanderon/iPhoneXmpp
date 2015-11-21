@@ -35,7 +35,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)viewDidLoad
 {
-    pngData=nil;
     [super viewDidLoad];
     [self fetchedResultsController];
     // [self fileUpload];
@@ -49,7 +48,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     
     [[[self appDelegate]xmppStream] addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
+    pngData=nil;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -67,7 +67,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     if ([[self appDelegate] connect])
     {
         titleLabel.text = [[[[self appDelegate] xmppStream] myJID] bare];
-        NSLog(@"%@",titleLabel.text);
+        //NSLog(@"%@",titleLabel.text);
     } else
     {
         titleLabel.text = @"No JID";
@@ -172,7 +172,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     NSArray *sections = [[self fetchedResultsController] sections];
     //  NSArray *sectionGroup=[[self fetchedGroupsResultsController] sections];
     //   NSLog(@"%lu",(unsigned long)sectionGroup.count);
-    NSLog(@"%lu",(unsigned long)(int)[sections count]);
+//    NSLog(@"%lu",(unsigned long)(int)[sections count]);
     
     if (sectionIndex < [sections count])
     {
@@ -207,7 +207,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     {
         id <NSFetchedResultsSectionInfo> sectionInfo = sections[sectionIndex];
         return sectionInfo.numberOfObjects;
-        NSLog(@"%lu",(unsigned long)sectionInfo.numberOfObjects);
+      //  NSLog(@"%lu",(unsigned long)sectionInfo.numberOfObjects);
     }
     
     /* else
@@ -231,7 +231,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     
     
-    NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
+   // NSLog(@"%d",(int)[[[self fetchedResultsController]fetchedObjects]count]);
     
     
     if (indexPath.row<(int)[[[self fetchedResultsController]fetchedObjects]count]) {
@@ -242,7 +242,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         
         [self configurePhotoForCell:cell user:user];
         
-        NSLog(@"%@",[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES]);
+      //  NSLog(@"%@",[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES]);
         
         
     }/*else{
@@ -337,7 +337,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     XMPPIQ *iq =[[XMPPIQ alloc]initWithType:@"get" to:[XMPPJID jidWithString:@"192.168.0.154"] elementID:@"step_3" child:request];
     [iq addAttributeWithName:@"from" stringValue:[[XMPPJID jidWithString:@"test4@192.168.0.154/9spl"] full]];
     [[[self appDelegate] xmppStream] sendElement:iq];
-    NSLog(@"%@",iq);
+ //   NSLog(@"%@",iq);
 }
 
 -(void)fileUpload
@@ -399,7 +399,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [iq addAttributeWithName:@"from" stringValue:[[[[self appDelegate] xmppStream] myJID] full]];
     [[[self appDelegate]xmppStream ] sendElement:iq];
     
-    NSLog(@"%@",iq);
+//    NSLog(@"%@",iq);
     
     
 }
@@ -411,7 +411,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [iq addAttributeWithName:@"xml:lang" stringValue:@"en"];
     [iq addAttributeWithName:@"from" stringValue:[[[[self appDelegate] xmppStream] myJID] full]];
     [[[self appDelegate]xmppStream ] sendElement:iq];
-    NSLog(@"%@",iq);
+  //  NSLog(@"%@",iq);
     
 }
 
@@ -500,7 +500,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         NSLog(@"%@",[field attributesAsDictionary]);
         
         NSXMLElement *value = [field elementForName:@"value"];
-        NSLog(@"%@",[value stringValue]);
+  //      NSLog(@"%@",[value stringValue]);
         
         if([[[field attributesAsDictionary] valueForKey:@"var"] isEqualToString:@"Name"])
         {
@@ -510,7 +510,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
             
             [[Rest sharedInstance]getRosterItemsforUser:myUserName withCompletionHandler:^(NSData *data) {
                 
-                NSLog(@"%@",[[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
+             //   NSLog(@"%@",[[NSMutableString alloc]initWithData:data encoding:NSUTF8StringEncoding]);
                 
             }];
             
@@ -561,7 +561,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }
     
     NSArray *allContacts = (__bridge NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook);
-    NSLog(@"%@",allContacts);
+  //  NSLog(@"%@",allContacts);
     
     int count =(int)[allContacts count];
     
@@ -589,11 +589,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
             CFRelease(phoneNumberRef);
             CFRelease(locLabel);
             [mobiles addObject:phoneNumber];
-            NSLog(@"  - %@ (%@)", phoneNumber, phoneLabel);
+        //    NSLog(@"  - %@ (%@)", phoneNumber, phoneLabel);
         }
         
         [contactInfo setObject:mobiles forKey:@"mobiles"];
-        NSLog(@"%@",firstName);
+      //  NSLog(@"%@",firstName);
         [rosterItems addObject:contactInfo];
     }
     

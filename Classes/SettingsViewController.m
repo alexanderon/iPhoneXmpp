@@ -7,7 +7,7 @@
 //
 
 #import "SettingsViewController.h"
-
+#import "iPhoneXMPPAppDelegate.h"
 
 NSString *const kXMPPmyJID = @"kXMPPmyJID";
 NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
@@ -27,6 +27,12 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
     self.passwordField.text=[[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
 }
 
+#pragma mark ------------------ Accessors
+
+- (iPhoneXMPPAppDelegate *)appDelegate
+{
+    return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 
 #pragma mark Private
@@ -48,9 +54,10 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
 
 - (IBAction)done:(id)sender
 {
+    [[self appDelegate] disconnect];
     [self setField:self.jidField forKey:kXMPPmyJID];
     [self setField:self.passwordField forKey:kXMPPmyPassword];
-
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

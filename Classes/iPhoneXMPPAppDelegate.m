@@ -297,6 +297,7 @@
 	NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
     self.myJid=myJID;
     self.password=myPassword;
+    
 	//
 	// If you don't want to use the Settings view to set the JID, 
 	// uncomment the section below to hard code a JID and password.
