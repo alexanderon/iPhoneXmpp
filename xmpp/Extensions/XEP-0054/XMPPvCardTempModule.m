@@ -157,13 +157,15 @@
 	dispatch_block_t block = ^{ @autoreleasepool {
 		
 		XMPPvCardTemp *vCardTemp = [_xmppvCardTempModuleStorage vCardTempForJID:jid xmppStream:xmppStream];
-		
+        NSLog(@"%@",vCardTemp.name);
+        
 		if (vCardTemp == nil && shouldFetch && [_xmppvCardTempModuleStorage shouldFetchvCardTempForJID:jid xmppStream:xmppStream])
 		{
 			[self _fetchvCardTempForJID:jid];
 		}
 		
 		result = vCardTemp;
+       
 	}};
 	
 	if (dispatch_get_specific(moduleQueueTag))

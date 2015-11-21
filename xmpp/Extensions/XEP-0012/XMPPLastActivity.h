@@ -37,7 +37,7 @@
 @property (atomic, assign) BOOL respondsToQueries;
 
 /**
- * Send a last activity query to an specific JID.
+ * Send a last activity     to an specific JID.
  *
  * XEP-0012 specifies that last activity queries can be send to offline
  * entities (bare JID), to online resources (full JID) or servers (domain only
