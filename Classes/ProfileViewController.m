@@ -73,6 +73,7 @@
     self.txtMobile.enabled=NO;
     self.txtNewPassword.enabled=NO;
     self.txtConfirmPassword.enabled=NO;
+    self.txtStatus.enabled=NO;
     
     
     
@@ -133,10 +134,12 @@
         self.txtFirstName.enabled=NO;
         self.txtLastName.enabled=NO;
         self.txtMobile.enabled=NO;
+        self.txtStatus.enabled=NO;
         
         self.txtFirstName.borderStyle=UITextBorderStyleNone;
         self.txtLastName.borderStyle=UITextBorderStyleNone;
         self.txtMobile.borderStyle=UITextBorderStyleNone;
+        self.txtStatus.borderStyle=UITextBorderStyleNone;
         
         [self updateInfo];
         
@@ -150,10 +153,12 @@
         self.txtFirstName.enabled=YES;
         self.txtLastName.enabled=YES;
         self.txtMobile.enabled=YES;
+        self.txtStatus.enabled=YES;
         
         self.txtFirstName.borderStyle=UITextBorderStyleLine;
         self.txtLastName.borderStyle=UITextBorderStyleLine;
         self.txtMobile.borderStyle=UITextBorderStyleLine;
+        self.txtStatus.borderStyle=UITextBorderStyleLine;
         
         [buttonEdit setTitle:@"Save" forState:UIControlStateNormal];
     }
@@ -238,14 +243,16 @@
 
 
 
-- (IBAction)btnMenuClick:(id)sender {
+- (IBAction)btnMenuClick:(id)sender
+{
     [self.navigationController.view endEditing:YES];
 }
 
 
 #pragma -mark image picker
 
-- (IBAction)btnImagePickerClick:(id)sender {
+- (IBAction)btnImagePickerClick:(id)sender
+{
     
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"ALERT"
                                                                    message:@"PLEASE SELECT ONE OF THE OPTION."
@@ -279,7 +286,8 @@
     
 }
 
-- (IBAction)btnCancelClick:(id)sender {
+- (IBAction)btnCancelClick:(id)sender
+{
     self.txtPassword.borderStyle=UITextBorderStyleLine;
     self.txtConfirmPassword.borderStyle=UITextBorderStyleLine;
     self.txtNewPassword.borderStyle=UITextBorderStyleLine;
@@ -357,8 +365,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
                          cancelButtonTitle:@"Drat!"
                          otherButtonTitles:nil];
         [alert show];
-    }
-}
+    }}
 
 
 - (UIImage *)shrinkImage:(UIImage *)original toSize:(CGSize)size
@@ -390,22 +397,23 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
 }
 
 #pragma mark - Update Avtar Image
--(void)uploadImage:(UIImage *)image{
+-(void)uploadImage:(UIImage *)image
+{
    
     
     NSData *imageData1 = UIImageJPEGRepresentation(image,0.0);
     
-    NSXMLElement *vCardXML = [NSXMLElement elementWithName:@"vCard" xmlns:@"vcard-temp"];
-    NSXMLElement *photoXML = [NSXMLElement elementWithName:@"PHOTO"];
-    NSXMLElement *typeXML = [NSXMLElement elementWithName:@"TYPE" stringValue:@"image/jpg"];
-    
-    NSString *image64 = [self encodeToBase64String:image];
-    
-    NSXMLElement *binvalXML = [NSXMLElement elementWithName:@"BINVAL" stringValue:image64];
-    
-    [photoXML addChild:typeXML];
-    [photoXML addChild:binvalXML];
-    [vCardXML addChild:photoXML];
+//    NSXMLElement *vCardXML = [NSXMLElement elementWithName:@"vCard" xmlns:@"vcard-temp"];
+//    NSXMLElement *photoXML = [NSXMLElement elementWithName:@"PHOTO"];
+//    NSXMLElement *typeXML = [NSXMLElement elementWithName:@"TYPE" stringValue:@"image/jpg"];
+//    
+//    NSString *image64 = [self encodeToBase64String:image];
+//    
+//    NSXMLElement *binvalXML = [NSXMLElement elementWithName:@"BINVAL" stringValue:image64];
+//    
+//    [photoXML addChild:typeXML];
+//    [photoXML addChild:binvalXML];
+//    [vCardXML addChild:photoXML];
     
    
    // XMPPvCardTemp *myvCardTemp = [[[self appDelegate] xmppvCardTempModule] myvCardTemp];
@@ -415,16 +423,18 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     if (myvCardTemp) {
         [myvCardTemp setPhoto:imageData1];
     
-     //   [[self appDelegate] xmppvCardTempModule] vCardTempForJID:<#(XMPPJID *)#> shouldFetch:<#(BOOL)#>
         [[[self appDelegate] xmppvCardTempModule] updateMyvCardTemp:myvCardTemp];
     }
 }
 
-- (NSString *)encodeToBase64String:(UIImage *)image {
+- (NSString *)encodeToBase64String:(UIImage *)image
+{
     return [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
 }
 
--(void)updateInfo{
+-(void)updateInfo
+{
+    NSLog(@"%@",user.jid);
     
     XMPPvCardTemp *myvCardTemp =[[[self appDelegate] xmppvCardTempModule] vCardTempForJID:user.jid shouldFetch:YES];
     
@@ -435,13 +445,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         [myvCardTemp setName:self.txtFirstName.text];
         [myvCardTemp setEmailAddresses:@[self.txtLastName.text]];
         [myvCardTemp setTelecomsAddresses:@[self.txtMobile.text]];
+        [myvCardTemp setDesc:self.txtStatus.text];
+       
         
         [[[self appDelegate] xmppvCardTempModule] updateMyvCardTemp:myvCardTemp];
     }
 
 }
 
-- (iPhoneXMPPAppDelegate *)appDelegate{
+- (iPhoneXMPPAppDelegate *)appDelegate
+{
     return (iPhoneXMPPAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 @end

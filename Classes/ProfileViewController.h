@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *txtLastName;
 @property (weak, nonatomic) IBOutlet UITextField *txtEmial;
 @property (weak, nonatomic) IBOutlet UITextField *txtMobile;
+@property (weak, nonatomic) IBOutlet UITextField *txtStatus;
 @property (weak, nonatomic) IBOutlet UITextField *txtPassword;
 @property (weak, nonatomic) IBOutlet UIView *viewPassChanger;
 @property (weak, nonatomic) IBOutlet UIButton *btnEdit;

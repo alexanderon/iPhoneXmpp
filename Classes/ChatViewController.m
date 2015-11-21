@@ -1129,5 +1129,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     }else{
         self.lblLastSeen.text=@"online";
     }
+
 }
 @end

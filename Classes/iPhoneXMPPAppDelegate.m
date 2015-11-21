@@ -260,7 +260,7 @@
 
 - (void)goOnline
 {
-	XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
+	XMPPPresence *presence = [XMPPPresence presenceWithType:@"avacdla"]; // type="available" is implicit
     
     NSString *domain = [xmppStream.myJID domain];
     
@@ -485,6 +485,9 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
+    NSLog(@"%@", [presence type]);
+    NSLog(@"%@", [presence show]);
+
     
     DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
     
