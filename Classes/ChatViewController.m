@@ -174,6 +174,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 -(void)loadarchivemsg
 {
+    return;
     
     XMPPMessageArchivingCoreDataStorage *_xmppMsgStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     
@@ -310,6 +311,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     
     NSDictionary *s = (NSDictionary *) [sentMessages objectAtIndex:indexPath.row];
     NSString *sender = [s objectForKey:@"sender"];
+    
     NSString *message = [s objectForKey:@"msg"];
     NSString *time = [s objectForKey:@"time"];
     UIImage *image =[s objectForKey:@"image"];
@@ -547,6 +549,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [self.tableview reloadData];
         self.image=nil;
         url=nil;
+            
+        
         
     }
     
@@ -587,7 +591,14 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 -(void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
+   // [message chatState];
+    if ([[message chatState] isEqualToString:@"composing"]) {
+        self.lblStatus.text=[message chatState];
+    }else if ([[message chatState] isEqualToString:@"inactive"]){
+        self.lblStatus.text=@"";
+    }
     
+    return;
     
     // A simple example of inbound message handling.
     
@@ -824,6 +835,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq
 {
+    NSLog(@"%@",iq);
     return NO;
 }
 
@@ -862,7 +874,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 -(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID
 {
-    
+    return;
     NSString *fromStr=[message fromStr];
     
     fromStr= [[fromStr componentsSeparatedByString:@"/"]lastObject];
@@ -1130,5 +1142,28 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         self.lblLastSeen.text=@"online";
     }
 
+}
+
+#pragma mark -------------GROWING TEXTVIEW DELEGATE
+
+-(void)growingTextViewDidBeginEditing:(HPGrowingTextView *)growingTextView
+{
+    
+    XMPPMessage *xmppMessage = [XMPPMessage messageFromElement:[XMPPMessage messageWithType:@"chat" to:[XMPPJID jidWithString:[user jidStr]] elementID:@"v1"]];
+   // [xmppMessage addBody:@""];
+ //   [xmppMessage addMarkableChatMarker];
+    [xmppMessage addComposingChatState];
+    [[self appDelegate].xmppStream sendElement:xmppMessage];
+
+}
+
+
+-(void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView{
+    
+    XMPPMessage *xmppMessage = [XMPPMessage messageFromElement:[XMPPMessage messageWithType:@"chat" to:[XMPPJID jidWithString:[user jidStr]] elementID:@"v1"]];
+    // [xmppMessage addBody:@""];
+    //   [xmppMessage addMarkableChatMarker];
+    [xmppMessage addInactiveChatState];
+    [[self appDelegate].xmppStream sendElement:xmppMessage];
 }
 @end

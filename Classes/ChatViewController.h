@@ -21,6 +21,8 @@
 #import "ImageViewCell.h"
 #import "HPGrowingTextView.h"
 #import "XMPPMessage+XEP_0033.h"
+#import "XMPPMessage+XEP_0333.h"
+#import "XMPPMessage+XEP_0085.h"
 #import "musicTableViewCell.h"
 
 
@@ -46,6 +48,7 @@
 @property (atomic) BOOL isGroupchat;
 @property (weak ,nonatomic) NSString *groupName;
 @property (weak, nonatomic) IBOutlet UILabel *lblLastSeen;
+@property (weak, nonatomic) IBOutlet UILabel *lblStatus;
 
 
 - (IBAction)btnChooseImageClick:(id)sender;

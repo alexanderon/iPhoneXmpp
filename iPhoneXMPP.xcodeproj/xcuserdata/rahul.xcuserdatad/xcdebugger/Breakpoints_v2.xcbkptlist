@@ -73,29 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Classes/iPhoneXMPPAppDelegate.m"
-            timestampString = "469794269.433398"
+            filePath = "Classes/ChatViewController.m"
+            timestampString = "469805393.08799"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "-setupStream"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Classes/RootViewController.m"
-            timestampString = "469794691.626573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "-viewWillAppear:"
+            startingLineNumber = "877"
+            endingLineNumber = "877"
+            landmarkName = "-xmppRoom:didReceiveMessage:fromOccupant:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

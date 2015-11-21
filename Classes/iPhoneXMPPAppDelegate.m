@@ -12,6 +12,7 @@
 #import "XMPPvCardCoreDataStorage.h"
 #import "DDLog.h"
 #import "DDTTYLogger.h"
+#import "XMPPMessage+XEP_0085.h"
 
 #import <CFNetwork/CFNetwork.h>
 
@@ -271,17 +272,23 @@
        || [domain isEqualToString:@"talk.google.com"])
     {
         NSXMLElement *priority = [NSXMLElement elementWithName:@"priority" stringValue:@"24"];
-        [presence addChild:priority];
+             [presence addChild:priority];
+       
     }
-	
+	   NSXMLElement *status = [NSXMLElement elementWithName:@"status" stringValue:@"googley"];
+ [presence addChild:status];
 	[[self xmppStream] sendElement:presence];
 }
 
 - (void)goOffline
 {
 	XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
-	
+	NSXMLElement *status = [NSXMLElement elementWithName:@"status" stringValue:@"googley"];
 	[[self xmppStream] sendElement:presence];
+    [[self xmppStream]sendElement:status];
+    
+    
+     
 }
 
 
